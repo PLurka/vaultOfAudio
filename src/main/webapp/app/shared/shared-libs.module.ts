@@ -9,7 +9,16 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   imports: [NgbModule, InfiniteScrollModule, CookieModule.forRoot(), FontAwesomeModule, ReactiveFormsModule],
-  exports: [FormsModule, CommonModule, NgbModule, NgJhipsterModule, InfiniteScrollModule, FontAwesomeModule, ReactiveFormsModule]
+  exports: [
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
+    NgbModule,
+    NgJhipsterModule,
+    InfiniteScrollModule,
+    FontAwesomeModule,
+    ReactiveFormsModule
+  ]
 })
 export class VaultOfAudioSharedLibsModule {
   static forRoot() {
