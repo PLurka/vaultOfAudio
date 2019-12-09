@@ -23,10 +23,21 @@ export class CloudService {
       url: '../../content/audio/12.mp3',
       name: 'Wander',
       artist: 'The Ace of Void'
+    },
+    {
+      url: '../../content/audio/13.mp3',
+      name: 'Anywhere',
+      artist: 'The Ace of Void'
     }
   ];
 
   getFiles() {
     return of(this.files);
+  }
+
+  addFiles(files: Array<File>) {
+    for (let i = 0; i < files.length; ++i) {
+      this.files.push(files[i]);
+    }
   }
 }

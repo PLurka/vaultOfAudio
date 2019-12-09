@@ -127,4 +127,8 @@ export class AudioService {
     const momentTime = time * 1000;
     return moment.utc(momentTime).format(format);
   }
+
+  getElement() {
+    return this.audioObj;
+  }
 }
