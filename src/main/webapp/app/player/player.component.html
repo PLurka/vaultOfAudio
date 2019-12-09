@@ -9,27 +9,35 @@
         <input type="file"
                id="file"
                (change)="handleFileInput($event.target.files)"
-        >
+        multiple>
+        <button mat-button (click)="removeAll()">
+            Remove all files
+            <mat-icon>clear</mat-icon>
+        </button>
     </div>
 
     <div class="content">
-        <div class="logo">
-
-            <div>Audio Player</div>
-        </div>
-        <mat-list color="primary">
+        <!--<div class="logo">
+            <img src="../../content/images/AOV_white.png" class="logoImage"/>
+        </div>-->
+        <mat-list color="primary" class="songList">
             <h3 mat-subheader>Songs</h3>
             <mat-list-item *ngFor="let file of files; let i = index" (click)="openFile(file, i)">
                 <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
                 <h4 mat-line>{{ file.name }}</h4>
                 <h5 mat-line>by {{ file.artist }}</h5>
+
                 <mat-icon color="primary" *ngIf="currentFile.index === i && !state?.error">volume_up</mat-icon>
+                <button mat-button (click)="removeFile(i)">
+                    <mat-icon>remove</mat-icon>
+                </button>
                 <h6 *ngIf="currentFile.index === i && state?.error">ERROR</h6>
                 <mat-divider></mat-divider>
             </mat-list-item>
         </mat-list>
     </div>
     <canvas id="canvas2" class="canvas2"></canvas>
+    <canvas *ngIf="this.visualization !== true" id="canvas" class="canvas2"></canvas>
     <div class="media-footer">
         <mat-toolbar color="primary">
             <mat-toolbar-row>
@@ -38,7 +46,10 @@
                 {{ state?.readableDuration }}
             </mat-toolbar-row>
             <mat-toolbar-row class="media-action-bar">
-                <input type="range" class="panner" id="panner" min="-1" max="1" value="0" step="0.01" class="row">
+                L
+                <input type="range" class="panner" id="panner" min="-1" max="1" value="0" step="0.01">
+                 R
+                <div class="separator"></div>
                 <button mat-button [disabled]="isFirstPlaying()" (click)="previous()">
                     <mat-icon mat-list-icon>skip_previous</mat-icon>
                 </button>
@@ -51,7 +62,9 @@
                 <button  mat-button [disabled]="isLastPlaying()" (click)="next()">
                     <mat-icon mat-list-icon>skip_next</mat-icon>
                 </button>
-                <input type="range" class="volume" id="volume" min="0" max="2" value="1" step="0.01" class="row">
+                <div class="separator"></div>
+                Volume:
+                <input type="range" class="volume" id="volume" min="0" max="2" value="1" step="0.01">
             </mat-toolbar-row>
         </mat-toolbar>
     </div>

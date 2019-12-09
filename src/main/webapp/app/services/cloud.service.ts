@@ -35,9 +35,22 @@ export class CloudService {
     return of(this.files);
   }
 
-  addFiles(files: Array<File>) {
+  addFiles(files: FileList) {
     for (let i = 0; i < files.length; ++i) {
-      this.files.push(files[i]);
+      this.files.push({
+        url: URL.createObjectURL(files.item(i)),
+        name: files.item(i).name,
+        artist: 'unknown',
+        file: files.item(i)
+      });
     }
+  }
+
+  removeFile(index: number) {
+    this.files.splice(index, 1);
+  }
+
+  removeAll() {
+    this.files.length = 0;
   }
 }

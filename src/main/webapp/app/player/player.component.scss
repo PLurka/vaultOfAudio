@@ -23,11 +23,22 @@
       text-align: center;
       font-size: 24px;
       color: #3f51b5;
+      .logoImage {
+        //width: 150px;
+        //height: 150px;
+      }
       .mat-icon {
         height: 160px !important;
         width: 160px !important;
         font-size: 160px !important;
       }
+    }
+    .songList {
+      overflow: auto;
+      height: 400px;
+    }
+    .songList::-webkit-scrollbar {
+      display: none;
     }
   }
 
@@ -40,6 +51,12 @@
       margin-right: 20px;
     }
     .media-action-bar {
+      .panner {
+        float: left;
+      }
+      .separator {
+        width: 50%;
+      }
       width: 100%;
       padding: 2.5rem;
       justify-content: center;
@@ -47,6 +64,9 @@
         height: 48px !important;
         width: 48px !important;
         font-size: 48px !important;
+      }
+      .volume {
+        float: right;
       }
     }
   }

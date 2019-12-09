@@ -13,6 +13,8 @@ export class PlayerComponent implements OnInit {
   files: Array<any> = [];
   state: StreamState;
   currentFile: any = {};
+  fileToUpload: File = null;
+  visualization: boolean;
 
   audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
 
@@ -28,7 +30,20 @@ export class PlayerComponent implements OnInit {
     });
   }
 
-  handleFileInput(files: FileList) {}
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+    console.error(URL.createObjectURL(this.fileToUpload));
+    this.cloudService.addFiles(files);
+    console.error('files: ' + this.cloudService.files);
+  }
+
+  removeFile(index: number) {
+    this.cloudService.removeFile(index);
+  }
+
+  removeAll() {
+    this.cloudService.removeAll();
+  }
 
   playStream(url) {
     this.audioService.playStream(url).subscribe(events => {
@@ -73,6 +88,7 @@ export class PlayerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.visualization = true;
     // get the audio element
     let audioElement = this.audioService.getElement();
 
@@ -87,6 +103,8 @@ export class PlayerComponent implements OnInit {
     const panner = new StereoPannerNode(this.audioCtx, pannerOptions);
 
     const pannerControl = document.querySelector('#panner');
+
+    const audioFile = document.getElementById('file');
 
     let analyser2 = this.audioCtx.createAnalyser();
     let canvas2 = document.getElementById('canvas2') as HTMLCanvasElement;
@@ -132,6 +150,15 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         gainNode.gain.value = this.value;
+      },
+      false
+    );
+
+    audioFile.addEventListener(
+      'change',
+      function() {
+        console.error('wrzucony plik: ' + audioFile.dir);
+        console.error(audioFile.attributes);
       },
       false
     );
