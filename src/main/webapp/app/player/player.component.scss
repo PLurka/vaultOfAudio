@@ -70,6 +70,35 @@
       }
     }
   }
+  .equalizer {
+    min-height: 150px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    .wholeBar {
+      display: flex;
+      flex-direction: column;
+      flex: auto;
+      width: calc(100% / 10);
+      text-align: center;
+      .eqbar {
+        //margin-top: 50px;
+
+        //height: 21px;
+        flex: auto;
+        -webkit-appearance: slider-vertical;
+        //transform: rotate(270deg);
+        //-moz-transform: rotate(270deg);
+      }
+    }
+  }
+  .resetBtnDiv {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+  }
 }
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import '~@angular/material/prebuilt-themes/purple-green.css';
