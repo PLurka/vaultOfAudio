@@ -87,6 +87,15 @@ export class PlayerComponent implements OnInit {
     this.openFile(file, index);
   }
 
+  showHide() {
+    let x = document.getElementById('eq');
+    if (x.style.display === 'none') {
+      x.style.display = 'block';
+    } else {
+      x.style.display = 'none';
+    }
+  }
+
   ngOnInit() {
     this.visualization = true;
     // get the audio element
@@ -339,8 +348,8 @@ export class PlayerComponent implements OnInit {
     audioFile.addEventListener(
       'change',
       function() {
-        console.error('wrzucony plik: ' + audioFile.dir);
-        console.error(audioFile.attributes);
+        //console.error('wrzucony plik: ' + audioFile.dir);
+        //console.error(audioFile.attributes);
       },
       false
     );
@@ -372,5 +381,9 @@ export class PlayerComponent implements OnInit {
 
   onSliderChangeEnd(change) {
     this.audioService.seekTo(change.value);
+  }
+
+  autoPlay(change) {
+    console.error(change);
   }
 }

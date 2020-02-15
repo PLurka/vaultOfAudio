@@ -42,7 +42,7 @@
         <mat-toolbar color="primary">
             <mat-toolbar-row>
                 {{ state?.readableCurrentTime }}
-                <mat-slider class="time-slider" id="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime" (input)="onSliderChangeEnd($event)" [disabled]="state?.error || currentFile.index === undefined"></mat-slider>
+                <mat-slider class="time-slider" id="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime" (change)="autoPlay($event)" (input)="onSliderChangeEnd($event)" [disabled]="state?.error || currentFile.index === undefined"></mat-slider>
                 {{ state?.readableDuration }}
             </mat-toolbar-row>
             <mat-toolbar-row class="media-action-bar">
@@ -69,55 +69,64 @@
         </mat-toolbar>
     </div>
     <div class="resetBtnDiv">
-        <h2>EQUALIZER</h2>
-    </div>
-    <div class="equalizer">
-        <div class="wholeBar">
-            <input type="range" class="eqbar" id="31" min="-20" max="20" value="0" step="0.5">
-            31Hz
-        </div>
-        <div class="wholeBar">
-            <input type="range" class="eqbar" id="62" min="-20" max="20" value="0" step="0.5">
-            62Hz
-        </div>
-        <div class="wholeBar">
-            <input type="range" class="eqbar" id="125" min="-20" max="20" value="0" step="0.5">
-            125Hz
-        </div>
-        <div class="wholeBar">
-            <input type="range" class="eqbar" id="250" min="-20" max="20" value="0" step="0.5">
-            250Hz
-        </div>
-        <div class="wholeBar">
-            <input type="range" class="eqbar" id="500" min="-20" max="20" value="0" step="0.5">
-            500Hz
-        </div>
-        <div class="wholeBar">
-            <input type="range" class="eqbar" id="1k" min="-20" max="20" value="0" step="0.5">
-            1kHz
-        </div>
-        <div class="wholeBar">
-            <input type="range" class="eqbar" id="2k" min="-20" max="20" value="0" step="0.5">
-            2kHz
-        </div>
-        <div class="wholeBar">
-            <input type="range" class="eqbar" id="4k" min="-20" max="20" value="0" step="0.5">
-            4kHz
-        </div>
-        <div class="wholeBar">
-            <input type="range" class="eqbar" id="8k" min="-20" max="20" value="0" step="0.5">
-            8kHz
-        </div>
-        <div class="wholeBar">
-            <input type="range" class="eqbar" id="16k" min="-20" max="20" value="0" step="0.5">
-            16kHhz
-        </div>
-    </div>
-    <div class="resetBtnDiv">
-        <button mat-button class="resetButton" id="resetButton">
-            Reset equalizer
-            <mat-icon>restore</mat-icon>
+        <button mat-button class="showHideEq" id="showHideEq" (click)="showHide()">
+            <mat-icon>assessment</mat-icon>
+            Show / Hide Equalizer
+            <mat-icon>assessment</mat-icon>
         </button>
+    </div>
+    <div class="eq" id="eq" style="display: none">
+        <div class="resetBtnDiv">
+            <h2>EQUALIZER</h2>
+        </div>
+        <div class="equalizer">
+            <div class="wholeBar">
+                <input type="range" class="eqbar" id="31" min="-20" max="20" value="0" step="0.5">
+                31Hz
+            </div>
+            <div class="wholeBar">
+                <input type="range" class="eqbar" id="62" min="-20" max="20" value="0" step="0.5">
+                62Hz
+            </div>
+            <div class="wholeBar">
+                <input type="range" class="eqbar" id="125" min="-20" max="20" value="0" step="0.5">
+                125Hz
+            </div>
+            <div class="wholeBar">
+                <input type="range" class="eqbar" id="250" min="-20" max="20" value="0" step="0.5">
+                250Hz
+            </div>
+            <div class="wholeBar">
+                <input type="range" class="eqbar" id="500" min="-20" max="20" value="0" step="0.5">
+                500Hz
+            </div>
+            <div class="wholeBar">
+                <input type="range" class="eqbar" id="1k" min="-20" max="20" value="0" step="0.5">
+                1kHz
+            </div>
+            <div class="wholeBar">
+                <input type="range" class="eqbar" id="2k" min="-20" max="20" value="0" step="0.5">
+                2kHz
+            </div>
+            <div class="wholeBar">
+                <input type="range" class="eqbar" id="4k" min="-20" max="20" value="0" step="0.5">
+                4kHz
+            </div>
+            <div class="wholeBar">
+                <input type="range" class="eqbar" id="8k" min="-20" max="20" value="0" step="0.5">
+                8kHz
+            </div>
+            <div class="wholeBar">
+                <input type="range" class="eqbar" id="16k" min="-20" max="20" value="0" step="0.5">
+                16kHhz
+            </div>
+        </div>
+        <div class="resetBtnDiv">
+            <button mat-button class="resetButton" id="resetButton">
+                Reset equalizer
+                <mat-icon>restore</mat-icon>
+            </button>
+        </div>
     </div>
 </div>
 
