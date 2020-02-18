@@ -1,0 +1,72 @@
+entity EqualizerSetting{
+    equalizerName String required minlength(2) maxlength(50),
+    first Integer required,
+    second Integer required,
+    third Integer required,
+    fourth Integer required,
+    fifth Integer required,
+    sixth Integer required,
+    seventh Integer required,
+    eight Integer required,
+    ninth Integer required,
+    tenth Integer required
+}
+
+entity UserEqualizerSetting{
+}
+
+entity Song{
+    songName String maxlength(200) required,
+    lyrics String maxlength(2000),
+    authors String maxlength(100),
+    songMetadata String maxlength(500) required,
+    year Integer,
+    songDescription String maxlength(2000)
+}
+
+entity UserSong{
+}
+
+entity Playlist{
+    listName String maxlength(200) required,
+    listDescription String maxlength(2000)
+}
+
+entity UserList{
+}
+
+entity Group{
+    groupName String maxlength(200) required,
+    groupDescription String maxlength(2000),
+    groupPhoto Blob
+}
+
+entity UserGroup{
+}
+
+entity GroupList{
+}
+
+entity ListSong{
+}
+
+relationship ManyToOne {
+	UserEqualizerSetting to EqualizerSetting,
+    UserEqualizerSetting to User,
+    
+    UserSong to Song,
+    UserSong to User,
+
+	UserList to Playlist,
+	UserList to User,
+    
+    UserGroup to Group,
+    UserGroup to User,
+    
+    GroupList to Group,
+    GroupList to Playlist,
+    
+    ListSong to Playlist,
+    ListSong to Song
+}
+

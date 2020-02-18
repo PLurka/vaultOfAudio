@@ -14,6 +14,22 @@
     <property name="uuidType" value="varchar(36)" dbms="h2, mysql, mariadb"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221452_added_entity_EqualizerSetting.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221453_added_entity_UserEqualizerSetting.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221454_added_entity_Song.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221455_added_entity_UserSong.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221456_added_entity_Playlist.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221457_added_entity_UserList.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221458_added_entity_Group.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221459_added_entity_UserGroup.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221500_added_entity_GroupList.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221501_added_entity_ListSong.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20200218221453_added_entity_constraints_UserEqualizerSetting.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221455_added_entity_constraints_UserSong.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221457_added_entity_constraints_UserList.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221459_added_entity_constraints_UserGroup.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221500_added_entity_constraints_GroupList.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200218221501_added_entity_constraints_ListSong.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

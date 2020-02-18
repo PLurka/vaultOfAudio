@@ -1,0 +1,67 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="equalizerSetting">
+            <h2><span jhiTranslate="vaultOfAudioApp.equalizerSetting.detail.title">Equalizer Setting</span> {{equalizerSetting.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.equalizerName">Equalizer Name</span></dt>
+                <dd>
+                    <span>{{equalizerSetting.equalizerName}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.first">First</span></dt>
+                <dd>
+                    <span>{{equalizerSetting.first}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.second">Second</span></dt>
+                <dd>
+                    <span>{{equalizerSetting.second}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.third">Third</span></dt>
+                <dd>
+                    <span>{{equalizerSetting.third}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.fourth">Fourth</span></dt>
+                <dd>
+                    <span>{{equalizerSetting.fourth}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.fifth">Fifth</span></dt>
+                <dd>
+                    <span>{{equalizerSetting.fifth}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.sixth">Sixth</span></dt>
+                <dd>
+                    <span>{{equalizerSetting.sixth}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.seventh">Seventh</span></dt>
+                <dd>
+                    <span>{{equalizerSetting.seventh}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.eight">Eight</span></dt>
+                <dd>
+                    <span>{{equalizerSetting.eight}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.ninth">Ninth</span></dt>
+                <dd>
+                    <span>{{equalizerSetting.ninth}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.tenth">Tenth</span></dt>
+                <dd>
+                    <span>{{equalizerSetting.tenth}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/equalizer-setting', equalizerSetting.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

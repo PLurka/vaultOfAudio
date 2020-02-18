@@ -1,0 +1,50 @@
+{
+    "name": "Group",
+    "fields": [
+        {
+            "fieldName": "groupName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength",
+                "required"
+            ],
+            "fieldValidateRulesMaxlength": 200
+        },
+        {
+            "fieldName": "groupDescription",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 2000
+        },
+        {
+            "fieldName": "groupPhoto",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "userGroup",
+            "otherEntityRelationshipName": "group",
+            "relationshipName": "userGroup"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "groupList",
+            "otherEntityRelationshipName": "group",
+            "relationshipName": "groupList"
+        }
+    ],
+    "changelogDate": "20200218221458",
+    "entityTableName": "group",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

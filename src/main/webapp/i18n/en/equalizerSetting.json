@@ -1,0 +1,33 @@
+{
+  "vaultOfAudioApp": {
+    "equalizerSetting": {
+      "home": {
+        "title": "Equalizer Settings",
+        "createLabel": "Create a new Equalizer Setting",
+        "createOrEditLabel": "Create or edit a Equalizer Setting",
+        "notFound": "No Equalizer Settings found"
+      },
+      "created": "A new Equalizer Setting is created with identifier {{ param }}",
+      "updated": "A Equalizer Setting is updated with identifier {{ param }}",
+      "deleted": "A Equalizer Setting is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Equalizer Setting {{ id }}?"
+      },
+      "detail": {
+        "title": "Equalizer Setting"
+      },
+      "equalizerName": "Equalizer Name",
+      "first": "First",
+      "second": "Second",
+      "third": "Third",
+      "fourth": "Fourth",
+      "fifth": "Fifth",
+      "sixth": "Sixth",
+      "seventh": "Seventh",
+      "eight": "Eight",
+      "ninth": "Ninth",
+      "tenth": "Tenth",
+      "userEqualizerSetting": "User Equalizer Setting"
+    }
+  }
+}

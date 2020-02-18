@@ -1,0 +1,23 @@
+{
+  "vaultOfAudioApp": {
+    "listSong": {
+      "home": {
+        "title": "List Song",
+        "createLabel": "Dodaj List Song",
+        "createOrEditLabel": "Dodaj lub edytuj: List Song",
+        "notFound": "No List Songs found"
+      },
+      "created": "Utworzono nowy obiekt typu List Song z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu List Song z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu List Song z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć List Song {{ id }}?"
+      },
+      "detail": {
+        "title": "List Song"
+      },
+      "playlist": "Playlist",
+      "song": "Song"
+    }
+  }
+}

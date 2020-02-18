@@ -1,0 +1,23 @@
+{
+  "vaultOfAudioApp": {
+    "groupList": {
+      "home": {
+        "title": "Group Lists",
+        "createLabel": "Create a new Group List",
+        "createOrEditLabel": "Create or edit a Group List",
+        "notFound": "No Group Lists found"
+      },
+      "created": "A new Group List is created with identifier {{ param }}",
+      "updated": "A Group List is updated with identifier {{ param }}",
+      "deleted": "A Group List is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Group List {{ id }}?"
+      },
+      "detail": {
+        "title": "Group List"
+      },
+      "group": "Group",
+      "playlist": "Playlist"
+    }
+  }
+}

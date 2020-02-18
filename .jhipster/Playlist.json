@@ -1,0 +1,51 @@
+{
+    "name": "Playlist",
+    "fields": [
+        {
+            "fieldName": "listName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength",
+                "required"
+            ],
+            "fieldValidateRulesMaxlength": 200
+        },
+        {
+            "fieldName": "listDescription",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 2000
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "userList",
+            "otherEntityRelationshipName": "playlist",
+            "relationshipName": "userList"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "groupList",
+            "otherEntityRelationshipName": "playlist",
+            "relationshipName": "groupList"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "listSong",
+            "otherEntityRelationshipName": "playlist",
+            "relationshipName": "listSong"
+        }
+    ],
+    "changelogDate": "20200218221456",
+    "entityTableName": "playlist",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
