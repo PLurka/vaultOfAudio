@@ -1,0 +1,99 @@
+application {
+  config {
+    databaseType sql
+    devDatabaseType h2Disk
+    enableHibernateCache true
+    enableSwaggerCodegen false
+    enableTranslation true
+    jhiPrefix jhi
+    languages [en, pl]
+    messageBroker false
+    nativeLanguage en
+    packageName com.lurka.voa
+    packageFolder com/lurka/voa
+    prodDatabaseType mysql
+    searchEngine false
+    serviceDiscoveryType eureka
+    skipClient false
+    skipServer false
+    testFrameworks [gatling, cucumber, protractor]
+    websocket spring-websocket
+    promptValues [object Object]
+    jhipsterVersion 6.2.0
+    applicationType monolith
+    baseName VaultOfAudio
+    serverPort 8080
+    authenticationType jwt
+    cacheProvider hazelcast
+    buildTool gradle
+    jwtSecretKey NGVlMDhmNzdlOGUzMjFkZjRhYTE2YjFiMjQwMzJiOTliNTU3MmEzNGIzYzUyY2I2YzJiNDJmNWI5OGY2NmViZjI0NzZlNjVhM2EyODJiZjkyOWRlOWFkYjhjOTg1YWFkZTQ5YTkwNWI5MzdiN2IyNWJkOTczYjdmOWIxY2ExY2Q=
+    useSass true
+    clientPackageManager npm
+    clientFramework angularX
+    clientTheme darkly
+    clientThemeVariant dark
+    entitySuffix 
+    dtoSuffix DTO
+    otherModules 
+    blueprints 
+    skipUserManagement false
+  }
+
+  entities EqualizerSetting, Group, GroupList, ListSong, Playlist, Song, UserEqualizerSetting, UserGroup, UserList, UserSong
+}
+
+entity EqualizerSetting {
+  equalizerId Integer required unique,
+  equalizerName String required minlength(2) maxlength(50),
+  first Integer required,
+  second Integer required,
+  third Integer required,
+  fourth Integer required,
+  fifth Integer required,
+  sixth Integer required,
+  seventh Integer required,
+  eight Integer required,
+  ninth Integer required,
+  tenth Integer required
+}
+entity Group {
+  groupId Integer required unique,
+  groupName String maxlength(200) required,
+  groupDescription String maxlength(2000),
+  groupPhoto AnyBlob
+}
+entity GroupList
+entity ListSong
+entity Playlist {
+  listId Integer required unique,
+  listName String maxlength(200) required,
+  listDescription String maxlength(2000)
+}
+entity Song {
+  songId Integer required unique,
+  songName String maxlength(200) required,
+  lyrics String maxlength(2000),
+  authors String maxlength(100),
+  songMetadata String maxlength(500) required,
+  year Integer,
+  songDescription String maxlength(2000)
+}
+entity UserEqualizerSetting
+entity UserGroup
+entity UserList
+entity UserSong
+relationship ManyToOne {
+  GroupList{groupId} to Group,
+  GroupList{listId} to Playlist,
+  ListSong{listId} to Playlist,
+  ListSong{songId} to Song,
+  UserEqualizerSetting{equalizerId} to EqualizerSetting,
+  UserEqualizerSetting{userId} to User,
+  UserGroup{groupId} to Group,
+  UserGroup{userId} to User,
+  UserList{listId} to Playlist,
+  UserList{userId} to User,
+  UserSong{songId} to Song,
+  UserSong{userId} to User
+}
+

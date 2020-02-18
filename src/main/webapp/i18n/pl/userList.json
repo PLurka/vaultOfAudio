@@ -1,0 +1,23 @@
+{
+  "vaultOfAudioApp": {
+    "userList": {
+      "home": {
+        "title": "User List",
+        "createLabel": "Dodaj User List",
+        "createOrEditLabel": "Dodaj lub edytuj: User List",
+        "notFound": "No User Lists found"
+      },
+      "created": "Utworzono nowy obiekt typu User List z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu User List z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu User List z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć User List {{ id }}?"
+      },
+      "detail": {
+        "title": "User List"
+      },
+      "listId": "List Id",
+      "userId": "User Id"
+    }
+  }
+}

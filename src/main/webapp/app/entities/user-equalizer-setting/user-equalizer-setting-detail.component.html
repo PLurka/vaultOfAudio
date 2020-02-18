@@ -1,0 +1,33 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="userEqualizerSetting">
+            <h2><span jhiTranslate="vaultOfAudioApp.userEqualizerSetting.detail.title">User Equalizer Setting</span> {{userEqualizerSetting.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="vaultOfAudioApp.userEqualizerSetting.equalizerId">Equalizer Id</span></dt>
+                <dd>
+                    <div *ngIf="userEqualizerSetting.equalizerId">
+                        <a [routerLink]="['/equalizer-setting', userEqualizerSetting.equalizerId?.id, 'view']">{{userEqualizerSetting.equalizerId?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.userEqualizerSetting.userId">User Id</span></dt>
+                <dd>
+                    {{userEqualizerSetting.userId?.id}}
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/user-equalizer-setting', userEqualizerSetting.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

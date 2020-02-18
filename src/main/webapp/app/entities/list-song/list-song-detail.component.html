@@ -1,0 +1,35 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="listSong">
+            <h2><span jhiTranslate="vaultOfAudioApp.listSong.detail.title">List Song</span> {{listSong.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="vaultOfAudioApp.listSong.listId">List Id</span></dt>
+                <dd>
+                    <div *ngIf="listSong.listId">
+                        <a [routerLink]="['/playlist', listSong.listId?.id, 'view']">{{listSong.listId?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.listSong.songId">Song Id</span></dt>
+                <dd>
+                    <div *ngIf="listSong.songId">
+                        <a [routerLink]="['/song', listSong.songId?.id, 'view']">{{listSong.songId?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/list-song', listSong.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

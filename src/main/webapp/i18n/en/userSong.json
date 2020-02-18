@@ -1,0 +1,23 @@
+{
+  "vaultOfAudioApp": {
+    "userSong": {
+      "home": {
+        "title": "User Songs",
+        "createLabel": "Create a new User Song",
+        "createOrEditLabel": "Create or edit a User Song",
+        "notFound": "No User Songs found"
+      },
+      "created": "A new User Song is created with identifier {{ param }}",
+      "updated": "A User Song is updated with identifier {{ param }}",
+      "deleted": "A User Song is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete User Song {{ id }}?"
+      },
+      "detail": {
+        "title": "User Song"
+      },
+      "songId": "Song Id",
+      "userId": "User Id"
+    }
+  }
+}

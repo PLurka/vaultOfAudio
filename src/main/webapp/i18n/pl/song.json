@@ -1,0 +1,28 @@
+{
+  "vaultOfAudioApp": {
+    "song": {
+      "home": {
+        "title": "Song",
+        "createLabel": "Dodaj Song",
+        "createOrEditLabel": "Dodaj lub edytuj: Song",
+        "notFound": "No Songs found"
+      },
+      "created": "Utworzono nowy obiekt typu Song z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu Song z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu Song z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć Song {{ id }}?"
+      },
+      "detail": {
+        "title": "Song"
+      },
+      "songId": "Song Id",
+      "songName": "Song Name",
+      "lyrics": "Lyrics",
+      "authors": "Authors",
+      "songMetadata": "Song Metadata",
+      "year": "Year",
+      "songDescription": "Song Description"
+    }
+  }
+}

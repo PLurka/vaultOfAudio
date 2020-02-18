@@ -1,0 +1,29 @@
+{
+    "name": "ListSong",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "playlist",
+            "otherEntityRelationshipName": "listSong",
+            "relationshipName": "listId",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "song",
+            "otherEntityRelationshipName": "listSong",
+            "relationshipName": "songId",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200218212701",
+    "entityTableName": "list_song",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

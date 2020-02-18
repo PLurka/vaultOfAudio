@@ -8,6 +8,16 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
+        "equalizerSetting": "Equalizer Setting",
+        "userEqualizerSetting": "User Equalizer Setting",
+        "song": "Song",
+        "userSong": "User Song",
+        "playlist": "Playlist",
+        "userList": "User List",
+        "group": "Group",
+        "userGroup": "User Group",
+        "groupList": "Group List",
+        "listSong": "List Song",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

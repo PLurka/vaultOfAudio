@@ -1,0 +1,107 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-song-heading" jhiTranslate="vaultOfAudioApp.song.home.createOrEditLabel">Create or edit a Song</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.song.songId" for="field_songId">Song Id</label>
+                    <input type="number" class="form-control" name="songId" id="field_songId"
+                           formControlName="songId"/>
+                    <div *ngIf="editForm.get('songId').invalid && (editForm.get('songId').dirty || editForm.get('songId').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('songId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('songId')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.song.songName" for="field_songName">Song Name</label>
+                    <input type="text" class="form-control" name="songName" id="field_songName"
+                           formControlName="songName"/>
+                    <div *ngIf="editForm.get('songName').invalid && (editForm.get('songName').dirty || editForm.get('songName').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('songName').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('songName').errors.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 200 }">
+                        This field cannot be longer than 200 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.song.lyrics" for="field_lyrics">Lyrics</label>
+                    <input type="text" class="form-control" name="lyrics" id="field_lyrics"
+                           formControlName="lyrics"/>
+                    <div *ngIf="editForm.get('lyrics').invalid && (editForm.get('lyrics').dirty || editForm.get('lyrics').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('lyrics').errors.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 2000 }">
+                        This field cannot be longer than 2000 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.song.authors" for="field_authors">Authors</label>
+                    <input type="text" class="form-control" name="authors" id="field_authors"
+                           formControlName="authors"/>
+                    <div *ngIf="editForm.get('authors').invalid && (editForm.get('authors').dirty || editForm.get('authors').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('authors').errors.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 100 }">
+                        This field cannot be longer than 100 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.song.songMetadata" for="field_songMetadata">Song Metadata</label>
+                    <input type="text" class="form-control" name="songMetadata" id="field_songMetadata"
+                           formControlName="songMetadata"/>
+                    <div *ngIf="editForm.get('songMetadata').invalid && (editForm.get('songMetadata').dirty || editForm.get('songMetadata').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('songMetadata').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('songMetadata').errors.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 500 }">
+                        This field cannot be longer than 500 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.song.year" for="field_year">Year</label>
+                    <input type="number" class="form-control" name="year" id="field_year"
+                           formControlName="year"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.song.songDescription" for="field_songDescription">Song Description</label>
+                    <input type="text" class="form-control" name="songDescription" id="field_songDescription"
+                           formControlName="songDescription"/>
+                    <div *ngIf="editForm.get('songDescription').invalid && (editForm.get('songDescription').dirty || editForm.get('songDescription').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('songDescription').errors.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 2000 }">
+                        This field cannot be longer than 2000 characters.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

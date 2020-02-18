@@ -1,0 +1,25 @@
+{
+  "vaultOfAudioApp": {
+    "group": {
+      "home": {
+        "title": "Group",
+        "createLabel": "Dodaj Group",
+        "createOrEditLabel": "Dodaj lub edytuj: Group",
+        "notFound": "No Groups found"
+      },
+      "created": "Utworzono nowy obiekt typu Group z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu Group z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu Group z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć Group {{ id }}?"
+      },
+      "detail": {
+        "title": "Group"
+      },
+      "groupId": "Group Id",
+      "groupName": "Group Name",
+      "groupDescription": "Group Description",
+      "groupPhoto": "Group Photo"
+    }
+  }
+}

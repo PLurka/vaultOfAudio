@@ -1,0 +1,35 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="groupList">
+            <h2><span jhiTranslate="vaultOfAudioApp.groupList.detail.title">Group List</span> {{groupList.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="vaultOfAudioApp.groupList.groupId">Group Id</span></dt>
+                <dd>
+                    <div *ngIf="groupList.groupId">
+                        <a [routerLink]="['/group', groupList.groupId?.id, 'view']">{{groupList.groupId?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.groupList.listId">List Id</span></dt>
+                <dd>
+                    <div *ngIf="groupList.listId">
+                        <a [routerLink]="['/playlist', groupList.listId?.id, 'view']">{{groupList.listId?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/group-list', groupList.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

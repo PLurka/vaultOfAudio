@@ -1,0 +1,23 @@
+{
+  "vaultOfAudioApp": {
+    "userEqualizerSetting": {
+      "home": {
+        "title": "User Equalizer Setting",
+        "createLabel": "Dodaj User Equalizer Setting",
+        "createOrEditLabel": "Dodaj lub edytuj: User Equalizer Setting",
+        "notFound": "No User Equalizer Settings found"
+      },
+      "created": "Utworzono nowy obiekt typu User Equalizer Setting z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu User Equalizer Setting z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu User Equalizer Setting z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć User Equalizer Setting {{ id }}?"
+      },
+      "detail": {
+        "title": "User Equalizer Setting"
+      },
+      "equalizerId": "Equalizer Id",
+      "userId": "User Id"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+    "name": "GroupList",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "group",
+            "otherEntityRelationshipName": "groupList",
+            "relationshipName": "groupId",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "playlist",
+            "otherEntityRelationshipName": "groupList",
+            "relationshipName": "listId",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200218212700",
+    "entityTableName": "group_list",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

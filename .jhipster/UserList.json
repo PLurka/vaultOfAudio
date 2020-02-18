@@ -1,0 +1,29 @@
+{
+    "name": "UserList",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "playlist",
+            "otherEntityRelationshipName": "userList",
+            "relationshipName": "listId",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "userList",
+            "relationshipName": "userId",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200218212657",
+    "entityTableName": "user_list",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

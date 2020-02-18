@@ -1,0 +1,208 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-equalizer-setting-heading" jhiTranslate="vaultOfAudioApp.equalizerSetting.home.createOrEditLabel">Create or edit a Equalizer Setting</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id').value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.equalizerSetting.equalizerId" for="field_equalizerId">Equalizer Id</label>
+                    <input type="number" class="form-control" name="equalizerId" id="field_equalizerId"
+                           formControlName="equalizerId"/>
+                    <div *ngIf="editForm.get('equalizerId').invalid && (editForm.get('equalizerId').dirty || editForm.get('equalizerId').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('equalizerId').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('equalizerId')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.equalizerSetting.equalizerName" for="field_equalizerName">Equalizer Name</label>
+                    <input type="text" class="form-control" name="equalizerName" id="field_equalizerName"
+                           formControlName="equalizerName"/>
+                    <div *ngIf="editForm.get('equalizerName').invalid && (editForm.get('equalizerName').dirty || editForm.get('equalizerName').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('equalizerName').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('equalizerName').errors.minlength" jhiTranslate="entity.validation.minlength" [translateValues]="{ min: 2 }">
+                        This field is required to be at least 2 characters.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('equalizerName').errors.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 50 }">
+                        This field cannot be longer than 50 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.equalizerSetting.first" for="field_first">First</label>
+                    <input type="number" class="form-control" name="first" id="field_first"
+                           formControlName="first"/>
+                    <div *ngIf="editForm.get('first').invalid && (editForm.get('first').dirty || editForm.get('first').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('first').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('first')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.equalizerSetting.second" for="field_second">Second</label>
+                    <input type="number" class="form-control" name="second" id="field_second"
+                           formControlName="second"/>
+                    <div *ngIf="editForm.get('second').invalid && (editForm.get('second').dirty || editForm.get('second').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('second').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('second')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.equalizerSetting.third" for="field_third">Third</label>
+                    <input type="number" class="form-control" name="third" id="field_third"
+                           formControlName="third"/>
+                    <div *ngIf="editForm.get('third').invalid && (editForm.get('third').dirty || editForm.get('third').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('third').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('third')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.equalizerSetting.fourth" for="field_fourth">Fourth</label>
+                    <input type="number" class="form-control" name="fourth" id="field_fourth"
+                           formControlName="fourth"/>
+                    <div *ngIf="editForm.get('fourth').invalid && (editForm.get('fourth').dirty || editForm.get('fourth').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('fourth').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('fourth')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.equalizerSetting.fifth" for="field_fifth">Fifth</label>
+                    <input type="number" class="form-control" name="fifth" id="field_fifth"
+                           formControlName="fifth"/>
+                    <div *ngIf="editForm.get('fifth').invalid && (editForm.get('fifth').dirty || editForm.get('fifth').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('fifth').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('fifth')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.equalizerSetting.sixth" for="field_sixth">Sixth</label>
+                    <input type="number" class="form-control" name="sixth" id="field_sixth"
+                           formControlName="sixth"/>
+                    <div *ngIf="editForm.get('sixth').invalid && (editForm.get('sixth').dirty || editForm.get('sixth').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('sixth').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('sixth')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.equalizerSetting.seventh" for="field_seventh">Seventh</label>
+                    <input type="number" class="form-control" name="seventh" id="field_seventh"
+                           formControlName="seventh"/>
+                    <div *ngIf="editForm.get('seventh').invalid && (editForm.get('seventh').dirty || editForm.get('seventh').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('seventh').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('seventh')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.equalizerSetting.eight" for="field_eight">Eight</label>
+                    <input type="number" class="form-control" name="eight" id="field_eight"
+                           formControlName="eight"/>
+                    <div *ngIf="editForm.get('eight').invalid && (editForm.get('eight').dirty || editForm.get('eight').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('eight').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('eight')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.equalizerSetting.ninth" for="field_ninth">Ninth</label>
+                    <input type="number" class="form-control" name="ninth" id="field_ninth"
+                           formControlName="ninth"/>
+                    <div *ngIf="editForm.get('ninth').invalid && (editForm.get('ninth').dirty || editForm.get('ninth').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('ninth').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('ninth')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.equalizerSetting.tenth" for="field_tenth">Tenth</label>
+                    <input type="number" class="form-control" name="tenth" id="field_tenth"
+                           formControlName="tenth"/>
+                    <div *ngIf="editForm.get('tenth').invalid && (editForm.get('tenth').dirty || editForm.get('tenth').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('tenth').errors.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('tenth')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

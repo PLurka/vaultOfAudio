@@ -1,0 +1,24 @@
+{
+  "vaultOfAudioApp": {
+    "playlist": {
+      "home": {
+        "title": "Playlist",
+        "createLabel": "Dodaj Playlist",
+        "createOrEditLabel": "Dodaj lub edytuj: Playlist",
+        "notFound": "No Playlists found"
+      },
+      "created": "Utworzono nowy obiekt typu Playlist z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu Playlist z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu Playlist z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć Playlist {{ id }}?"
+      },
+      "detail": {
+        "title": "Playlist"
+      },
+      "listId": "List Id",
+      "listName": "List Name",
+      "listDescription": "List Description"
+    }
+  }
+}

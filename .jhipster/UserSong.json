@@ -1,0 +1,29 @@
+{
+    "name": "UserSong",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "song",
+            "otherEntityRelationshipName": "userSong",
+            "relationshipName": "songId",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "userSong",
+            "relationshipName": "userId",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200218212655",
+    "entityTableName": "user_song",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
