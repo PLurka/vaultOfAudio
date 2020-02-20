@@ -93,6 +93,20 @@
       }
     }
   }
+  .advanced {
+    min-height: 150px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    .filter {
+      display: flex;
+      flex-direction: column;
+      flex: auto;
+      width: calc(100% / 8);
+      text-align: center;
+    }
+  }
   .resetBtnDiv {
     display: flex;
     flex-direction: row;

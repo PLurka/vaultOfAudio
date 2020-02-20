@@ -96,6 +96,15 @@ export class PlayerComponent implements OnInit {
     }
   }
 
+  showHideAdv() {
+    let x = document.getElementById('adv');
+    if (x.style.display === 'none') {
+      x.style.display = 'block';
+    } else {
+      x.style.display = 'none';
+    }
+  }
+
   ngOnInit() {
     this.visualization = true;
     // get the audio element
@@ -116,6 +125,8 @@ export class PlayerComponent implements OnInit {
     const audioFile = document.getElementById('file');
 
     const resetButton = document.getElementById('resetButton');
+
+    const resetFilterButton = document.getElementById('resetFilterButton');
 
     let slider = <HTMLInputElement>document.getElementById('time-slider');
 
@@ -190,6 +201,66 @@ export class PlayerComponent implements OnInit {
 
     let tenthEqControl = <HTMLInputElement>document.getElementById('16k');
 
+    // CREATION OF ALL OTHER FILTERS
+    let lowpass = this.audioCtx.createBiquadFilter();
+    lowpass.type = 'lowpass';
+
+    let highpass = this.audioCtx.createBiquadFilter();
+    highpass.type = 'highpass';
+
+    let bandpass = this.audioCtx.createBiquadFilter();
+    highpass.type = 'bandpass';
+
+    let lowshelf = this.audioCtx.createBiquadFilter();
+    lowshelf.type = 'lowshelf';
+
+    let highshelf = this.audioCtx.createBiquadFilter();
+    highshelf.type = 'highshelf';
+
+    let peaking = this.audioCtx.createBiquadFilter();
+    peaking.type = 'peaking';
+
+    let notch = this.audioCtx.createBiquadFilter();
+    notch.type = 'notch';
+
+    let allpass = this.audioCtx.createBiquadFilter();
+    allpass.type = 'allpass';
+
+    let lpffreq = <HTMLInputElement>document.getElementById('lpffreq');
+    let lpfpeak = <HTMLInputElement>document.getElementById('lpfpeak');
+    let lpfcheck = <HTMLInputElement>document.getElementById('lpfcheck');
+
+    let hpffreq = <HTMLInputElement>document.getElementById('hpffreq');
+    let hpfpeak = <HTMLInputElement>document.getElementById('hpfpeak');
+    let hpfcheck = <HTMLInputElement>document.getElementById('hpfcheck');
+
+    let bpffreq = <HTMLInputElement>document.getElementById('bpffreq');
+    let bpfbandsize = <HTMLInputElement>document.getElementById('bpfbandsize');
+    let bpfcheck = <HTMLInputElement>document.getElementById('bpfcheck');
+
+    let lsffreq = <HTMLInputElement>document.getElementById('lsffreq');
+    let lsfgain = <HTMLInputElement>document.getElementById('lsfgain');
+    let lsfcheck = <HTMLInputElement>document.getElementById('lsfcheck');
+
+    let hsffreq = <HTMLInputElement>document.getElementById('hsffreq');
+    let hsfgain = <HTMLInputElement>document.getElementById('hsfgain');
+    let hsfcheck = <HTMLInputElement>document.getElementById('hsfcheck');
+
+    let pffreq = <HTMLInputElement>document.getElementById('pffreq');
+    let pfgain = <HTMLInputElement>document.getElementById('pfgain');
+    let pfbandsize = <HTMLInputElement>document.getElementById('pfbandsize');
+    let pfcheck = <HTMLInputElement>document.getElementById('pfcheck');
+
+    let nffreq = <HTMLInputElement>document.getElementById('nffreq');
+    let nfbandsize = <HTMLInputElement>document.getElementById('nfbandsize');
+    let nfcheck = <HTMLInputElement>document.getElementById('nfcheck');
+
+    let apffreq = <HTMLInputElement>document.getElementById('apffreq');
+    let apfpeak = <HTMLInputElement>document.getElementById('apfsharpness');
+    let apfcheck = <HTMLInputElement>document.getElementById('apfcheck');
+
+    let filterChooser = <HTMLSelectElement>document.getElementById('filters');
+
     let analyser2 = this.audioCtx.createAnalyser();
     let canvas2 = document.getElementById('canvas2') as HTMLCanvasElement;
     let canvas2Ctx = canvas2.getContext('2d');
@@ -222,6 +293,171 @@ export class PlayerComponent implements OnInit {
       }
     }
 
+    // WYBÓR FILTRA
+    filterChooser.addEventListener(
+      'input',
+      function() {
+        console.error(filterChooser.options[filterChooser.selectedIndex].value.toString());
+        let f1 = document.getElementById('lpf');
+        let f2 = document.getElementById('hpf');
+        let f3 = document.getElementById('bpf');
+        let f4 = document.getElementById('lsf');
+        let f5 = document.getElementById('hsf');
+        let f6 = document.getElementById('pf');
+        let f7 = document.getElementById('nf');
+        let f8 = document.getElementById('apf');
+        f1.style.display = 'none';
+        f2.style.display = 'none';
+        f3.style.display = 'none';
+        f4.style.display = 'none';
+        f5.style.display = 'none';
+        f6.style.display = 'none';
+        f7.style.display = 'none';
+        f8.style.display = 'none';
+        let selected = document.getElementById(filterChooser.options[filterChooser.selectedIndex].value.toString());
+        selected.style.display = 'block';
+      },
+      false
+    );
+
+    // USTAWIENIA FILTROW
+    lpffreq.addEventListener(
+      'input',
+      function() {
+        lowpass.frequency.value = this.value;
+      },
+      false
+    );
+
+    lpfpeak.addEventListener(
+      'input',
+      function() {
+        lowpass.Q.value = this.value;
+      },
+      false
+    );
+
+    hpffreq.addEventListener(
+      'input',
+      function() {
+        highpass.frequency.value = this.value;
+      },
+      false
+    );
+
+    hpfpeak.addEventListener(
+      'input',
+      function() {
+        highpass.Q.value = this.value;
+      },
+      false
+    );
+
+    bpffreq.addEventListener(
+      'input',
+      function() {
+        bandpass.frequency.value = this.value;
+      },
+      false
+    );
+
+    bpfbandsize.addEventListener(
+      'input',
+      function() {
+        bandpass.Q.value = this.value;
+      },
+      false
+    );
+
+    lsffreq.addEventListener(
+      'input',
+      function() {
+        lowshelf.frequency.value = this.value;
+      },
+      false
+    );
+
+    lsfgain.addEventListener(
+      'input',
+      function() {
+        lowshelf.gain.value = this.value;
+      },
+      false
+    );
+
+    hsffreq.addEventListener(
+      'input',
+      function() {
+        highshelf.frequency.value = this.value;
+      },
+      false
+    );
+
+    hsfgain.addEventListener(
+      'input',
+      function() {
+        highshelf.gain.value = this.value;
+      },
+      false
+    );
+
+    pffreq.addEventListener(
+      'input',
+      function() {
+        peaking.frequency.value = this.value;
+      },
+      false
+    );
+
+    pfgain.addEventListener(
+      'input',
+      function() {
+        peaking.gain.value = this.value;
+      },
+      false
+    );
+
+    pfbandsize.addEventListener(
+      'input',
+      function() {
+        peaking.Q.value = this.value;
+      },
+      false
+    );
+
+    nffreq.addEventListener(
+      'input',
+      function() {
+        notch.frequency.value = this.value;
+      },
+      false
+    );
+
+    nfbandsize.addEventListener(
+      'input',
+      function() {
+        notch.Q.value = this.value;
+      },
+      false
+    );
+
+    apffreq.addEventListener(
+      'input',
+      function() {
+        allpass.frequency.value = this.value;
+      },
+      false
+    );
+
+    apfpeak.addEventListener(
+      'input',
+      function() {
+        allpass.Q.value = this.value;
+      },
+      false
+    );
+
+    // USTAWIENIA SUWAKOW EQ
     firstEqControl.addEventListener(
       'input',
       function() {
@@ -354,7 +590,9 @@ export class PlayerComponent implements OnInit {
       false
     );
 
-    track
+    let destination = this.audioCtx.destination;
+
+    let changedtrack = track
       .connect(gainNode)
       .connect(panner)
       .connect(firstEq)
@@ -366,7 +604,122 @@ export class PlayerComponent implements OnInit {
       .connect(ninthEq)
       .connect(tenthEq)
       .connect(analyser2)
-      .connect(this.audioCtx.destination);
+      .connect(lowpass)
+      .connect(highpass)
+      .connect(bandpass)
+      .connect(lowshelf)
+      .connect(highshelf)
+      .connect(peaking)
+      .connect(notch)
+      .connect(allpass)
+      .connect(destination);
+
+    // FILTERS CHECKBOXES
+
+    lpfcheck.addEventListener(
+      'change',
+      function() {
+        /*if(lpfcheck.checked === true){
+              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
+          } else{
+              changedtrack.disconnect(lowpass);
+          }*/
+        track.disconnect();
+        //changedtrack.disconnect(destination);
+      },
+      false
+    );
+
+    hpfcheck.addEventListener(
+      'change',
+      function() {
+        /*if(lpfcheck.checked === true){
+              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
+          } else{
+              changedtrack.disconnect(lowpass);
+          }*/
+        changedtrack.disconnect(highpass);
+      },
+      false
+    );
+
+    bpfcheck.addEventListener(
+      'change',
+      function() {
+        /*if(lpfcheck.checked === true){
+              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
+          } else{
+              changedtrack.disconnect(lowpass);
+          }*/
+        changedtrack.disconnect(bandpass);
+      },
+      false
+    );
+
+    lsfcheck.addEventListener(
+      'change',
+      function() {
+        /*if(lpfcheck.checked === true){
+              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
+          } else{
+              changedtrack.disconnect(lowpass);
+          }*/
+        changedtrack.disconnect(lowshelf);
+      },
+      false
+    );
+
+    hsfcheck.addEventListener(
+      'change',
+      function() {
+        /*if(lpfcheck.checked === true){
+              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
+          } else{
+              changedtrack.disconnect(lowpass);
+          }*/
+        changedtrack.disconnect(highshelf);
+      },
+      false
+    );
+
+    pfcheck.addEventListener(
+      'change',
+      function() {
+        /*if(lpfcheck.checked === true){
+              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
+          } else{
+              changedtrack.disconnect(lowpass);
+          }*/
+        changedtrack.disconnect(peaking);
+      },
+      false
+    );
+
+    nfcheck.addEventListener(
+      'change',
+      function() {
+        /*if(lpfcheck.checked === true){
+              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
+          } else{
+              changedtrack.disconnect(lowpass);
+          }*/
+        changedtrack.disconnect(notch);
+      },
+      false
+    );
+
+    apfcheck.addEventListener(
+      'change',
+      function() {
+        /*if(lpfcheck.checked === true){
+              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
+          } else{
+              changedtrack.disconnect(lowpass);
+          }*/
+        changedtrack.disconnect(allpass);
+      },
+      false
+    );
 
     draw2();
   }

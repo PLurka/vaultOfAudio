@@ -74,6 +74,12 @@
             Show / Hide Equalizer
             <mat-icon>assessment</mat-icon>
         </button>
+
+        <button mat-button class="showHideAdvanced" id="showHideAdvanced" (click)="showHideAdv()">
+            <mat-icon>assessment</mat-icon>
+            Show / Hide Advanced
+            <mat-icon>assessment</mat-icon>
+        </button>
     </div>
     <div class="eq" id="eq" style="display: none">
         <div class="resetBtnDiv">
@@ -124,6 +130,132 @@
         <div class="resetBtnDiv">
             <button mat-button class="resetButton" id="resetButton">
                 Reset equalizer
+                <mat-icon>restore</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="adv" id="adv" style="display: none">
+        <div class="resetBtnDiv">
+            <h2>ADVANCED</h2>
+        </div>
+
+        <label for="filters">Choose a filter:</label>
+
+        <select id="filters">
+            <option value="lpf" selected="selected">Low Pass Filter</option>
+            <option value="hpf">High Pass Filter</option>
+            <option value="bpf">Band Pass Filter</option>
+            <option value="lsf">Low Shelf Filter</option>
+            <option value="hsf">High Shelf Filter</option>
+            <option value="pf">Peaking Filter</option>
+            <option value="nf">Notch Filter</option>
+            <option value="apf">All Pass Filter</option>
+        </select>
+
+        <div class="advanced">
+
+            <div class="filter" id="lpf" style="display: block">
+                <div class="resetBtnDiv">
+                    <h3>LOWPASS FILTER</h3>
+                </div>
+                <input type="range" class="filterbar" id="lpffreq" min="0" max="20000" value="20000" step="1">
+                Frequency
+                <input type="range" class="filterbar" id="lpfpeak" min="0" max="20" value="0" step="0.5">
+                Peak
+                <input type="checkbox" id="lpfcheck" name="lpfcheck" value="Bike">
+                <label for="lpfcheck"> Filter active </label>
+            </div>
+
+            <div class="filter" id="hpf" style="display: none">
+                <div class="resetBtnDiv">
+                    <h3>HIGHPASS FILTER</h3>
+                </div>
+                <input type="range" class="filterbar" id="hpffreq" min="0" max="20000" value="0" step="1">
+                Frequency
+                <input type="range" class="filterbar" id="hpfpeak" min="0" max="20" value="0" step="0.5">
+                Peak
+                <input type="checkbox" id="hpfcheck" name="hpfcheck" value="Bike">
+                <label for="hpfcheck"> Filter active </label>
+            </div>
+
+            <div class="filter" id="bpf" style="display: none">
+                <div class="resetBtnDiv">
+                    <h3>BANDPASS FILTER</h3>
+                </div>
+                <input type="range" class="filterbar" id="bpffreq" min="0" max="20000" value="0" step="1">
+                Frequency
+                <input type="range" class="filterbar" id="bpfbandsize" min="0" max="20" value="0" step="0.5">
+                Frequency band size
+                <input type="checkbox" id="bpfcheck" name="bpfcheck" value="Bike">
+                <label for="bpfcheck"> Filter active </label>
+            </div>
+
+            <div class="filter" id="lsf" style="display: none">
+                <div class="resetBtnDiv">
+                    <h3>LOWSHELF FILTER</h3>
+                </div>
+                <input type="range" class="filterbar" id="lsffreq" min="0" max="20000" value="0" step="1">
+                Frequency
+                <input type="range" class="filterbar" id="lsfgain" min="0" max="20" value="0" step="0.5">
+                Gain
+                <input type="checkbox" id="lsfcheck" name="lsfcheck" value="Bike">
+                <label for="lsfcheck"> Filter active </label>
+            </div>
+
+            <div class="filter" id="hsf" style="display: none">
+                <div class="resetBtnDiv">
+                    <h3>HIGHSHELF FILTER</h3>
+                </div>
+                <input type="range" class="filterbar" id="hsffreq" min="0" max="20000" value="0" step="1">
+                Frequency
+                <input type="range" class="filterbar" id="hsfgain" min="0" max="20" value="0" step="0.5">
+                Gain
+                <input type="checkbox" id="hsfcheck" name="hsfcheck" value="Bike">
+                <label for="hsfcheck"> Filter active </label>
+            </div>
+
+            <div class="filter" id="pf" style="display: none">
+                <div class="resetBtnDiv">
+                    <h3>PEAKING FILTER</h3>
+                </div>
+                <input type="range" class="filterbar" id="pffreq" min="0" max="20000" value="0" step="1">
+                Frequency
+                <input type="range" class="filterbar" id="pfgain" min="0" max="20" value="0" step="0.5">
+                Gain
+                <input type="range" class="filterbar" id="pfbandsize" min="0" max="20" value="0" step="0.5">
+                Frequency band size
+                <input type="checkbox" id="pfcheck" name="pfcheck" value="Bike">
+                <label for="pfcheck"> Filter active </label>
+            </div>
+
+            <div class="filter" id="nf" style="display: none">
+                <div class="resetBtnDiv">
+                    <h3>NOTCH FILTER</h3>
+                </div>
+                <input type="range" class="filterbar" id="nffreq" min="0" max="20000" value="0" step="1">
+                Frequency
+                <input type="range" class="filterbar" id="nfbandsize" min="0" max="20" value="0" step="0.5">
+                Frequency band size
+                <input type="checkbox" id="nfcheck" name="nfcheck" value="Bike">
+                <label for="nfcheck"> Filter active </label>
+            </div>
+
+            <div class="filter" id="apf" style="display: none">
+                <div class="resetBtnDiv">
+                    <h3>ALLPASS FILTER</h3>
+                </div>
+                <input type="range" class="filterbar" id="apffreq" min="0" max="20000" value="0" step="1">
+                Frequency
+                <input type="range" class="filterbar" id="apfsharpness" min="0" max="20" value="0" step="0.5">
+                Transition sharpness
+                <input type="checkbox" id="apfcheck" name="apfcheck" value="Bike">
+                <label for="apfcheck"> Filter active </label>
+            </div>
+
+        </div>
+        <div class="resetBtnDiv">
+            <button mat-button class="resetFiltersButton" id="resetFiltersButton">
+                Reset filters
                 <mat-icon>restore</mat-icon>
             </button>
         </div>
