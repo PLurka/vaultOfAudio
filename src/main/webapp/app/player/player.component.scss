@@ -38,7 +38,22 @@
       height: 400px;
     }
     .songList::-webkit-scrollbar {
-      display: none;
+      //display: none;
+      width: 12px;
+      background-color: #323232;
+    }
+    .songList::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+      background-color: #323232;
+      border-radius: 10px;
+    }
+
+    .songList::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+      background-image: -webkit-gradient(linear, left bottom, left top, from(#a18cd1), to(#fbc2eb));
+      background-image: -webkit-linear-gradient(bottom, #a18cd1 0%, #fbc2eb 100%);
+      background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
     }
   }
 
@@ -105,6 +120,28 @@
       flex: auto;
       width: calc(100% / 8);
       text-align: center;
+      .checkbox {
+        -webkit-transform: scale(3);
+        -moz-transform: scale(3);
+        margin-left: 10px;
+      }
+      .filtersettings {
+        display: flex;
+        flex-direction: row;
+        .filtersetting {
+          display: flex;
+          flex-direction: column;
+          flex: auto;
+          align-items: center;
+          .filterbar {
+            flex: auto;
+            -webkit-appearance: slider-vertical;
+          }
+          .filterinp {
+            max-width: 100px;
+          }
+        }
+      }
     }
   }
   .resetBtnDiv {

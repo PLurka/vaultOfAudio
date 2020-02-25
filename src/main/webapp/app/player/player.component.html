@@ -136,7 +136,7 @@
     </div>
     <div class="adv" id="adv" style="display: none">
         <div class="resetBtnDiv">
-            <h2>ADVANCED</h2>
+            <!--<h2>ADVANCED</h2>-->
         </div>
 
         <label for="filters">Choose a filter:</label>
@@ -156,100 +156,151 @@
 
             <div class="filter" id="lpf" style="display: block">
                 <div class="resetBtnDiv">
-                    <h3>LOWPASS FILTER</h3>
+                    <h3>LOWPASS FILTER  <input type="checkbox" id="lpfcheck" name="lpfcheck" class="checkbox"></h3>
                 </div>
-                <input type="range" class="filterbar" id="lpffreq" min="0" max="20000" value="20000" step="1">
-                Frequency
-                <input type="range" class="filterbar" id="lpfpeak" min="0" max="20" value="0" step="0.5">
-                Peak
-                <input type="checkbox" id="lpfcheck" name="lpfcheck" value="Bike">
-                <label for="lpfcheck"> Filter active </label>
+                <div class="filtersettings">
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="lpffreq" min="0" max="20000" value="20000" step="1">
+                        <input type="number" class="filterinp" id="lpffreqi" min="0" max="20000" value="20000" step="1">
+                        Frequency
+                    </div>
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="lpfpeak" min="0" max="20" value="0" step="0.5">
+                        <input type="number" class="filterinp" id="lpfpeaki" min="0" max="20" value="0" step="0.5">
+                        Peak
+                    </div>
+                </div>
             </div>
 
             <div class="filter" id="hpf" style="display: none">
                 <div class="resetBtnDiv">
-                    <h3>HIGHPASS FILTER</h3>
+                    <h3>HIGHPASS FILTER  <input type="checkbox" id="hpfcheck" name="hpfcheck" class="checkbox"></h3>
                 </div>
-                <input type="range" class="filterbar" id="hpffreq" min="0" max="20000" value="0" step="1">
-                Frequency
-                <input type="range" class="filterbar" id="hpfpeak" min="0" max="20" value="0" step="0.5">
-                Peak
-                <input type="checkbox" id="hpfcheck" name="hpfcheck" value="Bike">
-                <label for="hpfcheck"> Filter active </label>
+                <div class="filtersettings">
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="hpffreq" min="0" max="20000" value="0" step="1">
+                        <input type="number" class="filterinp" id="hpffreqi" min="0" max="20000" value="0" step="1">
+                        Frequency
+                    </div>
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="hpfpeak" min="0" max="20" value="0" step="0.5">
+                        <input type="number" class="filterinp" id="hpfpeaki" min="0" max="20" value="0" step="0.5">
+                        Peak
+                    </div>
+                </div>
             </div>
 
             <div class="filter" id="bpf" style="display: none">
                 <div class="resetBtnDiv">
-                    <h3>BANDPASS FILTER</h3>
+                    <h3>BANDPASS FILTER  <input type="checkbox" id="bpfcheck" name="bpfcheck" class="checkbox"></h3>
                 </div>
-                <input type="range" class="filterbar" id="bpffreq" min="0" max="20000" value="0" step="1">
-                Frequency
-                <input type="range" class="filterbar" id="bpfbandsize" min="0" max="20" value="0" step="0.5">
-                Frequency band size
-                <input type="checkbox" id="bpfcheck" name="bpfcheck" value="Bike">
-                <label for="bpfcheck"> Filter active </label>
+                <div class="filtersettings">
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="bpffreq" min="0" max="20000" value="0" step="1">
+                        <input type="number" class="filterinp" id="bpffreqi" min="0" max="20000" value="0" step="1">
+                        Frequency
+                    </div>
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="bpfbandsize" min="0" max="20" value="0" step="0.5">
+                        <input type="number" class="filterinp" id="bpfbandsizei" min="0" max="20" value="0" step="0.5">
+                        Frequency band size
+                    </div>
+                </div>
             </div>
 
             <div class="filter" id="lsf" style="display: none">
                 <div class="resetBtnDiv">
-                    <h3>LOWSHELF FILTER</h3>
+                    <h3>LOWSHELF FILTER  <input type="checkbox" id="lsfcheck" name="lsfcheck" class="checkbox"></h3>
                 </div>
-                <input type="range" class="filterbar" id="lsffreq" min="0" max="20000" value="0" step="1">
-                Frequency
-                <input type="range" class="filterbar" id="lsfgain" min="0" max="20" value="0" step="0.5">
-                Gain
-                <input type="checkbox" id="lsfcheck" name="lsfcheck" value="Bike">
-                <label for="lsfcheck"> Filter active </label>
+                <div class="filtersettings">
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="lsffreq" min="0" max="20000" value="0" step="1">
+                        <input type="number" class="filterinp" id="lsffreqi" min="0" max="20000" value="0" step="1">
+                        Frequency
+                    </div>
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="lsfgain" min="0" max="20" value="0" step="0.5">
+                        <input type="number" class="filterinp" id="lsfgaini" min="0" max="20" value="0" step="0.5">
+                        Gain
+                    </div>
+                </div>
             </div>
 
             <div class="filter" id="hsf" style="display: none">
                 <div class="resetBtnDiv">
-                    <h3>HIGHSHELF FILTER</h3>
+                    <h3>HIGHSHELF FILTER  <input type="checkbox" id="hsfcheck" name="hsfcheck" class="checkbox"></h3>
                 </div>
-                <input type="range" class="filterbar" id="hsffreq" min="0" max="20000" value="0" step="1">
-                Frequency
-                <input type="range" class="filterbar" id="hsfgain" min="0" max="20" value="0" step="0.5">
-                Gain
-                <input type="checkbox" id="hsfcheck" name="hsfcheck" value="Bike">
-                <label for="hsfcheck"> Filter active </label>
+                <div class="filtersettings">
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="hsffreq" min="0" max="20000" value="0" step="1">
+                        <input type="number" class="filterinp" id="hsffreqi" min="0" max="20000" value="0" step="1">
+                        Frequency
+                    </div>
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="hsfgain" min="0" max="20" value="0" step="0.5">
+                        <input type="number" class="filterinp" id="hsfgaini" min="0" max="20" value="0" step="0.5">
+                        Gain
+                    </div>
+                </div>
             </div>
 
             <div class="filter" id="pf" style="display: none">
                 <div class="resetBtnDiv">
-                    <h3>PEAKING FILTER</h3>
+                    <h3>PEAKING FILTER  <input type="checkbox" id="pfcheck" name="pfcheck" class="checkbox"></h3>
                 </div>
-                <input type="range" class="filterbar" id="pffreq" min="0" max="20000" value="0" step="1">
-                Frequency
-                <input type="range" class="filterbar" id="pfgain" min="0" max="20" value="0" step="0.5">
-                Gain
-                <input type="range" class="filterbar" id="pfbandsize" min="0" max="20" value="0" step="0.5">
-                Frequency band size
-                <input type="checkbox" id="pfcheck" name="pfcheck" value="Bike">
-                <label for="pfcheck"> Filter active </label>
+                <div class="filtersettings">
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="pffreq" min="0" max="20000" value="0" step="1">
+                        <input type="number" class="filterinp" id="pffreqi" min="0" max="20000" value="0" step="1">
+                        Frequency
+                    </div>
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="pfgain" min="0" max="20" value="0" step="0.5">
+                        <input type="number" class="filterinp" id="pfgaini" min="0" max="20" value="0" step="0.5">
+                        Gain
+                    </div>
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="pfbandsize" min="0" max="20" value="0" step="0.5">
+                        <input type="number" class="filterinp" id="pfbandsizei" min="0" max="20" value="0" step="0.5">
+                        Frequency band size
+                    </div>
+                </div>
             </div>
 
             <div class="filter" id="nf" style="display: none">
                 <div class="resetBtnDiv">
-                    <h3>NOTCH FILTER</h3>
+                    <h3>NOTCH FILTER  <input type="checkbox" id="nfcheck" name="nfcheck" class="checkbox"></h3>
                 </div>
-                <input type="range" class="filterbar" id="nffreq" min="0" max="20000" value="0" step="1">
-                Frequency
-                <input type="range" class="filterbar" id="nfbandsize" min="0" max="20" value="0" step="0.5">
-                Frequency band size
-                <input type="checkbox" id="nfcheck" name="nfcheck" value="Bike">
-                <label for="nfcheck"> Filter active </label>
+                <div class="filtersettings">
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="nffreq" min="0" max="20000" value="0" step="1">
+                        <input type="number" class="filterinp" id="nffreqi" min="0" max="20000" value="0" step="1">
+                        Frequency
+                    </div>
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="nfbandsize" min="0" max="20" value="0" step="0.5">
+                        <input type="number" class="filterinp" id="nfbandsizei" min="0" max="20" value="0" step="0.5">
+                        Frequency band size
+                    </div>
+                </div>
             </div>
 
             <div class="filter" id="apf" style="display: none">
                 <div class="resetBtnDiv">
-                    <h3>ALLPASS FILTER</h3>
+                    <h3>ALLPASS FILTER  <input type="checkbox" id="apfcheck" name="apfcheck" class="checkbox"></h3>
                 </div>
-                <input type="range" class="filterbar" id="apffreq" min="0" max="20000" value="0" step="1">
-                Frequency
-                <input type="range" class="filterbar" id="apfsharpness" min="0" max="20" value="0" step="0.5">
-                Transition sharpness
-                <input type="checkbox" id="apfcheck" name="apfcheck" value="Bike">
-                <label for="apfcheck"> Filter active </label>
+                <div class="filtersettings">
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="apffreq" min="0" max="20000" value="0" step="1">
+                        <input type="number" class="filterinp" id="apffreqi" min="0" max="20000" value="0" step="1">
+                        Frequency
+                    </div>
+                    <div class="filtersetting">
+                        <input type="range" class="filterbar" id="apfsharpness" min="0" max="20" value="0" step="0.5">
+                        <input type="number" class="filterinp" id="apfsharpnessi" min="0" max="20" value="0" step="0.5">
+                        Transition sharpness
+                    </div>
+                </div>
             </div>
 
         </div>

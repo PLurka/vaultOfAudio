@@ -227,36 +227,53 @@ export class PlayerComponent implements OnInit {
     allpass.type = 'allpass';
 
     let lpffreq = <HTMLInputElement>document.getElementById('lpffreq');
+    let lpffreqi = <HTMLInputElement>document.getElementById('lpffreqi');
     let lpfpeak = <HTMLInputElement>document.getElementById('lpfpeak');
+    let lpfpeaki = <HTMLInputElement>document.getElementById('lpfpeaki');
     let lpfcheck = <HTMLInputElement>document.getElementById('lpfcheck');
 
     let hpffreq = <HTMLInputElement>document.getElementById('hpffreq');
+    let hpffreqi = <HTMLInputElement>document.getElementById('hpffreqi');
     let hpfpeak = <HTMLInputElement>document.getElementById('hpfpeak');
+    let hpfpeaki = <HTMLInputElement>document.getElementById('hpfpeaki');
     let hpfcheck = <HTMLInputElement>document.getElementById('hpfcheck');
 
     let bpffreq = <HTMLInputElement>document.getElementById('bpffreq');
+    let bpffreqi = <HTMLInputElement>document.getElementById('bpffreqi');
     let bpfbandsize = <HTMLInputElement>document.getElementById('bpfbandsize');
+    let bpfbandsizei = <HTMLInputElement>document.getElementById('bpfbandsizei');
     let bpfcheck = <HTMLInputElement>document.getElementById('bpfcheck');
 
     let lsffreq = <HTMLInputElement>document.getElementById('lsffreq');
+    let lsffreqi = <HTMLInputElement>document.getElementById('lsffreqi');
     let lsfgain = <HTMLInputElement>document.getElementById('lsfgain');
+    let lsfgaini = <HTMLInputElement>document.getElementById('lsfgaini');
     let lsfcheck = <HTMLInputElement>document.getElementById('lsfcheck');
 
     let hsffreq = <HTMLInputElement>document.getElementById('hsffreq');
+    let hsffreqi = <HTMLInputElement>document.getElementById('hsffreqi');
     let hsfgain = <HTMLInputElement>document.getElementById('hsfgain');
+    let hsfgaini = <HTMLInputElement>document.getElementById('hsfgaini');
     let hsfcheck = <HTMLInputElement>document.getElementById('hsfcheck');
 
     let pffreq = <HTMLInputElement>document.getElementById('pffreq');
+    let pffreqi = <HTMLInputElement>document.getElementById('pffreqi');
     let pfgain = <HTMLInputElement>document.getElementById('pfgain');
+    let pfgaini = <HTMLInputElement>document.getElementById('pfgaini');
     let pfbandsize = <HTMLInputElement>document.getElementById('pfbandsize');
+    let pfbandsizei = <HTMLInputElement>document.getElementById('pfbandsizei');
     let pfcheck = <HTMLInputElement>document.getElementById('pfcheck');
 
     let nffreq = <HTMLInputElement>document.getElementById('nffreq');
+    let nffreqi = <HTMLInputElement>document.getElementById('nffreqi');
     let nfbandsize = <HTMLInputElement>document.getElementById('nfbandsize');
+    let nfbandsizei = <HTMLInputElement>document.getElementById('nfbandsizei');
     let nfcheck = <HTMLInputElement>document.getElementById('nfcheck');
 
     let apffreq = <HTMLInputElement>document.getElementById('apffreq');
+    let apffreqi = <HTMLInputElement>document.getElementById('apffreqi');
     let apfpeak = <HTMLInputElement>document.getElementById('apfsharpness');
+    let apfpeaki = <HTMLInputElement>document.getElementById('apfsharpnessi');
     let apfcheck = <HTMLInputElement>document.getElementById('apfcheck');
 
     let filterChooser = <HTMLSelectElement>document.getElementById('filters');
@@ -325,6 +342,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         lowpass.frequency.value = this.value;
+        lpffreqi.value = this.value;
+      },
+      false
+    );
+
+    lpffreqi.addEventListener(
+      'input',
+      function() {
+        lowpass.frequency.value = this.value;
+        lpffreq.value = this.value;
       },
       false
     );
@@ -333,6 +360,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         lowpass.Q.value = this.value;
+        lpfpeaki.value = this.value;
+      },
+      false
+    );
+
+    lpfpeaki.addEventListener(
+      'input',
+      function() {
+        lowpass.Q.value = this.value;
+        lpfpeak.value = this.value;
       },
       false
     );
@@ -341,6 +378,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         highpass.frequency.value = this.value;
+        hpffreqi.value = this.value;
+      },
+      false
+    );
+
+    hpffreqi.addEventListener(
+      'input',
+      function() {
+        highpass.frequency.value = this.value;
+        hpffreq.value = this.value;
       },
       false
     );
@@ -349,6 +396,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         highpass.Q.value = this.value;
+        hpfpeaki.value = this.value;
+      },
+      false
+    );
+
+    hpfpeaki.addEventListener(
+      'input',
+      function() {
+        highpass.Q.value = this.value;
+        hpfpeak.value = this.value;
       },
       false
     );
@@ -357,6 +414,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         bandpass.frequency.value = this.value;
+        bpffreqi.value = this.value;
+      },
+      false
+    );
+
+    bpffreqi.addEventListener(
+      'input',
+      function() {
+        bandpass.frequency.value = this.value;
+        bpffreq.value = this.value;
       },
       false
     );
@@ -365,6 +432,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         bandpass.Q.value = this.value;
+        bpfbandsizei.value = this.value;
+      },
+      false
+    );
+
+    bpfbandsizei.addEventListener(
+      'input',
+      function() {
+        bandpass.Q.value = this.value;
+        bpfbandsize.value = this.value;
       },
       false
     );
@@ -373,6 +450,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         lowshelf.frequency.value = this.value;
+        lsffreqi.value = this.value;
+      },
+      false
+    );
+
+    lsffreqi.addEventListener(
+      'input',
+      function() {
+        lowshelf.frequency.value = this.value;
+        lsffreq.value = this.value;
       },
       false
     );
@@ -381,6 +468,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         lowshelf.gain.value = this.value;
+        lsfgaini.value = this.value;
+      },
+      false
+    );
+
+    lsfgaini.addEventListener(
+      'input',
+      function() {
+        lowshelf.gain.value = this.value;
+        lsfgain.value = this.value;
       },
       false
     );
@@ -389,6 +486,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         highshelf.frequency.value = this.value;
+        hsffreqi.value = this.value;
+      },
+      false
+    );
+
+    hsffreqi.addEventListener(
+      'input',
+      function() {
+        highshelf.frequency.value = this.value;
+        hsffreq.value = this.value;
       },
       false
     );
@@ -397,6 +504,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         highshelf.gain.value = this.value;
+        hsfgaini.value = this.value;
+      },
+      false
+    );
+
+    hsfgaini.addEventListener(
+      'input',
+      function() {
+        highshelf.gain.value = this.value;
+        hsfgain.value = this.value;
       },
       false
     );
@@ -405,6 +522,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         peaking.frequency.value = this.value;
+        pffreqi.value = this.value;
+      },
+      false
+    );
+
+    pffreqi.addEventListener(
+      'input',
+      function() {
+        peaking.frequency.value = this.value;
+        pffreq.value = this.value;
       },
       false
     );
@@ -413,6 +540,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         peaking.gain.value = this.value;
+        pfgaini.value = this.value;
+      },
+      false
+    );
+
+    pfgaini.addEventListener(
+      'input',
+      function() {
+        peaking.gain.value = this.value;
+        pfgain.value = this.value;
       },
       false
     );
@@ -421,6 +558,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         peaking.Q.value = this.value;
+        pfbandsizei.value = this.value;
+      },
+      false
+    );
+
+    pfbandsizei.addEventListener(
+      'input',
+      function() {
+        peaking.Q.value = this.value;
+        pfbandsize.value = this.value;
       },
       false
     );
@@ -429,6 +576,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         notch.frequency.value = this.value;
+        nffreqi.value = this.value;
+      },
+      false
+    );
+
+    nffreqi.addEventListener(
+      'input',
+      function() {
+        notch.frequency.value = this.value;
+        nffreq.value = this.value;
       },
       false
     );
@@ -437,6 +594,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         notch.Q.value = this.value;
+        nfbandsizei.value = this.value;
+      },
+      false
+    );
+
+    nfbandsizei.addEventListener(
+      'input',
+      function() {
+        notch.Q.value = this.value;
+        nfbandsize.value = this.value;
       },
       false
     );
@@ -445,6 +612,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         allpass.frequency.value = this.value;
+        apffreqi.value = this.value;
+      },
+      false
+    );
+
+    apffreqi.addEventListener(
+      'input',
+      function() {
+        allpass.frequency.value = this.value;
+        apffreq.value = this.value;
       },
       false
     );
@@ -453,6 +630,16 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         allpass.Q.value = this.value;
+        apfpeaki.value = this.value;
+      },
+      false
+    );
+
+    apfpeaki.addEventListener(
+      'input',
+      function() {
+        allpass.Q.value = this.value;
+        apfpeak.value = this.value;
       },
       false
     );
@@ -603,29 +790,87 @@ export class PlayerComponent implements OnInit {
       .connect(eightEq)
       .connect(ninthEq)
       .connect(tenthEq)
-      .connect(analyser2)
-      .connect(lowpass)
+      .connect(analyser2) // COMMENTED OUT AS NOT TO CONNECT ALL FILTERS AT START
+      /*.connect(lowpass)
       .connect(highpass)
       .connect(bandpass)
       .connect(lowshelf)
       .connect(highshelf)
       .connect(peaking)
       .connect(notch)
-      .connect(allpass)
-      .connect(destination);
+      .connect(allpass)*/ .connect(
+        destination
+      );
+
+    function reconnectFilters() {
+      track.disconnect();
+      gainNode.disconnect();
+      panner.disconnect();
+      firstEq.disconnect();
+      secondEq.disconnect();
+      thirdEq.disconnect();
+      fourthEq.disconnect();
+      fifthEq.disconnect();
+      sixthEq.disconnect();
+      seventhEq.disconnect();
+      eightEq.disconnect();
+      ninthEq.disconnect();
+      tenthEq.disconnect();
+      lowpass.disconnect();
+      highpass.disconnect();
+      bandpass.disconnect();
+      lowshelf.disconnect();
+      highshelf.disconnect();
+      peaking.disconnect();
+      notch.disconnect();
+      allpass.disconnect();
+      destination.disconnect();
+      let tr = track
+        .connect(gainNode)
+        .connect(panner)
+        .connect(firstEq)
+        .connect(secondEq)
+        .connect(thirdEq)
+        .connect(sixthEq)
+        .connect(seventhEq)
+        .connect(eightEq)
+        .connect(ninthEq)
+        .connect(tenthEq);
+      if (lpfcheck.checked) {
+        tr = tr.connect(lowpass);
+      }
+      if (hpfcheck.checked) {
+        tr = tr.connect(highpass);
+      }
+      if (bpfcheck.checked) {
+        tr = tr.connect(bandpass);
+      }
+      if (lsfcheck.checked) {
+        tr = tr.connect(lowshelf);
+      }
+      if (hsfcheck.checked) {
+        tr = tr.connect(highshelf);
+      }
+      if (pfcheck.checked) {
+        tr = tr.connect(peaking);
+      }
+      if (nfcheck.checked) {
+        tr = tr.connect(notch);
+      }
+      if (apfcheck.checked) {
+        tr = tr.connect(allpass);
+      }
+      tr = tr.connect(analyser2);
+      tr.connect(destination);
+      console.error(tr.context);
+    }
 
     // FILTERS CHECKBOXES
-
     lpfcheck.addEventListener(
       'change',
       function() {
-        /*if(lpfcheck.checked === true){
-              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
-          } else{
-              changedtrack.disconnect(lowpass);
-          }*/
-        track.disconnect();
-        //changedtrack.disconnect(destination);
+        console.error(lpfcheck.checked);
+        reconnectFilters();
       },
       false
     );
@@ -633,12 +878,8 @@ export class PlayerComponent implements OnInit {
     hpfcheck.addEventListener(
       'change',
       function() {
-        /*if(lpfcheck.checked === true){
-              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
-          } else{
-              changedtrack.disconnect(lowpass);
-          }*/
-        changedtrack.disconnect(highpass);
+        console.error(hpfcheck.checked);
+        reconnectFilters();
       },
       false
     );
@@ -646,12 +887,8 @@ export class PlayerComponent implements OnInit {
     bpfcheck.addEventListener(
       'change',
       function() {
-        /*if(lpfcheck.checked === true){
-              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
-          } else{
-              changedtrack.disconnect(lowpass);
-          }*/
-        changedtrack.disconnect(bandpass);
+        console.error(bpfcheck.checked);
+        reconnectFilters();
       },
       false
     );
@@ -659,12 +896,8 @@ export class PlayerComponent implements OnInit {
     lsfcheck.addEventListener(
       'change',
       function() {
-        /*if(lpfcheck.checked === true){
-              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
-          } else{
-              changedtrack.disconnect(lowpass);
-          }*/
-        changedtrack.disconnect(lowshelf);
+        console.error(lsfcheck.checked);
+        reconnectFilters();
       },
       false
     );
@@ -672,12 +905,8 @@ export class PlayerComponent implements OnInit {
     hsfcheck.addEventListener(
       'change',
       function() {
-        /*if(lpfcheck.checked === true){
-              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
-          } else{
-              changedtrack.disconnect(lowpass);
-          }*/
-        changedtrack.disconnect(highshelf);
+        console.error(hsfcheck.checked);
+        reconnectFilters();
       },
       false
     );
@@ -685,12 +914,8 @@ export class PlayerComponent implements OnInit {
     pfcheck.addEventListener(
       'change',
       function() {
-        /*if(lpfcheck.checked === true){
-              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
-          } else{
-              changedtrack.disconnect(lowpass);
-          }*/
-        changedtrack.disconnect(peaking);
+        console.error(pfcheck.checked);
+        reconnectFilters();
       },
       false
     );
@@ -698,12 +923,8 @@ export class PlayerComponent implements OnInit {
     nfcheck.addEventListener(
       'change',
       function() {
-        /*if(lpfcheck.checked === true){
-              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
-          } else{
-              changedtrack.disconnect(lowpass);
-          }*/
-        changedtrack.disconnect(notch);
+        console.error(nfcheck.checked);
+        reconnectFilters();
       },
       false
     );
@@ -711,12 +932,8 @@ export class PlayerComponent implements OnInit {
     apfcheck.addEventListener(
       'change',
       function() {
-        /*if(lpfcheck.checked === true){
-              changedtrack.disconnect(destination).connect(lowpass).connect(destination);
-          } else{
-              changedtrack.disconnect(lowpass);
-          }*/
-        changedtrack.disconnect(allpass);
+        console.error(apfcheck.checked);
+        reconnectFilters();
       },
       false
     );
