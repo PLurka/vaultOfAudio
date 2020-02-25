@@ -126,7 +126,7 @@ export class PlayerComponent implements OnInit {
 
     const resetButton = document.getElementById('resetButton');
 
-    const resetFilterButton = document.getElementById('resetFilterButton');
+    const resetFiltersButton = document.getElementById('resetFiltersButton');
 
     let slider = <HTMLInputElement>document.getElementById('time-slider');
 
@@ -748,6 +748,73 @@ export class PlayerComponent implements OnInit {
         eightEq.gain.value = '0';
         ninthEq.gain.value = '0';
         tenthEq.gain.value = '0';
+      },
+      false
+    );
+
+    resetFiltersButton.addEventListener(
+      'click',
+      function() {
+        lpfcheck.checked = false;
+        lowpass.frequency.value = 20000;
+        lpffreqi.valueAsNumber = 20000;
+        lpffreq.valueAsNumber = 20000;
+        lowpass.Q.value = 0;
+        lpfpeaki.valueAsNumber = 0;
+        lpfpeak.valueAsNumber = 0;
+        hpfcheck.checked = false;
+        highpass.frequency.value = 0;
+        hpffreqi.valueAsNumber = 0;
+        hpffreq.valueAsNumber = 0;
+        highpass.Q.value = 0;
+        hpfpeaki.valueAsNumber = 0;
+        hpfpeak.valueAsNumber = 0;
+        bpfcheck.checked = false;
+        bandpass.frequency.value = 0;
+        bpffreqi.valueAsNumber = 0;
+        bpffreq.valueAsNumber = 0;
+        bandpass.Q.value = 0;
+        bpfbandsizei.valueAsNumber = 0;
+        bpfbandsize.valueAsNumber = 0;
+        lsfcheck.checked = false;
+        lowshelf.frequency.value = 0;
+        lsffreqi.valueAsNumber = 0;
+        lsffreq.valueAsNumber = 0;
+        lowshelf.gain.value = 0;
+        lsfgaini.valueAsNumber = 0;
+        lsfgain.valueAsNumber = 0;
+        hsfcheck.checked = false;
+        highshelf.frequency.value = 0;
+        hsffreqi.valueAsNumber = 0;
+        hsffreq.valueAsNumber = 0;
+        highshelf.gain.value = 0;
+        hsfgaini.valueAsNumber = 0;
+        hsfgain.valueAsNumber = 0;
+        pfcheck.checked = false;
+        peaking.frequency.value = 0;
+        pffreqi.valueAsNumber = 0;
+        pffreq.valueAsNumber = 0;
+        peaking.gain.value = 0;
+        pfgaini.valueAsNumber = 0;
+        pfgain.valueAsNumber = 0;
+        peaking.Q.value = 0;
+        pfbandsizei.valueAsNumber = 0;
+        pfbandsize.valueAsNumber = 0;
+        nfcheck.checked = false;
+        notch.frequency.value = 0;
+        nffreqi.valueAsNumber = 0;
+        nffreq.valueAsNumber = 0;
+        notch.Q.value = 0;
+        nfbandsizei.valueAsNumber = 0;
+        nfbandsize.valueAsNumber = 0;
+        apfcheck.checked = false;
+        allpass.frequency.value = 0;
+        apffreqi.valueAsNumber = 0;
+        apffreq.valueAsNumber = 0;
+        allpass.Q.value = 0;
+        apfpeaki.valueAsNumber = 0;
+        apfpeak.valueAsNumber = 0;
+        reconnectFilters();
       },
       false
     );
