@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AudioService } from '../services/audio/audio.service';
 import { CloudService } from '../services/cloud.service';
 import { StreamState } from '../interfaces/stream-state';
-import { EqualizerSettingComponent } from 'app/entities/equalizer-setting';
 
 @Component({
   selector: 'jhi-player',
@@ -16,9 +15,151 @@ export class PlayerComponent implements OnInit {
   currentFile: any = {};
   fileToUpload: File = null;
   visualization: boolean;
-  equalizerSettingComponent: EqualizerSettingComponent;
 
   audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
+  // get the audio element
+  audioElement = this.audioService.getElement();
+
+  // pass it into the audio context
+  track = this.audioCtx.createMediaElementSource(this.audioElement);
+
+  gainNode = this.audioCtx.createGain();
+
+  volumeControl = document.querySelector('#volume');
+
+  pannerOptions = { pan: 0 };
+  panner = new StereoPannerNode(this.audioCtx, this.pannerOptions);
+
+  pannerControl = document.querySelector('#panner');
+
+  audioFile = document.getElementById('file');
+
+  resetButton = document.getElementById('resetButton');
+
+  resetFiltersButton = document.getElementById('resetFiltersButton');
+
+  slider = <HTMLInputElement>document.getElementById('time-slider');
+
+  //CREATION OF EQUALIZER FILTERS
+  firstEq = this.audioCtx.createBiquadFilter();
+  secondEq = this.audioCtx.createBiquadFilter();
+  thirdEq = this.audioCtx.createBiquadFilter();
+  fourthEq = this.audioCtx.createBiquadFilter();
+  fifthEq = this.audioCtx.createBiquadFilter();
+  sixthEq = this.audioCtx.createBiquadFilter();
+  seventhEq = this.audioCtx.createBiquadFilter();
+  eightEq = this.audioCtx.createBiquadFilter();
+  ninthEq = this.audioCtx.createBiquadFilter();
+  tenthEq = this.audioCtx.createBiquadFilter();
+
+  //ASSIGNING  EQ CONTROLS
+  firstEqControl = <HTMLInputElement>document.getElementById('31');
+  secondEqControl = <HTMLInputElement>document.getElementById('62');
+  thirdEqControl = <HTMLInputElement>document.getElementById('125');
+  fourthEqControl = <HTMLInputElement>document.getElementById('250');
+  fifthEqControl = <HTMLInputElement>document.getElementById('500');
+  sixthEqControl = <HTMLInputElement>document.getElementById('1k');
+  seventhEqControl = <HTMLInputElement>document.getElementById('2k');
+  eightEqControl = <HTMLInputElement>document.getElementById('4k');
+  ninthEqControl = <HTMLInputElement>document.getElementById('8k');
+  tenthEqControl = <HTMLInputElement>document.getElementById('16k');
+  eqChooser = <HTMLSelectElement>document.getElementById('equalizers');
+
+  //CREATION OF BIQUAD FILTERS
+  lowpass = this.audioCtx.createBiquadFilter();
+  highpass = this.audioCtx.createBiquadFilter();
+  bandpass = this.audioCtx.createBiquadFilter();
+  lowshelf = this.audioCtx.createBiquadFilter();
+  highshelf = this.audioCtx.createBiquadFilter();
+  peaking = this.audioCtx.createBiquadFilter();
+  notch = this.audioCtx.createBiquadFilter();
+  allpass = this.audioCtx.createBiquadFilter();
+
+  //ASSIGNING BIQUAD FILTERS CONTROLS
+  lpffreq = <HTMLInputElement>document.getElementById('lpffreq');
+  lpffreqi = <HTMLInputElement>document.getElementById('lpffreqi');
+  lpfpeak = <HTMLInputElement>document.getElementById('lpfpeak');
+  lpfpeaki = <HTMLInputElement>document.getElementById('lpfpeaki');
+  lpfcheck = <HTMLInputElement>document.getElementById('lpfcheck');
+
+  hpffreq = <HTMLInputElement>document.getElementById('hpffreq');
+  hpffreqi = <HTMLInputElement>document.getElementById('hpffreqi');
+  hpfpeak = <HTMLInputElement>document.getElementById('hpfpeak');
+  hpfpeaki = <HTMLInputElement>document.getElementById('hpfpeaki');
+  hpfcheck = <HTMLInputElement>document.getElementById('hpfcheck');
+
+  bpffreq = <HTMLInputElement>document.getElementById('bpffreq');
+  bpffreqi = <HTMLInputElement>document.getElementById('bpffreqi');
+  bpfbandsize = <HTMLInputElement>document.getElementById('bpfbandsize');
+  bpfbandsizei = <HTMLInputElement>document.getElementById('bpfbandsizei');
+  bpfcheck = <HTMLInputElement>document.getElementById('bpfcheck');
+
+  lsffreq = <HTMLInputElement>document.getElementById('lsffreq');
+  lsffreqi = <HTMLInputElement>document.getElementById('lsffreqi');
+  lsfgain = <HTMLInputElement>document.getElementById('lsfgain');
+  lsfgaini = <HTMLInputElement>document.getElementById('lsfgaini');
+  lsfcheck = <HTMLInputElement>document.getElementById('lsfcheck');
+
+  hsffreq = <HTMLInputElement>document.getElementById('hsffreq');
+  hsffreqi = <HTMLInputElement>document.getElementById('hsffreqi');
+  hsfgain = <HTMLInputElement>document.getElementById('hsfgain');
+  hsfgaini = <HTMLInputElement>document.getElementById('hsfgaini');
+  hsfcheck = <HTMLInputElement>document.getElementById('hsfcheck');
+
+  pffreq = <HTMLInputElement>document.getElementById('pffreq');
+  pffreqi = <HTMLInputElement>document.getElementById('pffreqi');
+  pfgain = <HTMLInputElement>document.getElementById('pfgain');
+  pfgaini = <HTMLInputElement>document.getElementById('pfgaini');
+  pfbandsize = <HTMLInputElement>document.getElementById('pfbandsize');
+  pfbandsizei = <HTMLInputElement>document.getElementById('pfbandsizei');
+  pfcheck = <HTMLInputElement>document.getElementById('pfcheck');
+
+  nffreq = <HTMLInputElement>document.getElementById('nffreq');
+  nffreqi = <HTMLInputElement>document.getElementById('nffreqi');
+  nfbandsize = <HTMLInputElement>document.getElementById('nfbandsize');
+  nfbandsizei = <HTMLInputElement>document.getElementById('nfbandsizei');
+  nfcheck = <HTMLInputElement>document.getElementById('nfcheck');
+
+  apffreq = <HTMLInputElement>document.getElementById('apffreq');
+  apffreqi = <HTMLInputElement>document.getElementById('apffreqi');
+  apfpeak = <HTMLInputElement>document.getElementById('apfsharpness');
+  apfpeaki = <HTMLInputElement>document.getElementById('apfsharpnessi');
+  apfcheck = <HTMLInputElement>document.getElementById('apfcheck');
+
+  filterChooser = <HTMLSelectElement>document.getElementById('filters');
+
+  analyser2 = this.audioCtx.createAnalyser();
+  canvas2 = document.getElementById('canvas2') as HTMLCanvasElement;
+  canvas2Ctx = this.canvas2.getContext('2d');
+
+  // DRAW FUNCTION
+  draw2() {
+    this.analyser2.fftSize = 256;
+    let bufferLength = this.analyser2.frequencyBinCount;
+    let dataArray = new Uint8Array(bufferLength);
+
+    this.canvas2Ctx.clearRect(0, 0, this.canvas2.width, this.canvas2.height);
+
+    requestAnimationFrame(this.draw2);
+
+    this.analyser2.getByteFrequencyData(dataArray);
+
+    this.canvas2Ctx.fillStyle = 'rgb(50, 50, 50)';
+    this.canvas2Ctx.fillRect(0, 0, this.canvas2.width, this.canvas2.height);
+
+    let barWidth = (this.canvas2.width / bufferLength) * 2.5;
+    let barHeight;
+    let x = 0;
+
+    for (let i = 0; i < bufferLength; i++) {
+      barHeight = dataArray[i];
+
+      this.canvas2Ctx.fillStyle = 'rgb(' + (barHeight / 2 + 80) + ',50,' + (barHeight / 2 + 80) + ')';
+      this.canvas2Ctx.fillRect(x, this.canvas2.height - barHeight / 2, barWidth, barHeight);
+
+      x += barWidth + 1;
+    }
+  }
 
   constructor(public audioService: AudioService, public cloudService: CloudService) {
     // get media files
@@ -109,216 +250,64 @@ export class PlayerComponent implements OnInit {
 
   ngOnInit() {
     this.visualization = true;
-    // get the audio element
-    let audioElement = this.audioService.getElement();
 
-    // pass it into the audio context
-    let track = this.audioCtx.createMediaElementSource(audioElement);
+    // CONFIGURING EQ FILTERS
+    this.firstEq.type = 'lowshelf';
+    this.firstEq.frequency.value = 31.0;
+    this.firstEq.gain.value = 1.0;
 
-    const gainNode = this.audioCtx.createGain();
+    this.secondEq.type = 'peaking';
+    this.secondEq.frequency.value = 62.0;
+    this.secondEq.gain.value = 1.0;
 
-    const volumeControl = document.querySelector('#volume');
+    this.thirdEq.type = 'peaking';
+    this.thirdEq.frequency.value = 125.0;
+    this.thirdEq.gain.value = 1.0;
 
-    const pannerOptions = { pan: 0 };
-    const panner = new StereoPannerNode(this.audioCtx, pannerOptions);
+    this.fourthEq.type = 'peaking';
+    this.fourthEq.frequency.value = 250.0;
+    this.fourthEq.gain.value = 1.0;
 
-    const pannerControl = document.querySelector('#panner');
+    this.fifthEq.type = 'peaking';
+    this.fifthEq.frequency.value = 500.0;
+    this.fifthEq.gain.value = 1.0;
 
-    const audioFile = document.getElementById('file');
+    this.sixthEq.type = 'peaking';
+    this.sixthEq.frequency.value = 1000.0;
+    this.sixthEq.gain.value = 1.0;
 
-    const resetButton = document.getElementById('resetButton');
+    this.seventhEq.type = 'peaking';
+    this.seventhEq.frequency.value = 2000.0;
+    this.seventhEq.gain.value = 1.0;
 
-    const resetFiltersButton = document.getElementById('resetFiltersButton');
+    this.eightEq.type = 'peaking';
+    this.eightEq.frequency.value = 4000.0;
+    this.eightEq.gain.value = 1.0;
 
-    let slider = <HTMLInputElement>document.getElementById('time-slider');
+    this.ninthEq.type = 'peaking';
+    this.ninthEq.frequency.value = 8000.0;
+    this.ninthEq.gain.value = 1.0;
 
-    //CREATION OF EQUALIZER FILTERS
-    let firstEq = this.audioCtx.createBiquadFilter();
-    firstEq.type = 'lowshelf';
-    firstEq.frequency.value = 31.0;
-    firstEq.gain.value = 1.0;
+    this.tenthEq.type = 'highshelf';
+    this.tenthEq.frequency.value = 16000.0;
+    this.tenthEq.gain.value = 1.0;
 
-    let secondEq = this.audioCtx.createBiquadFilter();
-    secondEq.type = 'peaking';
-    secondEq.frequency.value = 62.0;
-    secondEq.gain.value = 1.0;
+    // SETTING OF BIQUAD FILTERS
 
-    let thirdEq = this.audioCtx.createBiquadFilter();
-    thirdEq.type = 'peaking';
-    thirdEq.frequency.value = 125.0;
-    thirdEq.gain.value = 1.0;
-
-    let fourthEq = this.audioCtx.createBiquadFilter();
-    fourthEq.type = 'peaking';
-    fourthEq.frequency.value = 250.0;
-    fourthEq.gain.value = 1.0;
-
-    let fifthEq = this.audioCtx.createBiquadFilter();
-    fifthEq.type = 'peaking';
-    fifthEq.frequency.value = 500.0;
-    fifthEq.gain.value = 1.0;
-
-    let sixthEq = this.audioCtx.createBiquadFilter();
-    sixthEq.type = 'peaking';
-    sixthEq.frequency.value = 1000.0;
-    sixthEq.gain.value = 1.0;
-
-    let seventhEq = this.audioCtx.createBiquadFilter();
-    seventhEq.type = 'peaking';
-    seventhEq.frequency.value = 2000.0;
-    seventhEq.gain.value = 1.0;
-
-    let eightEq = this.audioCtx.createBiquadFilter();
-    eightEq.type = 'peaking';
-    eightEq.frequency.value = 4000.0;
-    eightEq.gain.value = 1.0;
-
-    let ninthEq = this.audioCtx.createBiquadFilter();
-    ninthEq.type = 'peaking';
-    ninthEq.frequency.value = 8000.0;
-    ninthEq.gain.value = 1.0;
-
-    let tenthEq = this.audioCtx.createBiquadFilter();
-    tenthEq.type = 'highshelf';
-    tenthEq.frequency.value = 16000.0;
-    tenthEq.gain.value = 1.0;
-
-    let firstEqControl = <HTMLInputElement>document.getElementById('31');
-
-    let secondEqControl = <HTMLInputElement>document.getElementById('62');
-
-    let thirdEqControl = <HTMLInputElement>document.getElementById('125');
-
-    let fourthEqControl = <HTMLInputElement>document.getElementById('250');
-
-    let fifthEqControl = <HTMLInputElement>document.getElementById('500');
-
-    let sixthEqControl = <HTMLInputElement>document.getElementById('1k');
-
-    let seventhEqControl = <HTMLInputElement>document.getElementById('2k');
-
-    let eightEqControl = <HTMLInputElement>document.getElementById('4k');
-
-    let ninthEqControl = <HTMLInputElement>document.getElementById('8k');
-
-    let tenthEqControl = <HTMLInputElement>document.getElementById('16k');
-
-    let eqChooser = <HTMLSelectElement>document.getElementById('equalizers');
-
-    // CREATION OF ALL OTHER FILTERS
-    let lowpass = this.audioCtx.createBiquadFilter();
-    lowpass.type = 'lowpass';
-
-    let highpass = this.audioCtx.createBiquadFilter();
-    highpass.type = 'highpass';
-
-    let bandpass = this.audioCtx.createBiquadFilter();
-    highpass.type = 'bandpass';
-
-    let lowshelf = this.audioCtx.createBiquadFilter();
-    lowshelf.type = 'lowshelf';
-
-    let highshelf = this.audioCtx.createBiquadFilter();
-    highshelf.type = 'highshelf';
-
-    let peaking = this.audioCtx.createBiquadFilter();
-    peaking.type = 'peaking';
-
-    let notch = this.audioCtx.createBiquadFilter();
-    notch.type = 'notch';
-
-    let allpass = this.audioCtx.createBiquadFilter();
-    allpass.type = 'allpass';
-
-    let lpffreq = <HTMLInputElement>document.getElementById('lpffreq');
-    let lpffreqi = <HTMLInputElement>document.getElementById('lpffreqi');
-    let lpfpeak = <HTMLInputElement>document.getElementById('lpfpeak');
-    let lpfpeaki = <HTMLInputElement>document.getElementById('lpfpeaki');
-    let lpfcheck = <HTMLInputElement>document.getElementById('lpfcheck');
-
-    let hpffreq = <HTMLInputElement>document.getElementById('hpffreq');
-    let hpffreqi = <HTMLInputElement>document.getElementById('hpffreqi');
-    let hpfpeak = <HTMLInputElement>document.getElementById('hpfpeak');
-    let hpfpeaki = <HTMLInputElement>document.getElementById('hpfpeaki');
-    let hpfcheck = <HTMLInputElement>document.getElementById('hpfcheck');
-
-    let bpffreq = <HTMLInputElement>document.getElementById('bpffreq');
-    let bpffreqi = <HTMLInputElement>document.getElementById('bpffreqi');
-    let bpfbandsize = <HTMLInputElement>document.getElementById('bpfbandsize');
-    let bpfbandsizei = <HTMLInputElement>document.getElementById('bpfbandsizei');
-    let bpfcheck = <HTMLInputElement>document.getElementById('bpfcheck');
-
-    let lsffreq = <HTMLInputElement>document.getElementById('lsffreq');
-    let lsffreqi = <HTMLInputElement>document.getElementById('lsffreqi');
-    let lsfgain = <HTMLInputElement>document.getElementById('lsfgain');
-    let lsfgaini = <HTMLInputElement>document.getElementById('lsfgaini');
-    let lsfcheck = <HTMLInputElement>document.getElementById('lsfcheck');
-
-    let hsffreq = <HTMLInputElement>document.getElementById('hsffreq');
-    let hsffreqi = <HTMLInputElement>document.getElementById('hsffreqi');
-    let hsfgain = <HTMLInputElement>document.getElementById('hsfgain');
-    let hsfgaini = <HTMLInputElement>document.getElementById('hsfgaini');
-    let hsfcheck = <HTMLInputElement>document.getElementById('hsfcheck');
-
-    let pffreq = <HTMLInputElement>document.getElementById('pffreq');
-    let pffreqi = <HTMLInputElement>document.getElementById('pffreqi');
-    let pfgain = <HTMLInputElement>document.getElementById('pfgain');
-    let pfgaini = <HTMLInputElement>document.getElementById('pfgaini');
-    let pfbandsize = <HTMLInputElement>document.getElementById('pfbandsize');
-    let pfbandsizei = <HTMLInputElement>document.getElementById('pfbandsizei');
-    let pfcheck = <HTMLInputElement>document.getElementById('pfcheck');
-
-    let nffreq = <HTMLInputElement>document.getElementById('nffreq');
-    let nffreqi = <HTMLInputElement>document.getElementById('nffreqi');
-    let nfbandsize = <HTMLInputElement>document.getElementById('nfbandsize');
-    let nfbandsizei = <HTMLInputElement>document.getElementById('nfbandsizei');
-    let nfcheck = <HTMLInputElement>document.getElementById('nfcheck');
-
-    let apffreq = <HTMLInputElement>document.getElementById('apffreq');
-    let apffreqi = <HTMLInputElement>document.getElementById('apffreqi');
-    let apfpeak = <HTMLInputElement>document.getElementById('apfsharpness');
-    let apfpeaki = <HTMLInputElement>document.getElementById('apfsharpnessi');
-    let apfcheck = <HTMLInputElement>document.getElementById('apfcheck');
-
-    let filterChooser = <HTMLSelectElement>document.getElementById('filters');
-
-    let analyser2 = this.audioCtx.createAnalyser();
-    let canvas2 = document.getElementById('canvas2') as HTMLCanvasElement;
-    let canvas2Ctx = canvas2.getContext('2d');
-
-    function draw2() {
-      analyser2.fftSize = 256;
-      let bufferLength = analyser2.frequencyBinCount;
-      let dataArray = new Uint8Array(bufferLength);
-
-      canvas2Ctx.clearRect(0, 0, canvas2.width, canvas2.height);
-
-      requestAnimationFrame(draw2);
-
-      analyser2.getByteFrequencyData(dataArray);
-
-      canvas2Ctx.fillStyle = 'rgb(50, 50, 50)';
-      canvas2Ctx.fillRect(0, 0, canvas2.width, canvas2.height);
-
-      let barWidth = (canvas2.width / bufferLength) * 2.5;
-      let barHeight;
-      let x = 0;
-
-      for (let i = 0; i < bufferLength; i++) {
-        barHeight = dataArray[i];
-
-        canvas2Ctx.fillStyle = 'rgb(' + (barHeight / 2 + 80) + ',50,' + (barHeight / 2 + 80) + ')';
-        canvas2Ctx.fillRect(x, canvas2.height - barHeight / 2, barWidth, barHeight);
-
-        x += barWidth + 1;
-      }
-    }
-
+    this.lowpass.type = 'lowpass';
+    this.highpass.type = 'highpass';
+    this.bandpass.type = 'bandpass';
+    this.lowshelf.type = 'lowshelf';
+    this.highshelf.type = 'highshelf';
+    this.peaking.type = 'peaking';
+    this.notch.type = 'notch';
+    this.allpass.type = 'allpass';
+    var self = this;
     // WYBÓR FILTRA
-    filterChooser.addEventListener(
+    this.filterChooser.addEventListener(
       'input',
       function() {
-        console.error(filterChooser.options[filterChooser.selectedIndex].value.toString());
+        console.error(self.filterChooser.options[self.filterChooser.selectedIndex].value.toString());
         let f1 = document.getElementById('lpf');
         let f2 = document.getElementById('hpf');
         let f3 = document.getElementById('bpf');
@@ -335,511 +324,511 @@ export class PlayerComponent implements OnInit {
         f6.style.display = 'none';
         f7.style.display = 'none';
         f8.style.display = 'none';
-        let selected = document.getElementById(filterChooser.options[filterChooser.selectedIndex].value.toString());
+        let selected = document.getElementById(self.filterChooser.options[self.filterChooser.selectedIndex].value.toString());
         selected.style.display = 'block';
       },
       false
     );
 
     // USTAWIENIA FILTROW
-    lpffreq.addEventListener(
+    this.lpffreq.addEventListener(
       'input',
       function() {
-        lowpass.frequency.value = this.value;
-        lpffreqi.value = this.value;
+        self.lowpass.frequency.value = this.value;
+        self.lpffreqi.value = this.value;
       },
       false
     );
 
-    lpffreqi.addEventListener(
+    this.lpffreqi.addEventListener(
       'input',
       function() {
-        lowpass.frequency.value = this.value;
-        lpffreq.value = this.value;
+        self.lowpass.frequency.value = this.value;
+        self.lpffreq.value = this.value;
       },
       false
     );
 
-    lpfpeak.addEventListener(
+    this.lpfpeak.addEventListener(
       'input',
       function() {
-        lowpass.Q.value = this.value;
-        lpfpeaki.value = this.value;
+        self.lowpass.Q.value = this.value;
+        self.lpfpeaki.value = this.value;
       },
       false
     );
 
-    lpfpeaki.addEventListener(
+    this.lpfpeaki.addEventListener(
       'input',
       function() {
-        lowpass.Q.value = this.value;
-        lpfpeak.value = this.value;
+        self.lowpass.Q.value = this.value;
+        self.lpfpeak.value = this.value;
       },
       false
     );
 
-    hpffreq.addEventListener(
+    this.hpffreq.addEventListener(
       'input',
       function() {
-        highpass.frequency.value = this.value;
-        hpffreqi.value = this.value;
+        self.highpass.frequency.value = this.value;
+        self.hpffreqi.value = this.value;
       },
       false
     );
 
-    hpffreqi.addEventListener(
+    this.hpffreqi.addEventListener(
       'input',
       function() {
-        highpass.frequency.value = this.value;
-        hpffreq.value = this.value;
+        self.highpass.frequency.value = this.value;
+        self.hpffreq.value = this.value;
       },
       false
     );
 
-    hpfpeak.addEventListener(
+    this.hpfpeak.addEventListener(
       'input',
       function() {
-        highpass.Q.value = this.value;
-        hpfpeaki.value = this.value;
+        self.highpass.Q.value = this.value;
+        self.hpfpeaki.value = this.value;
       },
       false
     );
 
-    hpfpeaki.addEventListener(
+    this.hpfpeaki.addEventListener(
       'input',
       function() {
-        highpass.Q.value = this.value;
-        hpfpeak.value = this.value;
+        self.highpass.Q.value = this.value;
+        self.hpfpeak.value = this.value;
       },
       false
     );
 
-    bpffreq.addEventListener(
+    this.bpffreq.addEventListener(
       'input',
       function() {
-        bandpass.frequency.value = this.value;
-        bpffreqi.value = this.value;
+        self.bandpass.frequency.value = this.value;
+        self.bpffreqi.value = this.value;
       },
       false
     );
 
-    bpffreqi.addEventListener(
+    this.bpffreqi.addEventListener(
       'input',
       function() {
-        bandpass.frequency.value = this.value;
-        bpffreq.value = this.value;
+        self.bandpass.frequency.value = this.value;
+        self.bpffreq.value = this.value;
       },
       false
     );
 
-    bpfbandsize.addEventListener(
+    this.bpfbandsize.addEventListener(
       'input',
       function() {
-        bandpass.Q.value = this.value;
-        bpfbandsizei.value = this.value;
+        self.bandpass.Q.value = this.value;
+        self.bpfbandsizei.value = this.value;
       },
       false
     );
 
-    bpfbandsizei.addEventListener(
+    this.bpfbandsizei.addEventListener(
       'input',
       function() {
-        bandpass.Q.value = this.value;
-        bpfbandsize.value = this.value;
+        self.bandpass.Q.value = this.value;
+        self.bpfbandsize.value = this.value;
       },
       false
     );
 
-    lsffreq.addEventListener(
+    this.lsffreq.addEventListener(
       'input',
       function() {
-        lowshelf.frequency.value = this.value;
-        lsffreqi.value = this.value;
+        self.lowshelf.frequency.value = this.value;
+        self.lsffreqi.value = this.value;
       },
       false
     );
 
-    lsffreqi.addEventListener(
+    this.lsffreqi.addEventListener(
       'input',
       function() {
-        lowshelf.frequency.value = this.value;
-        lsffreq.value = this.value;
+        self.lowshelf.frequency.value = this.value;
+        self.lsffreq.value = this.value;
       },
       false
     );
 
-    lsfgain.addEventListener(
+    this.lsfgain.addEventListener(
       'input',
       function() {
-        lowshelf.gain.value = this.value;
-        lsfgaini.value = this.value;
+        self.lowshelf.gain.value = this.value;
+        self.lsfgaini.value = this.value;
       },
       false
     );
 
-    lsfgaini.addEventListener(
+    this.lsfgaini.addEventListener(
       'input',
       function() {
-        lowshelf.gain.value = this.value;
-        lsfgain.value = this.value;
+        self.lowshelf.gain.value = this.value;
+        self.lsfgain.value = this.value;
       },
       false
     );
 
-    hsffreq.addEventListener(
+    this.hsffreq.addEventListener(
       'input',
       function() {
-        highshelf.frequency.value = this.value;
-        hsffreqi.value = this.value;
+        self.highshelf.frequency.value = this.value;
+        self.hsffreqi.value = this.value;
       },
       false
     );
 
-    hsffreqi.addEventListener(
+    this.hsffreqi.addEventListener(
       'input',
       function() {
-        highshelf.frequency.value = this.value;
-        hsffreq.value = this.value;
+        self.highshelf.frequency.value = this.value;
+        self.hsffreq.value = this.value;
       },
       false
     );
 
-    hsfgain.addEventListener(
+    this.hsfgain.addEventListener(
       'input',
       function() {
-        highshelf.gain.value = this.value;
-        hsfgaini.value = this.value;
+        self.highshelf.gain.value = this.value;
+        self.hsfgaini.value = this.value;
       },
       false
     );
 
-    hsfgaini.addEventListener(
+    this.hsfgaini.addEventListener(
       'input',
       function() {
-        highshelf.gain.value = this.value;
-        hsfgain.value = this.value;
+        self.highshelf.gain.value = this.value;
+        self.hsfgain.value = this.value;
       },
       false
     );
 
-    pffreq.addEventListener(
+    this.pffreq.addEventListener(
       'input',
       function() {
-        peaking.frequency.value = this.value;
-        pffreqi.value = this.value;
+        self.peaking.frequency.value = this.value;
+        self.pffreqi.value = this.value;
       },
       false
     );
 
-    pffreqi.addEventListener(
+    this.pffreqi.addEventListener(
       'input',
       function() {
-        peaking.frequency.value = this.value;
-        pffreq.value = this.value;
+        self.peaking.frequency.value = this.value;
+        self.pffreq.value = this.value;
       },
       false
     );
 
-    pfgain.addEventListener(
+    this.pfgain.addEventListener(
       'input',
       function() {
-        peaking.gain.value = this.value;
-        pfgaini.value = this.value;
+        self.peaking.gain.value = this.value;
+        self.pfgaini.value = this.value;
       },
       false
     );
 
-    pfgaini.addEventListener(
+    this.pfgaini.addEventListener(
       'input',
       function() {
-        peaking.gain.value = this.value;
-        pfgain.value = this.value;
+        self.peaking.gain.value = this.value;
+        self.pfgain.value = this.value;
       },
       false
     );
 
-    pfbandsize.addEventListener(
+    this.pfbandsize.addEventListener(
       'input',
       function() {
-        peaking.Q.value = this.value;
-        pfbandsizei.value = this.value;
+        self.peaking.Q.value = this.value;
+        self.pfbandsizei.value = this.value;
       },
       false
     );
 
-    pfbandsizei.addEventListener(
+    this.pfbandsizei.addEventListener(
       'input',
       function() {
-        peaking.Q.value = this.value;
-        pfbandsize.value = this.value;
+        self.peaking.Q.value = this.value;
+        self.pfbandsize.value = this.value;
       },
       false
     );
 
-    nffreq.addEventListener(
+    this.nffreq.addEventListener(
       'input',
       function() {
-        notch.frequency.value = this.value;
-        nffreqi.value = this.value;
+        self.notch.frequency.value = this.value;
+        self.nffreqi.value = this.value;
       },
       false
     );
 
-    nffreqi.addEventListener(
+    this.nffreqi.addEventListener(
       'input',
       function() {
-        notch.frequency.value = this.value;
-        nffreq.value = this.value;
+        self.notch.frequency.value = this.value;
+        self.nffreq.value = this.value;
       },
       false
     );
 
-    nfbandsize.addEventListener(
+    this.nfbandsize.addEventListener(
       'input',
       function() {
-        notch.Q.value = this.value;
-        nfbandsizei.value = this.value;
+        self.notch.Q.value = this.value;
+        self.nfbandsizei.value = this.value;
       },
       false
     );
 
-    nfbandsizei.addEventListener(
+    this.nfbandsizei.addEventListener(
       'input',
       function() {
-        notch.Q.value = this.value;
-        nfbandsize.value = this.value;
+        self.notch.Q.value = this.value;
+        self.nfbandsize.value = this.value;
       },
       false
     );
 
-    apffreq.addEventListener(
+    this.apffreq.addEventListener(
       'input',
       function() {
-        allpass.frequency.value = this.value;
-        apffreqi.value = this.value;
+        self.allpass.frequency.value = this.value;
+        self.apffreqi.value = this.value;
       },
       false
     );
 
-    apffreqi.addEventListener(
+    this.apffreqi.addEventListener(
       'input',
       function() {
-        allpass.frequency.value = this.value;
-        apffreq.value = this.value;
+        self.allpass.frequency.value = this.value;
+        self.apffreq.value = this.value;
       },
       false
     );
 
-    apfpeak.addEventListener(
+    this.apfpeak.addEventListener(
       'input',
       function() {
-        allpass.Q.value = this.value;
-        apfpeaki.value = this.value;
+        self.allpass.Q.value = this.value;
+        self.apfpeaki.value = this.value;
       },
       false
     );
 
-    apfpeaki.addEventListener(
+    this.apfpeaki.addEventListener(
       'input',
       function() {
-        allpass.Q.value = this.value;
-        apfpeak.value = this.value;
+        self.allpass.Q.value = this.value;
+        self.apfpeak.value = this.value;
       },
       false
     );
 
     // USTAWIENIA SUWAKOW EQ
-    firstEqControl.addEventListener(
+    this.firstEqControl.addEventListener(
       'input',
       function() {
-        firstEq.gain.value = this.value;
+        self.firstEq.gain.value = this.value;
       },
       false
     );
 
-    secondEqControl.addEventListener(
+    this.secondEqControl.addEventListener(
       'input',
       function() {
-        secondEq.gain.value = this.value;
+        self.secondEq.gain.value = this.value;
       },
       false
     );
 
-    thirdEqControl.addEventListener(
+    this.thirdEqControl.addEventListener(
       'input',
       function() {
-        thirdEq.gain.value = this.value;
+        self.thirdEq.gain.value = this.value;
       },
       false
     );
 
-    fourthEqControl.addEventListener(
+    this.fourthEqControl.addEventListener(
       'input',
       function() {
-        fourthEq.gain.value = this.value;
+        self.fourthEq.gain.value = this.value;
       },
       false
     );
 
-    fifthEqControl.addEventListener(
+    this.fifthEqControl.addEventListener(
       'input',
       function() {
-        fifthEq.gain.value = this.value;
+        self.fifthEq.gain.value = this.value;
       },
       false
     );
 
-    sixthEqControl.addEventListener(
+    this.sixthEqControl.addEventListener(
       'input',
       function() {
-        sixthEq.gain.value = this.value;
+        self.sixthEq.gain.value = this.value;
       },
       false
     );
 
-    seventhEqControl.addEventListener(
+    this.seventhEqControl.addEventListener(
       'input',
       function() {
-        seventhEq.gain.value = this.value;
+        self.seventhEq.gain.value = this.value;
       },
       false
     );
 
-    eightEqControl.addEventListener(
+    this.eightEqControl.addEventListener(
       'input',
       function() {
-        eightEq.gain.value = this.value;
+        self.eightEq.gain.value = this.value;
       },
       false
     );
 
-    ninthEqControl.addEventListener(
+    this.ninthEqControl.addEventListener(
       'input',
       function() {
-        ninthEq.gain.value = this.value;
+        self.ninthEq.gain.value = this.value;
       },
       false
     );
 
-    tenthEqControl.addEventListener(
+    this.tenthEqControl.addEventListener(
       'input',
       function() {
-        tenthEq.gain.value = this.value;
+        self.tenthEq.gain.value = this.value;
       },
       false
     );
 
-    resetButton.addEventListener(
+    this.resetButton.addEventListener(
       'click',
       function() {
-        firstEqControl.value = '0';
-        secondEqControl.value = '0';
-        thirdEqControl.value = '0';
-        fourthEqControl.value = '0';
-        fifthEqControl.value = '0';
-        sixthEqControl.value = '0';
-        seventhEqControl.value = '0';
-        eightEqControl.value = '0';
-        ninthEqControl.value = '0';
-        tenthEqControl.value = '0';
-        firstEq.gain.value = '0';
-        secondEq.gain.value = '0';
-        thirdEq.gain.value = '0';
-        fourthEq.gain.value = '0';
-        fifthEq.gain.value = '0';
-        sixthEq.gain.value = '0';
-        seventhEq.gain.value = '0';
-        eightEq.gain.value = '0';
-        ninthEq.gain.value = '0';
-        tenthEq.gain.value = '0';
+        self.firstEqControl.value = '0';
+        self.secondEqControl.value = '0';
+        self.thirdEqControl.value = '0';
+        self.fourthEqControl.value = '0';
+        self.fifthEqControl.value = '0';
+        self.sixthEqControl.value = '0';
+        self.seventhEqControl.value = '0';
+        self.eightEqControl.value = '0';
+        self.ninthEqControl.value = '0';
+        self.tenthEqControl.value = '0';
+        self.firstEq.gain.value = '0';
+        self.secondEq.gain.value = '0';
+        self.thirdEq.gain.value = '0';
+        self.fourthEq.gain.value = '0';
+        self.fifthEq.gain.value = '0';
+        self.sixthEq.gain.value = '0';
+        self.seventhEq.gain.value = '0';
+        self.eightEq.gain.value = '0';
+        self.ninthEq.gain.value = '0';
+        self.tenthEq.gain.value = '0';
       },
       false
     );
 
-    resetFiltersButton.addEventListener(
+    this.resetFiltersButton.addEventListener(
       'click',
       function() {
-        lpfcheck.checked = false;
-        lowpass.frequency.value = 20000;
-        lpffreqi.valueAsNumber = 20000;
-        lpffreq.valueAsNumber = 20000;
-        lowpass.Q.value = 0;
-        lpfpeaki.valueAsNumber = 0;
-        lpfpeak.valueAsNumber = 0;
-        hpfcheck.checked = false;
-        highpass.frequency.value = 0;
-        hpffreqi.valueAsNumber = 0;
-        hpffreq.valueAsNumber = 0;
-        highpass.Q.value = 0;
-        hpfpeaki.valueAsNumber = 0;
-        hpfpeak.valueAsNumber = 0;
-        bpfcheck.checked = false;
-        bandpass.frequency.value = 0;
-        bpffreqi.valueAsNumber = 0;
-        bpffreq.valueAsNumber = 0;
-        bandpass.Q.value = 0;
-        bpfbandsizei.valueAsNumber = 0;
-        bpfbandsize.valueAsNumber = 0;
-        lsfcheck.checked = false;
-        lowshelf.frequency.value = 0;
-        lsffreqi.valueAsNumber = 0;
-        lsffreq.valueAsNumber = 0;
-        lowshelf.gain.value = 0;
-        lsfgaini.valueAsNumber = 0;
-        lsfgain.valueAsNumber = 0;
-        hsfcheck.checked = false;
-        highshelf.frequency.value = 0;
-        hsffreqi.valueAsNumber = 0;
-        hsffreq.valueAsNumber = 0;
-        highshelf.gain.value = 0;
-        hsfgaini.valueAsNumber = 0;
-        hsfgain.valueAsNumber = 0;
-        pfcheck.checked = false;
-        peaking.frequency.value = 0;
-        pffreqi.valueAsNumber = 0;
-        pffreq.valueAsNumber = 0;
-        peaking.gain.value = 0;
-        pfgaini.valueAsNumber = 0;
-        pfgain.valueAsNumber = 0;
-        peaking.Q.value = 0;
-        pfbandsizei.valueAsNumber = 0;
-        pfbandsize.valueAsNumber = 0;
-        nfcheck.checked = false;
-        notch.frequency.value = 0;
-        nffreqi.valueAsNumber = 0;
-        nffreq.valueAsNumber = 0;
-        notch.Q.value = 0;
-        nfbandsizei.valueAsNumber = 0;
-        nfbandsize.valueAsNumber = 0;
-        apfcheck.checked = false;
-        allpass.frequency.value = 0;
-        apffreqi.valueAsNumber = 0;
-        apffreq.valueAsNumber = 0;
-        allpass.Q.value = 0;
-        apfpeaki.valueAsNumber = 0;
-        apfpeak.valueAsNumber = 0;
+        self.lpfcheck.checked = false;
+        self.lowpass.frequency.value = 20000;
+        self.lpffreqi.valueAsNumber = 20000;
+        self.lpffreq.valueAsNumber = 20000;
+        self.lowpass.Q.value = 0;
+        self.lpfpeaki.valueAsNumber = 0;
+        self.lpfpeak.valueAsNumber = 0;
+        self.hpfcheck.checked = false;
+        self.highpass.frequency.value = 0;
+        self.hpffreqi.valueAsNumber = 0;
+        self.hpffreq.valueAsNumber = 0;
+        self.highpass.Q.value = 0;
+        self.hpfpeaki.valueAsNumber = 0;
+        self.hpfpeak.valueAsNumber = 0;
+        self.bpfcheck.checked = false;
+        self.bandpass.frequency.value = 0;
+        self.bpffreqi.valueAsNumber = 0;
+        self.bpffreq.valueAsNumber = 0;
+        self.bandpass.Q.value = 0;
+        self.bpfbandsizei.valueAsNumber = 0;
+        self.bpfbandsize.valueAsNumber = 0;
+        self.lsfcheck.checked = false;
+        self.lowshelf.frequency.value = 0;
+        self.lsffreqi.valueAsNumber = 0;
+        self.lsffreq.valueAsNumber = 0;
+        self.lowshelf.gain.value = 0;
+        self.lsfgaini.valueAsNumber = 0;
+        self.lsfgain.valueAsNumber = 0;
+        self.hsfcheck.checked = false;
+        self.highshelf.frequency.value = 0;
+        self.hsffreqi.valueAsNumber = 0;
+        self.hsffreq.valueAsNumber = 0;
+        self.highshelf.gain.value = 0;
+        self.hsfgaini.valueAsNumber = 0;
+        self.hsfgain.valueAsNumber = 0;
+        self.pfcheck.checked = false;
+        self.peaking.frequency.value = 0;
+        self.pffreqi.valueAsNumber = 0;
+        self.pffreq.valueAsNumber = 0;
+        self.peaking.gain.value = 0;
+        self.pfgaini.valueAsNumber = 0;
+        self.pfgain.valueAsNumber = 0;
+        self.peaking.Q.value = 0;
+        self.pfbandsizei.valueAsNumber = 0;
+        self.pfbandsize.valueAsNumber = 0;
+        self.nfcheck.checked = false;
+        self.notch.frequency.value = 0;
+        self.nffreqi.valueAsNumber = 0;
+        self.nffreq.valueAsNumber = 0;
+        self.notch.Q.value = 0;
+        self.nfbandsizei.valueAsNumber = 0;
+        self.nfbandsize.valueAsNumber = 0;
+        self.apfcheck.checked = false;
+        self.allpass.frequency.value = 0;
+        self.apffreqi.valueAsNumber = 0;
+        self.apffreq.valueAsNumber = 0;
+        self.allpass.Q.value = 0;
+        self.apfpeaki.valueAsNumber = 0;
+        self.apfpeak.valueAsNumber = 0;
         reconnectFilters();
       },
       false
     );
 
-    pannerControl.addEventListener(
+    this.pannerControl.addEventListener(
       'input',
       function() {
-        panner.pan.value = this.value;
+        self.panner.pan.value = this.value;
       },
       false
     );
 
-    volumeControl.addEventListener(
+    this.volumeControl.addEventListener(
       'input',
       function() {
-        gainNode.gain.value = this.value;
+        self.gainNode.gain.value = this.value;
       },
       false
     );
 
-    audioFile.addEventListener(
+    this.audioFile.addEventListener(
       'change',
       function() {
         //console.error('wrzucony plik: ' + audioFile.dir);
@@ -848,20 +837,18 @@ export class PlayerComponent implements OnInit {
       false
     );
 
-    let destination = this.audioCtx.destination;
-
-    let changedtrack = track
-      .connect(gainNode)
-      .connect(panner)
-      .connect(firstEq)
-      .connect(secondEq)
-      .connect(thirdEq)
-      .connect(sixthEq)
-      .connect(seventhEq)
-      .connect(eightEq)
-      .connect(ninthEq)
-      .connect(tenthEq)
-      .connect(analyser2) // COMMENTED OUT AS NOT TO CONNECT ALL FILTERS AT START
+    self.track
+      .connect(self.gainNode)
+      .connect(self.panner)
+      .connect(self.firstEq)
+      .connect(self.secondEq)
+      .connect(self.thirdEq)
+      .connect(self.sixthEq)
+      .connect(self.seventhEq)
+      .connect(self.eightEq)
+      .connect(self.ninthEq)
+      .connect(self.tenthEq)
+      .connect(self.analyser2) // COMMENTED OUT AS NOT TO CONNECT ALL FILTERS AT START
       /*.connect(lowpass)
       .connect(highpass)
       .connect(bandpass)
@@ -870,146 +857,146 @@ export class PlayerComponent implements OnInit {
       .connect(peaking)
       .connect(notch)
       .connect(allpass)*/ .connect(
-        destination
+        self.audioCtx.destination
       );
 
     function reconnectFilters() {
-      track.disconnect();
-      gainNode.disconnect();
-      panner.disconnect();
-      firstEq.disconnect();
-      secondEq.disconnect();
-      thirdEq.disconnect();
-      fourthEq.disconnect();
-      fifthEq.disconnect();
-      sixthEq.disconnect();
-      seventhEq.disconnect();
-      eightEq.disconnect();
-      ninthEq.disconnect();
-      tenthEq.disconnect();
-      lowpass.disconnect();
-      highpass.disconnect();
-      bandpass.disconnect();
-      lowshelf.disconnect();
-      highshelf.disconnect();
-      peaking.disconnect();
-      notch.disconnect();
-      allpass.disconnect();
-      destination.disconnect();
-      let tr = track
-        .connect(gainNode)
-        .connect(panner)
-        .connect(firstEq)
-        .connect(secondEq)
-        .connect(thirdEq)
-        .connect(sixthEq)
-        .connect(seventhEq)
-        .connect(eightEq)
-        .connect(ninthEq)
-        .connect(tenthEq);
-      if (lpfcheck.checked) {
-        tr = tr.connect(lowpass);
+      self.track.disconnect();
+      self.gainNode.disconnect();
+      self.panner.disconnect();
+      self.firstEq.disconnect();
+      self.secondEq.disconnect();
+      self.thirdEq.disconnect();
+      self.fourthEq.disconnect();
+      self.fifthEq.disconnect();
+      self.sixthEq.disconnect();
+      self.seventhEq.disconnect();
+      self.eightEq.disconnect();
+      self.ninthEq.disconnect();
+      self.tenthEq.disconnect();
+      self.lowpass.disconnect();
+      self.highpass.disconnect();
+      self.bandpass.disconnect();
+      self.lowshelf.disconnect();
+      self.highshelf.disconnect();
+      self.peaking.disconnect();
+      self.notch.disconnect();
+      self.allpass.disconnect();
+      self.audioCtx.destination.disconnect();
+      let tr = self.track
+        .connect(self.gainNode)
+        .connect(self.panner)
+        .connect(self.firstEq)
+        .connect(self.secondEq)
+        .connect(self.thirdEq)
+        .connect(self.sixthEq)
+        .connect(self.seventhEq)
+        .connect(self.eightEq)
+        .connect(self.ninthEq)
+        .connect(self.tenthEq);
+      if (self.lpfcheck.checked) {
+        tr = tr.connect(self.lowpass);
       }
-      if (hpfcheck.checked) {
-        tr = tr.connect(highpass);
+      if (self.hpfcheck.checked) {
+        tr = tr.connect(self.highpass);
       }
-      if (bpfcheck.checked) {
-        tr = tr.connect(bandpass);
+      if (self.bpfcheck.checked) {
+        tr = tr.connect(self.bandpass);
       }
-      if (lsfcheck.checked) {
-        tr = tr.connect(lowshelf);
+      if (self.lsfcheck.checked) {
+        tr = tr.connect(self.lowshelf);
       }
-      if (hsfcheck.checked) {
-        tr = tr.connect(highshelf);
+      if (self.hsfcheck.checked) {
+        tr = tr.connect(self.highshelf);
       }
-      if (pfcheck.checked) {
-        tr = tr.connect(peaking);
+      if (self.pfcheck.checked) {
+        tr = tr.connect(self.peaking);
       }
-      if (nfcheck.checked) {
-        tr = tr.connect(notch);
+      if (self.nfcheck.checked) {
+        tr = tr.connect(self.notch);
       }
-      if (apfcheck.checked) {
-        tr = tr.connect(allpass);
+      if (self.apfcheck.checked) {
+        tr = tr.connect(self.allpass);
       }
-      tr = tr.connect(analyser2);
-      tr.connect(destination);
+      tr = tr.connect(self.analyser2);
+      tr.connect(self.audioCtx.destination);
       console.error(tr.context);
     }
 
     // FILTERS CHECKBOXES
-    lpfcheck.addEventListener(
+    this.lpfcheck.addEventListener(
       'change',
       function() {
-        console.error(lpfcheck.checked);
+        console.error(self.lpfcheck.checked);
         reconnectFilters();
       },
       false
     );
 
-    hpfcheck.addEventListener(
+    this.hpfcheck.addEventListener(
       'change',
       function() {
-        console.error(hpfcheck.checked);
+        console.error(self.hpfcheck.checked);
         reconnectFilters();
       },
       false
     );
 
-    bpfcheck.addEventListener(
+    this.bpfcheck.addEventListener(
       'change',
       function() {
-        console.error(bpfcheck.checked);
+        console.error(self.bpfcheck.checked);
         reconnectFilters();
       },
       false
     );
 
-    lsfcheck.addEventListener(
+    this.lsfcheck.addEventListener(
       'change',
       function() {
-        console.error(lsfcheck.checked);
+        console.error(self.lsfcheck.checked);
         reconnectFilters();
       },
       false
     );
 
-    hsfcheck.addEventListener(
+    this.hsfcheck.addEventListener(
       'change',
       function() {
-        console.error(hsfcheck.checked);
+        console.error(self.hsfcheck.checked);
         reconnectFilters();
       },
       false
     );
 
-    pfcheck.addEventListener(
+    this.pfcheck.addEventListener(
       'change',
       function() {
-        console.error(pfcheck.checked);
+        console.error(self.pfcheck.checked);
         reconnectFilters();
       },
       false
     );
 
-    nfcheck.addEventListener(
+    this.nfcheck.addEventListener(
       'change',
       function() {
-        console.error(nfcheck.checked);
+        console.error(self.nfcheck.checked);
         reconnectFilters();
       },
       false
     );
 
-    apfcheck.addEventListener(
+    this.apfcheck.addEventListener(
       'change',
       function() {
-        console.error(apfcheck.checked);
+        console.error(self.apfcheck.checked);
         reconnectFilters();
       },
       false
     );
 
-    draw2();
+    this.draw2();
   }
 
   isFirstPlaying() {
