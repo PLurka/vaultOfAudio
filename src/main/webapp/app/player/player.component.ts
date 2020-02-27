@@ -8,6 +8,8 @@ import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { IEqualizerSetting } from 'app/shared/model/equalizer-setting.model';
 import { EqualizerSettingService } from 'app/entities/equalizer-setting/equalizer-setting.service';
+import { PlaylistService } from 'app/entities/playlist/playlist.service';
+import { IPlaylist } from 'app/shared/model/playlist.model';
 
 @Component({
   selector: 'jhi-player',
@@ -24,6 +26,22 @@ export class PlayerComponent implements OnInit {
 
   audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
   equalizerSettings: IEqualizerSetting[];
+  playlists: IPlaylist[];
+
+  loadPlaylists() {
+    this.playlistService
+      .query()
+      .pipe(
+        filter((res: HttpResponse<IPlaylist[]>) => res.ok),
+        map((res: HttpResponse<IPlaylist[]>) => res.body)
+      )
+      .subscribe(
+        (res: IPlaylist[]) => {
+          this.playlists = res;
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
 
   loadEqSettings() {
     this.equalizerSettingService
@@ -45,6 +63,7 @@ export class PlayerComponent implements OnInit {
   }
 
   constructor(
+    protected playlistService: PlaylistService,
     protected equalizerSettingService: EqualizerSettingService,
     protected jhiAlertService: JhiAlertService,
     public audioService: AudioService,
@@ -344,6 +363,7 @@ export class PlayerComponent implements OnInit {
     }
     const self = this;
     this.loadEqSettings();
+    this.loadPlaylists();
 
     // WYBÓR EQUALIZERA
     eqChooser.addEventListener(
@@ -396,6 +416,7 @@ export class PlayerComponent implements OnInit {
         f8.style.display = 'none';
         let selected = document.getElementById(filterChooser.options[filterChooser.selectedIndex].value.toString());
         selected.style.display = 'block';
+        console.error(self.playlists);
       },
       false
     );

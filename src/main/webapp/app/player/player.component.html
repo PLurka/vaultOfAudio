@@ -14,6 +14,11 @@
             Remove all files
             <mat-icon>clear</mat-icon>
         </button>
+        <label for="playlists">Load playlist:</label>
+        <select id="playlists">
+            <!--<option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>-->
+            <option value="{{playlist.id}}" *ngFor="let playlist of playlists ;trackBy: trackId">{{playlist.listName}}</option>
+        </select>
     </div>
 
     <div class="content">
