@@ -13,6 +13,9 @@ export class AudioService {
   private audioObj = new Audio();
   audioEvents = ['ended', 'error', 'play', 'playing', 'pause', 'timeupdate', 'canplay', 'loadedmetadata', 'loadstart'];
 
+  audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
+  track = this.audioCtx.createMediaElementSource(this.audioObj);
+
   private state: StreamState = {
     playing: false,
     readableCurrentTime: '',
@@ -130,5 +133,9 @@ export class AudioService {
 
   getElement() {
     return this.audioObj;
+  }
+
+  getTrack() {
+    return this.track;
   }
 }

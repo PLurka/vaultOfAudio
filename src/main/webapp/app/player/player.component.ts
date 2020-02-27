@@ -24,7 +24,7 @@ export class PlayerComponent implements OnInit {
   fileToUpload: File = null;
   visualization: boolean;
 
-  audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
+  audioCtx = this.audioService.audioCtx; //new (window['AudioContext'] || window['webkitAudioContext'])();
   equalizerSettings: IEqualizerSetting[];
   playlists: IPlaylist[];
 
@@ -161,7 +161,7 @@ export class PlayerComponent implements OnInit {
     let audioElement = this.audioService.getElement();
 
     // pass it into the audio context
-    let track = this.audioCtx.createMediaElementSource(audioElement);
+    let track = this.audioService.getTrack(); //this.audioCtx.createMediaElementSource(audioElement);
 
     const gainNode = this.audioCtx.createGain();
 
