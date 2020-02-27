@@ -13,7 +13,7 @@ import java.util.Set;
  * A Playlist.
  */
 @Entity
-@Table(name = "playlist")
+@Table(name = "list")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Playlist implements Serializable {
 
