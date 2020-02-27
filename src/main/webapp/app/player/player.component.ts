@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AudioService } from '../services/audio/audio.service';
 import { CloudService } from '../services/cloud.service';
 import { StreamState } from '../interfaces/stream-state';
+import { EqualizerSettingComponent } from 'app/entities/equalizer-setting';
 
 @Component({
   selector: 'jhi-player',
@@ -15,6 +16,7 @@ export class PlayerComponent implements OnInit {
   currentFile: any = {};
   fileToUpload: File = null;
   visualization: boolean;
+  equalizerSettingComponent: EqualizerSettingComponent;
 
   audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
 
@@ -200,6 +202,8 @@ export class PlayerComponent implements OnInit {
     let ninthEqControl = <HTMLInputElement>document.getElementById('8k');
 
     let tenthEqControl = <HTMLInputElement>document.getElementById('16k');
+
+    let eqChooser = <HTMLSelectElement>document.getElementById('equalizers');
 
     // CREATION OF ALL OTHER FILTERS
     let lowpass = this.audioCtx.createBiquadFilter();
