@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AudioService } from '../services/audio/audio.service';
 import { CloudService } from '../services/cloud.service';
 import { StreamState } from '../interfaces/stream-state';
-import { EqualizerSettingComponent } from 'app/entities/equalizer-setting';
+
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { filter, map } from 'rxjs/operators';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { IEqualizerSetting } from 'app/shared/model/equalizer-setting.model';
+import { EqualizerSettingService } from 'app/entities/equalizer-setting/equalizer-setting.service';
 
 @Component({
   selector: 'jhi-player',
@@ -16,11 +21,35 @@ export class PlayerComponent implements OnInit {
   currentFile: any = {};
   fileToUpload: File = null;
   visualization: boolean;
-  equalizerSettingComponent: EqualizerSettingComponent;
 
   audioCtx = new (window['AudioContext'] || window['webkitAudioContext'])();
+  equalizerSettings: IEqualizerSetting[];
 
-  constructor(public audioService: AudioService, public cloudService: CloudService) {
+  loadEqSettings() {
+    this.equalizerSettingService
+      .query()
+      .pipe(
+        filter((res: HttpResponse<IEqualizerSetting[]>) => res.ok),
+        map((res: HttpResponse<IEqualizerSetting[]>) => res.body)
+      )
+      .subscribe(
+        (res: IEqualizerSetting[]) => {
+          this.equalizerSettings = res;
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
+  }
+
+  protected onError(errorMessage: string) {
+    this.jhiAlertService.error(errorMessage, null, null);
+  }
+
+  constructor(
+    protected equalizerSettingService: EqualizerSettingService,
+    protected jhiAlertService: JhiAlertService,
+    public audioService: AudioService,
+    public cloudService: CloudService
+  ) {
     // get media files
     cloudService.getFiles().subscribe(files => {
       this.files = files;
@@ -313,6 +342,36 @@ export class PlayerComponent implements OnInit {
         x += barWidth + 1;
       }
     }
+    const self = this;
+    this.loadEqSettings();
+
+    // WYBÓR EQUALIZERA
+    eqChooser.addEventListener(
+      'input',
+      function() {
+        firstEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].first.toString();
+        secondEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].second.toString();
+        thirdEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].third.toString();
+        fourthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].fourth.toString();
+        fifthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].fifth.toString();
+        sixthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].sixth.toString();
+        seventhEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].seventh.toString();
+        eightEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].eight.toString();
+        ninthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].ninth.toString();
+        tenthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].tenth.toString();
+        firstEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].first.toString();
+        secondEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].second.toString();
+        thirdEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].third.toString();
+        fourthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].fourth.toString();
+        fifthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].fifth.toString();
+        sixthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].sixth.toString();
+        seventhEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].seventh.toString();
+        eightEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].eight.toString();
+        ninthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].ninth.toString();
+        tenthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].tenth.toString();
+      },
+      false
+    );
 
     // WYBÓR FILTRA
     filterChooser.addEventListener(
@@ -732,6 +791,7 @@ export class PlayerComponent implements OnInit {
     resetButton.addEventListener(
       'click',
       function() {
+        eqChooser.selectedIndex = 0;
         firstEqControl.value = '0';
         secondEqControl.value = '0';
         thirdEqControl.value = '0';

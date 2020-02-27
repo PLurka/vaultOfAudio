@@ -89,7 +89,7 @@
         <label for="equalizers">Choose preset:</label>
 
         <select id="equalizers">
-            <!--<option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettingComponent.equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>-->
+            <option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>
         </select>
 
         <div class="equalizer">
