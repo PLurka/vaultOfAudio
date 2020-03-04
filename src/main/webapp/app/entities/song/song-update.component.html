@@ -78,7 +78,13 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.song.songDescription" for="field_songFile">Song File</label>
+                    <input type="file" name="songFile" id="field_songFile"/>
+                </div>
+
             </div>
+
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
                     <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>

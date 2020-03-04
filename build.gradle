@@ -208,7 +208,11 @@ repositories {
 dependencies {
     // import JHipster dependencies BOM
     implementation platform("io.github.jhipster:jhipster-dependencies:${jhipster_dependencies_version}" )
-
+	
+	// my FTP dependencies
+	implementation "commons-net:commons-net:3.6"
+	testImplementation "org.mockftpserver:MockFtpServer:2.7.1"
+	
     // Use ", version: jhipster_dependencies_version, changing: true" if you want
     // to use a SNAPSHOT release instead of a stable release
     implementation group: "io.github.jhipster", name: "jhipster-framework"
