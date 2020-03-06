@@ -79,8 +79,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.song.songDescription" for="field_songFile">Song File</label>
-                    <input type="file" name="songFile" id="field_songFile"/>
+                    <label class="form-control-label" for="field_songFile">Song File</label>
+                    <input type="file" name="songFile" id="field_songFile" (change)="selectFile($event)"/>
+
+                    <button type="button" id="save-file" class="btn btn-primary" [disabled]="!selectedFiles" (click)="upload()">
+                        <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save to FTP</span>
+                    </button>
+
+                    <button type="button" class="btn btn-primary" style="margin-left: 10px" (click)="downloadFile()">View File</button>
                 </div>
 
             </div>

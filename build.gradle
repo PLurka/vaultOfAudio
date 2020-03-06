@@ -211,6 +211,8 @@ dependencies {
 	
 	// my FTP dependencies
 	implementation "commons-net:commons-net:3.6"
+	implementation "commons-io:commons-io"
+	implementation "commons-fileupload:commons-fileupload:1.4"
 	testImplementation "org.mockftpserver:MockFtpServer:2.7.1"
 	
     // Use ", version: jhipster_dependencies_version, changing: true" if you want

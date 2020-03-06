@@ -1,6 +1,7 @@
 package com.lurka.voa.web.ftp;
 
 import org.apache.commons.net.PrintCommandListener;
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
@@ -25,7 +26,7 @@ public class LocalFtpClient {
         this.password = password;
     }
 
-    void open() throws IOException {
+    public void open() throws IOException {
         ftp = new FTPClient();
 
         ftp.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
@@ -40,31 +41,32 @@ public class LocalFtpClient {
         ftp.login(user, password);
     }
 
-    void close() throws IOException {
+    public void close() throws IOException {
         ftp.disconnect();
     }
 
-    Collection<String> listFiles(String path) throws IOException {
+    public Collection<String> listFiles(String path) throws IOException {
         FTPFile[] files = ftp.listFiles(path);
         return Arrays.stream(files)
             .map(FTPFile::getName)
             .collect(Collectors.toList());
     }
 
-    void downloadFile(String source, String destination) throws IOException {
+    public void downloadFile(String source, String destination) throws IOException {
         FileOutputStream out = new FileOutputStream(destination);
         ftp.retrieveFile(source, out);
     }
 
-    void putFileToPath(File file, String path) throws IOException {
+    public void putFileToPath(File file, String path) throws IOException {
+        ftp.setFileType(FTP.BINARY_FILE_TYPE);
         ftp.storeFile(path, new FileInputStream(file));
     }
 
-    void renameFile(String from, String to) throws IOException{
+    public void renameFile(String from, String to) throws IOException{
         ftp.rename(from, to);
     }
 
-    boolean deleteFile(String pathname) throws IOException{
+    public boolean deleteFile(String pathname) throws IOException{
         return ftp.deleteFile(pathname);
     }
 }

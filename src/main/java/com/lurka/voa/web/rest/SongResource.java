@@ -2,6 +2,7 @@ package com.lurka.voa.web.rest;
 
 import com.lurka.voa.domain.Song;
 import com.lurka.voa.repository.SongRepository;
+import com.lurka.voa.web.ftp.LocalFtpClient;
 import com.lurka.voa.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -9,13 +10,27 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +39,14 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
+//@CrossOrigin(origins = "http://localhost:4200")
+//@Controller
 public class SongResource {
+
+    List<String> files = new ArrayList<String>();
+//    private final Path rootLocation = Paths.get("_Path_To_Save_The_File");
+    private final Path rootLocation = Paths.get("/downloaded/");
+    private LocalFtpClient localFTPClient;
 
     private final Logger log = LoggerFactory.getLogger(SongResource.class);
 
@@ -37,6 +59,45 @@ public class SongResource {
 
     public SongResource(SongRepository songRepository) {
         this.songRepository = songRepository;
+    }
+
+
+    /**
+     * {@code POST  /savefile} : Uploads a file to FTP.
+     *
+     * @param file the file to upload.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new song, or with status {@code 400 (Bad Request)} if the song has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PostMapping("/songs/savefile")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        String message = "";
+        try {
+            try {
+                localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
+                localFTPClient.open();
+                File ftpFile = new File(System.getProperty("java.io.tmpdir") + "/" + file.getOriginalFilename());
+                FileOutputStream fos = new FileOutputStream( ftpFile );
+                fos.write(file.getBytes());
+                fos.close();
+                localFTPClient.putFileToPath(ftpFile, "/" + file.getOriginalFilename());
+            } catch (Exception e) {
+                throw new RuntimeException("FAIL!" + " EXCEPTION IS: " + e.getMessage());
+            }
+            files.add(file.getOriginalFilename());
+
+            message += "Successfully uploaded!";
+            localFTPClient.close();
+            return ResponseEntity.status(HttpStatus.OK).body(message);
+        } catch (Exception e) {
+            message += " Failed to upload! File is: " + file.getOriginalFilename();
+            try {
+                localFTPClient.close();
+            } catch (Exception ex){
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message + " exception is: " + ex.getMessage());
+            }
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message + " exception is: " + e.getMessage());
+        }
     }
 
     /**

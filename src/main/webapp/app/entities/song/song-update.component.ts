@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -13,6 +13,13 @@ import { SongService } from './song.service';
 export class SongUpdateComponent implements OnInit {
   isSaving: boolean;
 
+  title = 'File-Upload-Save';
+  selectedFiles: FileList;
+  currentFileUpload: File;
+  progress: { percentage: number } = { percentage: 0 };
+  selectedFile = null;
+  changeImage = false;
+
   editForm = this.fb.group({
     id: [],
     songName: [null, [Validators.required, Validators.maxLength(200)]],
@@ -24,6 +31,41 @@ export class SongUpdateComponent implements OnInit {
   });
 
   constructor(protected songService: SongService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+
+  downloadFile() {
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', '_File_Saved_Path');
+    link.setAttribute('download', 'file_name.pdf');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  change($event) {
+    this.changeImage = true;
+  }
+
+  changedImage(event) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  upload() {
+    this.progress.percentage = 0;
+    this.currentFileUpload = this.selectedFiles.item(0);
+    this.songService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
+      if (event.type == HttpEventType.UploadProgress) {
+        this.progress.percentage = Math.round((100 * event.loaded) / event.total);
+      } else if (event instanceof HttpResponse) {
+        alert('File Successfully Uploaded');
+      }
+      this.selectedFile = undefined;
+    });
+  }
+
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+  }
 
   ngOnInit() {
     this.isSaving = false;
