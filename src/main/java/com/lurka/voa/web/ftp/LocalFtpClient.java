@@ -57,6 +57,11 @@ public class LocalFtpClient {
         ftp.retrieveFile(source, out);
     }
 
+    public void downloadToFile(String source, File destination) throws IOException {
+        FileOutputStream out = new FileOutputStream(destination);
+        ftp.retrieveFile(source, out);
+    }
+
     public void putFileToPath(File file, String path) throws IOException {
         ftp.setFileType(FTP.BINARY_FILE_TYPE);
         ftp.storeFile(path, new FileInputStream(file));

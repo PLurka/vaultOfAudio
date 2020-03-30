@@ -7,11 +7,14 @@ import com.lurka.voa.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +23,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.validation.Valid;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -163,6 +167,49 @@ public class SongResource {
         log.debug("REST request to get Song : {}", id);
         Optional<Song> song = songRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(song);
+    }
+
+    @PostMapping("/songs/file/{path}")
+    public byte[] getSongFile(@PathVariable String path) {
+        log.debug("REST request to get Song File : {}", path);
+        String message = "";
+        File songFile = new File("processedFile.mp3");
+        try {
+            try {
+                localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
+                localFTPClient.open();
+                localFTPClient.downloadToFile(path, songFile);
+            } catch (Exception e) {
+                throw new RuntimeException("FAIL!" + " EXCEPTION IS: " + e.getMessage());
+            }
+            message += "Successfully downloaded!";
+            localFTPClient.close();
+            log.debug(ResponseEntity.status(HttpStatus.OK).body(message).toString());
+        } catch (Exception e) {
+            message += " Failed to download! File is: " + path;
+            try {
+                localFTPClient.close();
+            } catch (Exception ex){
+                log.debug(ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message + " exception is: " + ex.getMessage()).toString());
+            }
+            log.debug(ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message + " exception is: " + e.getMessage()).toString());
+        }
+        try {
+            // DiskFileItem fileItem = new DiskFileItem("file", Files.probeContentType(songFile.toPath()), false, songFile.getName(), (int) songFile.length(), songFile.getParentFile());
+            // FileItem fileItem = new DiskFileItemFactory().createItem("file", Files.probeContentType(songFile.toPath()), false, songFile.getName());
+            // fileItem.getOutputStream();
+            byte[] bytesArray = new byte[(int) songFile.length()];
+
+            FileInputStream fis = new FileInputStream(songFile);
+            fis.read(bytesArray); //read file into bytes[]
+            fis.close();
+            // MultipartFile mpf = new MockMultipartFile("file", songFile.getName(), Files.probeContentType(songFile.toPath()), IOUtils.toByteArray(input));
+            log.debug("ALL WELL bytesArray RETURNED");
+            return bytesArray;
+        } catch (Exception ex){
+            log.error(ex.toString());
+        }
+        return null;
     }
 
     /**

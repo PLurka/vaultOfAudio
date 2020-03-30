@@ -61,6 +61,15 @@ public class LocalFtpClientIT {
     }
 
     @Test
+    public void givenRemoteFile_whenDownloading_thenItIsInTheFileVariable() throws IOException {
+        File downloaded = new File("downloaded_buz.txt");
+        localFtpClient.downloadToFile("/buz.txt", downloaded);
+        assert(downloaded).exists();
+        downloaded.delete(); // cleanup
+        //Files.deleteIfExists(downloaded.toPath());
+    }
+
+    @Test
     public void givenLocalFile_whenUploadingIt_thenItExistsOnRemoteLocation()
         throws URISyntaxException, IOException {
         File file = new File("E:/ftp_upload.txt");

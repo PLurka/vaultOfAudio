@@ -10,6 +10,8 @@ import { IEqualizerSetting } from 'app/shared/model/equalizer-setting.model';
 import { EqualizerSettingService } from 'app/entities/equalizer-setting/equalizer-setting.service';
 import { PlaylistService } from 'app/entities/playlist/playlist.service';
 import { IPlaylist } from 'app/shared/model/playlist.model';
+import { SongService } from 'app/entities/song';
+import { Song } from 'app/shared/model/song.model';
 
 @Component({
   selector: 'jhi-player',
@@ -23,6 +25,7 @@ export class PlayerComponent implements OnInit {
   currentFile: any = {};
   fileToUpload: File = null;
   visualization: boolean;
+  fileN: String;
 
   audioCtx = this.audioService.audioCtx; //new (window['AudioContext'] || window['webkitAudioContext'])();
   equalizerSettings: IEqualizerSetting[];
@@ -67,7 +70,8 @@ export class PlayerComponent implements OnInit {
     protected equalizerSettingService: EqualizerSettingService,
     protected jhiAlertService: JhiAlertService,
     public audioService: AudioService,
-    public cloudService: CloudService
+    public cloudService: CloudService,
+    public songService: SongService
   ) {
     // get media files
     cloudService.getFiles().subscribe(files => {
@@ -95,16 +99,57 @@ export class PlayerComponent implements OnInit {
     this.cloudService.removeAll();
   }
 
+  loadAll(path: String) {
+    /*this.songService.pullFileFromStorage(path).subscribe(
+          res => {
+              var reader = res.body.getReader();
+          },
+          /!*data => {
+              console.log(data);
+              if(data.partialText){
+                  console.error("filePath: " + data.partialText);
+                  this.filePath = data.partialText;
+
+              }
+          },*!/ err => {
+              alert("Error to perform the regression");
+              console.error(err);
+          }
+      );*/
+    this.songService.pullPromiseFileFromStorage(path).then(blob => {
+      let blo = new Blob([blob], { type: 'audio/mp3' });
+      let url = URL.createObjectURL(blob);
+      let name = path;
+      this.cloudService.addFTPFile(blo, url, name);
+    });
+    /*.then((response) => {
+              let blob = new Blob([response.value], {type: 'audio/mp3'});
+              console.error('blob: ' + blob);
+              let url = URL.createObjectURL(blob);
+              this.cloudService.addFTPFile(blob, url);
+          })
+          .catch((error) => {
+              console.error('błąd: ' + error.message);
+          });*/
+  }
+
   playStream(url) {
     this.audioService.playStream(url).subscribe(events => {
       // listening for fun here
+      console.error(events);
+      if (events.type) {
+        if (events.type == 'ended') {
+          this.next();
+        }
+      }
     });
   }
 
   openFile(file, index) {
     this.currentFile = { index, file };
     this.audioService.stop();
-    this.playStream(file.url);
+    if (file.url) this.playStream(file.url);
+    else this.playStream(URL.createObjectURL(file));
   }
 
   pause() {

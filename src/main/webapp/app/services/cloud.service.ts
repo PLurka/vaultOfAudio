@@ -46,6 +46,15 @@ export class CloudService {
     }
   }
 
+  addFTPFile(blob: Blob, url: String, name: String) {
+    this.files.push({
+      url: url,
+      name: name,
+      artist: 'unknown',
+      file: blob
+    });
+  }
+
   removeFile(index: number) {
     this.files.splice(index, 1);
   }
