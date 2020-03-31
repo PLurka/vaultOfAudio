@@ -169,7 +169,7 @@ public class SongResource {
         return ResponseUtil.wrapOrNotFound(song);
     }
 
-    @PostMapping("/songs/file/{path}")
+    @GetMapping("/songs/file/{path}")
     public byte[] getSongFile(@PathVariable String path) {
         log.debug("REST request to get Song File : {}", path);
         String message = "";

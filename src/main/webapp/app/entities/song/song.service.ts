@@ -63,13 +63,13 @@ export class SongService {
 
   pullPromiseFileFromStorage(path: String) {
     const requestOptions = {
-      method: 'POST',
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Authorization:
           'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTU4NTY5MTg5MH0.HKmwPvO8WwZHaojVtmd-i5-z_MIF-F_gggiXbm5bpU0bsQLqZ0SiS4D7jjRvd_gJz2MMPKdonoXU7QQQNqIzwg'
-      },
-      body: JSON.stringify({ word: path })
+      } /*,
+      body: JSON.stringify({ word: path })*/
     };
     return fetch(this.resourceUrl + '/file/' + path, requestOptions).then(
       res => {

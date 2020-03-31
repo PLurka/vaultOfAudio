@@ -136,8 +136,7 @@ export class PlayerComponent implements OnInit {
   playStream(url) {
     this.audioService.playStream(url).subscribe(events => {
       // listening for fun here
-      console.error(events);
-      if (events.type) {
+      if (events.type && this.currentFile.index < this.files.length) {
         if (events.type == 'ended') {
           this.next();
         }
@@ -393,7 +392,7 @@ export class PlayerComponent implements OnInit {
       canvas2Ctx.fillStyle = 'rgb(50, 50, 50)';
       canvas2Ctx.fillRect(0, 0, canvas2.width, canvas2.height);
 
-      let barWidth = (canvas2.width / bufferLength) * 2.5;
+      let barWidth = canvas2.width / 156;
       let barHeight;
       let x = 0;
 
