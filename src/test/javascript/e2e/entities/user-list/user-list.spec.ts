@@ -40,6 +40,14 @@ describe('UserList e2e test', () => {
 
     await userListComponentsPage.clickOnCreateButton();
     await promise.all([userListUpdatePage.playlistSelectLastOption(), userListUpdatePage.userSelectLastOption()]);
+    const selectedCreatedBy = userListUpdatePage.getCreatedByInput();
+    if (await selectedCreatedBy.isSelected()) {
+      await userListUpdatePage.getCreatedByInput().click();
+      expect(await userListUpdatePage.getCreatedByInput().isSelected(), 'Expected createdBy not to be selected').to.be.false;
+    } else {
+      await userListUpdatePage.getCreatedByInput().click();
+      expect(await userListUpdatePage.getCreatedByInput().isSelected(), 'Expected createdBy to be selected').to.be.true;
+    }
     await userListUpdatePage.save();
     expect(await userListUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

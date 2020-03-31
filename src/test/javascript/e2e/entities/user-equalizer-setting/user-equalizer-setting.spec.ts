@@ -47,6 +47,14 @@ describe('UserEqualizerSetting e2e test', () => {
       userEqualizerSettingUpdatePage.equalizerSettingSelectLastOption(),
       userEqualizerSettingUpdatePage.userSelectLastOption()
     ]);
+    const selectedCreatedBy = userEqualizerSettingUpdatePage.getCreatedByInput();
+    if (await selectedCreatedBy.isSelected()) {
+      await userEqualizerSettingUpdatePage.getCreatedByInput().click();
+      expect(await userEqualizerSettingUpdatePage.getCreatedByInput().isSelected(), 'Expected createdBy not to be selected').to.be.false;
+    } else {
+      await userEqualizerSettingUpdatePage.getCreatedByInput().click();
+      expect(await userEqualizerSettingUpdatePage.getCreatedByInput().isSelected(), 'Expected createdBy to be selected').to.be.true;
+    }
     await userEqualizerSettingUpdatePage.save();
     expect(await userEqualizerSettingUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

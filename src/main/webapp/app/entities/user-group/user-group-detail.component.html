@@ -5,6 +5,18 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="vaultOfAudioApp.userGroup.createdBy">Created By</span></dt>
+                <dd>
+                    <span>{{userGroup.createdBy}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.userGroup.groupAccepted">Group Accepted</span></dt>
+                <dd>
+                    <span>{{userGroup.groupAccepted}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.userGroup.userAccepted">User Accepted</span></dt>
+                <dd>
+                    <span>{{userGroup.userAccepted}}</span>
+                </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.userGroup.group">Group</span></dt>
                 <dd>
                     <div *ngIf="userGroup.group">

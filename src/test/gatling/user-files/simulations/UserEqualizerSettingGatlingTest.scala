@@ -72,6 +72,7 @@ class UserEqualizerSettingGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
+                , "createdBy":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_userEqualizerSetting_url"))).exitHereIfFailed

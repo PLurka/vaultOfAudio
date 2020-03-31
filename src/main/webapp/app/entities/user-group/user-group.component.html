@@ -18,6 +18,9 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="vaultOfAudioApp.userGroup.createdBy">Created By</span></th>
+            <th><span jhiTranslate="vaultOfAudioApp.userGroup.groupAccepted">Group Accepted</span></th>
+            <th><span jhiTranslate="vaultOfAudioApp.userGroup.userAccepted">User Accepted</span></th>
             <th><span jhiTranslate="vaultOfAudioApp.userGroup.group">Group</span></th>
             <th><span jhiTranslate="vaultOfAudioApp.userGroup.user">User</span></th>
             <th></th>
@@ -26,6 +29,9 @@
             <tbody>
             <tr *ngFor="let userGroup of userGroups ;trackBy: trackId">
                 <td><a [routerLink]="['/user-group', userGroup.id, 'view' ]">{{userGroup.id}}</a></td>
+                <td>{{userGroup.createdBy}}</td>
+                <td>{{userGroup.groupAccepted}}</td>
+                <td>{{userGroup.userAccepted}}</td>
                 <td>
                     <div *ngIf="userGroup.group">
                         <a [routerLink]="['/group', userGroup.group?.id, 'view' ]" >{{userGroup.group?.id}}</a>

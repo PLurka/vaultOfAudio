@@ -72,6 +72,9 @@ class UserGroupGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
+                , "createdBy":null
+                , "groupAccepted":null
+                , "userAccepted":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_userGroup_url"))).exitHereIfFailed

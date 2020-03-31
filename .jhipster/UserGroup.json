@@ -1,6 +1,19 @@
 {
     "name": "UserGroup",
-    "fields": [],
+    "fields": [
+        {
+            "fieldName": "createdBy",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "groupAccepted",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "userAccepted",
+            "fieldType": "Boolean"
+        }
+    ],
     "relationships": [
         {
             "relationshipType": "many-to-one",

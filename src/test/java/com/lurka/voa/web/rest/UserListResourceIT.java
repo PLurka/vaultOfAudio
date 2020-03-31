@@ -33,6 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = VaultOfAudioApp.class)
 public class UserListResourceIT {
 
+    private static final Boolean DEFAULT_CREATED_BY = false;
+    private static final Boolean UPDATED_CREATED_BY = true;
+
     @Autowired
     private UserListRepository userListRepository;
 
@@ -74,7 +77,8 @@ public class UserListResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static UserList createEntity(EntityManager em) {
-        UserList userList = new UserList();
+        UserList userList = new UserList()
+            .createdBy(DEFAULT_CREATED_BY);
         return userList;
     }
     /**
@@ -84,7 +88,8 @@ public class UserListResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static UserList createUpdatedEntity(EntityManager em) {
-        UserList userList = new UserList();
+        UserList userList = new UserList()
+            .createdBy(UPDATED_CREATED_BY);
         return userList;
     }
 
@@ -108,6 +113,7 @@ public class UserListResourceIT {
         List<UserList> userListList = userListRepository.findAll();
         assertThat(userListList).hasSize(databaseSizeBeforeCreate + 1);
         UserList testUserList = userListList.get(userListList.size() - 1);
+        assertThat(testUserList.isCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
     }
 
     @Test
@@ -140,7 +146,8 @@ public class UserListResourceIT {
         restUserListMockMvc.perform(get("/api/user-lists?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(userList.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(userList.getId().intValue())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.booleanValue())));
     }
     
     @Test
@@ -153,7 +160,8 @@ public class UserListResourceIT {
         restUserListMockMvc.perform(get("/api/user-lists/{id}", userList.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(userList.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(userList.getId().intValue()))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.booleanValue()));
     }
 
     @Test
@@ -176,6 +184,8 @@ public class UserListResourceIT {
         UserList updatedUserList = userListRepository.findById(userList.getId()).get();
         // Disconnect from session so that the updates on updatedUserList are not directly saved in db
         em.detach(updatedUserList);
+        updatedUserList
+            .createdBy(UPDATED_CREATED_BY);
 
         restUserListMockMvc.perform(put("/api/user-lists")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -186,6 +196,7 @@ public class UserListResourceIT {
         List<UserList> userListList = userListRepository.findAll();
         assertThat(userListList).hasSize(databaseSizeBeforeUpdate);
         UserList testUserList = userListList.get(userListList.size() - 1);
+        assertThat(testUserList.isCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
     }
 
     @Test

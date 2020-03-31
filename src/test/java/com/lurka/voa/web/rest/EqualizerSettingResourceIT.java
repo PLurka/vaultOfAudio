@@ -36,45 +36,45 @@ public class EqualizerSettingResourceIT {
     private static final String DEFAULT_EQUALIZER_NAME = "AAAAAAAAAA";
     private static final String UPDATED_EQUALIZER_NAME = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_FIRST = 1;
-    private static final Integer UPDATED_FIRST = 2;
-    private static final Integer SMALLER_FIRST = 1 - 1;
+    private static final Integer DEFAULT_FIRST = -15;
+    private static final Integer UPDATED_FIRST = -14;
+    private static final Integer SMALLER_FIRST = -15 - 1;
 
-    private static final Integer DEFAULT_SECOND = 1;
-    private static final Integer UPDATED_SECOND = 2;
-    private static final Integer SMALLER_SECOND = 1 - 1;
+    private static final Integer DEFAULT_SECOND = -15;
+    private static final Integer UPDATED_SECOND = -14;
+    private static final Integer SMALLER_SECOND = -15 - 1;
 
-    private static final Integer DEFAULT_THIRD = 1;
-    private static final Integer UPDATED_THIRD = 2;
-    private static final Integer SMALLER_THIRD = 1 - 1;
+    private static final Integer DEFAULT_THIRD = -15;
+    private static final Integer UPDATED_THIRD = -14;
+    private static final Integer SMALLER_THIRD = -15 - 1;
 
-    private static final Integer DEFAULT_FOURTH = 1;
-    private static final Integer UPDATED_FOURTH = 2;
-    private static final Integer SMALLER_FOURTH = 1 - 1;
+    private static final Integer DEFAULT_FOURTH = -15;
+    private static final Integer UPDATED_FOURTH = -14;
+    private static final Integer SMALLER_FOURTH = -15 - 1;
 
-    private static final Integer DEFAULT_FIFTH = 1;
-    private static final Integer UPDATED_FIFTH = 2;
-    private static final Integer SMALLER_FIFTH = 1 - 1;
+    private static final Integer DEFAULT_FIFTH = -15;
+    private static final Integer UPDATED_FIFTH = -14;
+    private static final Integer SMALLER_FIFTH = -15 - 1;
 
-    private static final Integer DEFAULT_SIXTH = 1;
-    private static final Integer UPDATED_SIXTH = 2;
-    private static final Integer SMALLER_SIXTH = 1 - 1;
+    private static final Integer DEFAULT_SIXTH = -15;
+    private static final Integer UPDATED_SIXTH = -14;
+    private static final Integer SMALLER_SIXTH = -15 - 1;
 
-    private static final Integer DEFAULT_SEVENTH = 1;
-    private static final Integer UPDATED_SEVENTH = 2;
-    private static final Integer SMALLER_SEVENTH = 1 - 1;
+    private static final Integer DEFAULT_SEVENTH = -15;
+    private static final Integer UPDATED_SEVENTH = -14;
+    private static final Integer SMALLER_SEVENTH = -15 - 1;
 
-    private static final Integer DEFAULT_EIGHT = 1;
-    private static final Integer UPDATED_EIGHT = 2;
-    private static final Integer SMALLER_EIGHT = 1 - 1;
+    private static final Integer DEFAULT_EIGHT = -15;
+    private static final Integer UPDATED_EIGHT = -14;
+    private static final Integer SMALLER_EIGHT = -15 - 1;
 
-    private static final Integer DEFAULT_NINTH = 1;
-    private static final Integer UPDATED_NINTH = 2;
-    private static final Integer SMALLER_NINTH = 1 - 1;
+    private static final Integer DEFAULT_NINTH = -15;
+    private static final Integer UPDATED_NINTH = -14;
+    private static final Integer SMALLER_NINTH = -15 - 1;
 
-    private static final Integer DEFAULT_TENTH = 1;
-    private static final Integer UPDATED_TENTH = 2;
-    private static final Integer SMALLER_TENTH = 1 - 1;
+    private static final Integer DEFAULT_TENTH = -15;
+    private static final Integer UPDATED_TENTH = -14;
+    private static final Integer SMALLER_TENTH = -15 - 1;
 
     @Autowired
     private EqualizerSettingRepository equalizerSettingRepository;

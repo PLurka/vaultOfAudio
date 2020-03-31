@@ -29,42 +29,62 @@ public class EqualizerSetting implements Serializable {
     private String equalizerName;
 
     @NotNull
+    @Min(value = -15)
+    @Max(value = 15)
     @Column(name = "first", nullable = false)
     private Integer first;
 
     @NotNull
+    @Min(value = -15)
+    @Max(value = 15)
     @Column(name = "second", nullable = false)
     private Integer second;
 
     @NotNull
+    @Min(value = -15)
+    @Max(value = 15)
     @Column(name = "third", nullable = false)
     private Integer third;
 
     @NotNull
+    @Min(value = -15)
+    @Max(value = 15)
     @Column(name = "fourth", nullable = false)
     private Integer fourth;
 
     @NotNull
+    @Min(value = -15)
+    @Max(value = 15)
     @Column(name = "fifth", nullable = false)
     private Integer fifth;
 
     @NotNull
+    @Min(value = -15)
+    @Max(value = 15)
     @Column(name = "sixth", nullable = false)
     private Integer sixth;
 
     @NotNull
+    @Min(value = -15)
+    @Max(value = 15)
     @Column(name = "seventh", nullable = false)
     private Integer seventh;
 
     @NotNull
+    @Min(value = -15)
+    @Max(value = 15)
     @Column(name = "eight", nullable = false)
     private Integer eight;
 
     @NotNull
+    @Min(value = -15)
+    @Max(value = 15)
     @Column(name = "ninth", nullable = false)
     private Integer ninth;
 
     @NotNull
+    @Min(value = -15)
+    @Max(value = 15)
     @Column(name = "tenth", nullable = false)
     private Integer tenth;
 

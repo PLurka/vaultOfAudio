@@ -26,11 +26,16 @@ export class UserEqualizerSettingUpdatePage {
   pageTitle = element(by.id('jhi-user-equalizer-setting-heading'));
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
+  createdByInput = element(by.id('field_createdBy'));
   equalizerSettingSelect = element(by.id('field_equalizerSetting'));
   userSelect = element(by.id('field_user'));
 
   async getPageTitle() {
     return this.pageTitle.getAttribute('jhiTranslate');
+  }
+
+  getCreatedByInput(timeout?: number) {
+    return this.createdByInput;
   }
 
   async equalizerSettingSelectLastOption(timeout?: number) {

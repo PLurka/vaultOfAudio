@@ -33,6 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = VaultOfAudioApp.class)
 public class UserEqualizerSettingResourceIT {
 
+    private static final Boolean DEFAULT_CREATED_BY = false;
+    private static final Boolean UPDATED_CREATED_BY = true;
+
     @Autowired
     private UserEqualizerSettingRepository userEqualizerSettingRepository;
 
@@ -74,7 +77,8 @@ public class UserEqualizerSettingResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static UserEqualizerSetting createEntity(EntityManager em) {
-        UserEqualizerSetting userEqualizerSetting = new UserEqualizerSetting();
+        UserEqualizerSetting userEqualizerSetting = new UserEqualizerSetting()
+            .createdBy(DEFAULT_CREATED_BY);
         return userEqualizerSetting;
     }
     /**
@@ -84,7 +88,8 @@ public class UserEqualizerSettingResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static UserEqualizerSetting createUpdatedEntity(EntityManager em) {
-        UserEqualizerSetting userEqualizerSetting = new UserEqualizerSetting();
+        UserEqualizerSetting userEqualizerSetting = new UserEqualizerSetting()
+            .createdBy(UPDATED_CREATED_BY);
         return userEqualizerSetting;
     }
 
@@ -108,6 +113,7 @@ public class UserEqualizerSettingResourceIT {
         List<UserEqualizerSetting> userEqualizerSettingList = userEqualizerSettingRepository.findAll();
         assertThat(userEqualizerSettingList).hasSize(databaseSizeBeforeCreate + 1);
         UserEqualizerSetting testUserEqualizerSetting = userEqualizerSettingList.get(userEqualizerSettingList.size() - 1);
+        assertThat(testUserEqualizerSetting.isCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
     }
 
     @Test
@@ -140,7 +146,8 @@ public class UserEqualizerSettingResourceIT {
         restUserEqualizerSettingMockMvc.perform(get("/api/user-equalizer-settings?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(userEqualizerSetting.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(userEqualizerSetting.getId().intValue())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.booleanValue())));
     }
     
     @Test
@@ -153,7 +160,8 @@ public class UserEqualizerSettingResourceIT {
         restUserEqualizerSettingMockMvc.perform(get("/api/user-equalizer-settings/{id}", userEqualizerSetting.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(userEqualizerSetting.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(userEqualizerSetting.getId().intValue()))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.booleanValue()));
     }
 
     @Test
@@ -176,6 +184,8 @@ public class UserEqualizerSettingResourceIT {
         UserEqualizerSetting updatedUserEqualizerSetting = userEqualizerSettingRepository.findById(userEqualizerSetting.getId()).get();
         // Disconnect from session so that the updates on updatedUserEqualizerSetting are not directly saved in db
         em.detach(updatedUserEqualizerSetting);
+        updatedUserEqualizerSetting
+            .createdBy(UPDATED_CREATED_BY);
 
         restUserEqualizerSettingMockMvc.perform(put("/api/user-equalizer-settings")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -186,6 +196,7 @@ public class UserEqualizerSettingResourceIT {
         List<UserEqualizerSetting> userEqualizerSettingList = userEqualizerSettingRepository.findAll();
         assertThat(userEqualizerSettingList).hasSize(databaseSizeBeforeUpdate);
         UserEqualizerSetting testUserEqualizerSetting = userEqualizerSettingList.get(userEqualizerSettingList.size() - 1);
+        assertThat(testUserEqualizerSetting.isCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
     }
 
     @Test

@@ -21,6 +21,15 @@ public class UserGroup implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "created_by")
+    private Boolean createdBy;
+
+    @Column(name = "group_accepted")
+    private Boolean groupAccepted;
+
+    @Column(name = "user_accepted")
+    private Boolean userAccepted;
+
     @ManyToOne
     @JsonIgnoreProperties("userGroups")
     private Group group;
@@ -36,6 +45,45 @@ public class UserGroup implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean isCreatedBy() {
+        return createdBy;
+    }
+
+    public UserGroup createdBy(Boolean createdBy) {
+        this.createdBy = createdBy;
+        return this;
+    }
+
+    public void setCreatedBy(Boolean createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Boolean isGroupAccepted() {
+        return groupAccepted;
+    }
+
+    public UserGroup groupAccepted(Boolean groupAccepted) {
+        this.groupAccepted = groupAccepted;
+        return this;
+    }
+
+    public void setGroupAccepted(Boolean groupAccepted) {
+        this.groupAccepted = groupAccepted;
+    }
+
+    public Boolean isUserAccepted() {
+        return userAccepted;
+    }
+
+    public UserGroup userAccepted(Boolean userAccepted) {
+        this.userAccepted = userAccepted;
+        return this;
+    }
+
+    public void setUserAccepted(Boolean userAccepted) {
+        this.userAccepted = userAccepted;
     }
 
     public Group getGroup() {
@@ -85,6 +133,9 @@ public class UserGroup implements Serializable {
     public String toString() {
         return "UserGroup{" +
             "id=" + getId() +
+            ", createdBy='" + isCreatedBy() + "'" +
+            ", groupAccepted='" + isGroupAccepted() + "'" +
+            ", userAccepted='" + isUserAccepted() + "'" +
             "}";
     }
 }

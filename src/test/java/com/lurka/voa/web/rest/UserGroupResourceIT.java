@@ -33,6 +33,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = VaultOfAudioApp.class)
 public class UserGroupResourceIT {
 
+    private static final Boolean DEFAULT_CREATED_BY = false;
+    private static final Boolean UPDATED_CREATED_BY = true;
+
+    private static final Boolean DEFAULT_GROUP_ACCEPTED = false;
+    private static final Boolean UPDATED_GROUP_ACCEPTED = true;
+
+    private static final Boolean DEFAULT_USER_ACCEPTED = false;
+    private static final Boolean UPDATED_USER_ACCEPTED = true;
+
     @Autowired
     private UserGroupRepository userGroupRepository;
 
@@ -74,7 +83,10 @@ public class UserGroupResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static UserGroup createEntity(EntityManager em) {
-        UserGroup userGroup = new UserGroup();
+        UserGroup userGroup = new UserGroup()
+            .createdBy(DEFAULT_CREATED_BY)
+            .groupAccepted(DEFAULT_GROUP_ACCEPTED)
+            .userAccepted(DEFAULT_USER_ACCEPTED);
         return userGroup;
     }
     /**
@@ -84,7 +96,10 @@ public class UserGroupResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static UserGroup createUpdatedEntity(EntityManager em) {
-        UserGroup userGroup = new UserGroup();
+        UserGroup userGroup = new UserGroup()
+            .createdBy(UPDATED_CREATED_BY)
+            .groupAccepted(UPDATED_GROUP_ACCEPTED)
+            .userAccepted(UPDATED_USER_ACCEPTED);
         return userGroup;
     }
 
@@ -108,6 +123,9 @@ public class UserGroupResourceIT {
         List<UserGroup> userGroupList = userGroupRepository.findAll();
         assertThat(userGroupList).hasSize(databaseSizeBeforeCreate + 1);
         UserGroup testUserGroup = userGroupList.get(userGroupList.size() - 1);
+        assertThat(testUserGroup.isCreatedBy()).isEqualTo(DEFAULT_CREATED_BY);
+        assertThat(testUserGroup.isGroupAccepted()).isEqualTo(DEFAULT_GROUP_ACCEPTED);
+        assertThat(testUserGroup.isUserAccepted()).isEqualTo(DEFAULT_USER_ACCEPTED);
     }
 
     @Test
@@ -140,7 +158,10 @@ public class UserGroupResourceIT {
         restUserGroupMockMvc.perform(get("/api/user-groups?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(userGroup.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(userGroup.getId().intValue())))
+            .andExpect(jsonPath("$.[*].createdBy").value(hasItem(DEFAULT_CREATED_BY.booleanValue())))
+            .andExpect(jsonPath("$.[*].groupAccepted").value(hasItem(DEFAULT_GROUP_ACCEPTED.booleanValue())))
+            .andExpect(jsonPath("$.[*].userAccepted").value(hasItem(DEFAULT_USER_ACCEPTED.booleanValue())));
     }
     
     @Test
@@ -153,7 +174,10 @@ public class UserGroupResourceIT {
         restUserGroupMockMvc.perform(get("/api/user-groups/{id}", userGroup.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(userGroup.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(userGroup.getId().intValue()))
+            .andExpect(jsonPath("$.createdBy").value(DEFAULT_CREATED_BY.booleanValue()))
+            .andExpect(jsonPath("$.groupAccepted").value(DEFAULT_GROUP_ACCEPTED.booleanValue()))
+            .andExpect(jsonPath("$.userAccepted").value(DEFAULT_USER_ACCEPTED.booleanValue()));
     }
 
     @Test
@@ -176,6 +200,10 @@ public class UserGroupResourceIT {
         UserGroup updatedUserGroup = userGroupRepository.findById(userGroup.getId()).get();
         // Disconnect from session so that the updates on updatedUserGroup are not directly saved in db
         em.detach(updatedUserGroup);
+        updatedUserGroup
+            .createdBy(UPDATED_CREATED_BY)
+            .groupAccepted(UPDATED_GROUP_ACCEPTED)
+            .userAccepted(UPDATED_USER_ACCEPTED);
 
         restUserGroupMockMvc.perform(put("/api/user-groups")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -186,6 +214,9 @@ public class UserGroupResourceIT {
         List<UserGroup> userGroupList = userGroupRepository.findAll();
         assertThat(userGroupList).hasSize(databaseSizeBeforeUpdate);
         UserGroup testUserGroup = userGroupList.get(userGroupList.size() - 1);
+        assertThat(testUserGroup.isCreatedBy()).isEqualTo(UPDATED_CREATED_BY);
+        assertThat(testUserGroup.isGroupAccepted()).isEqualTo(UPDATED_GROUP_ACCEPTED);
+        assertThat(testUserGroup.isUserAccepted()).isEqualTo(UPDATED_USER_ACCEPTED);
     }
 
     @Test

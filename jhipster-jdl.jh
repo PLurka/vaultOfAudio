@@ -1,18 +1,19 @@
 entity EqualizerSetting{
     equalizerName String required minlength(2) maxlength(50),
-    first Integer required,
-    second Integer required,
-    third Integer required,
-    fourth Integer required,
-    fifth Integer required,
-    sixth Integer required,
-    seventh Integer required,
-    eight Integer required,
-    ninth Integer required,
-    tenth Integer required
+    first Integer required min(-15) max(15),
+    second Integer required min(-15) max(15),
+    third Integer required min(-15) max(15),
+    fourth Integer required min(-15) max(15),
+    fifth Integer required min(-15) max(15),
+    sixth Integer required min(-15) max(15),
+    seventh Integer required min(-15) max(15),
+    eight Integer required min(-15) max(15),
+    ninth Integer required min(-15) max(15),
+    tenth Integer required min(-15) max(15)
 }
 
 entity UserEqualizerSetting{
+	createdBy Boolean
 }
 
 entity Song{
@@ -33,6 +34,7 @@ entity Playlist{
 }
 
 entity UserList{
+	createdBy Boolean
 }
 
 entity Group{
@@ -42,6 +44,9 @@ entity Group{
 }
 
 entity UserGroup{
+	createdBy Boolean,
+    groupAccepted Boolean,
+    userAccepted Boolean
 }
 
 entity GroupList{

@@ -16,16 +16,16 @@ export class EqualizerSettingUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     equalizerName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-    first: [null, [Validators.required]],
-    second: [null, [Validators.required]],
-    third: [null, [Validators.required]],
-    fourth: [null, [Validators.required]],
-    fifth: [null, [Validators.required]],
-    sixth: [null, [Validators.required]],
-    seventh: [null, [Validators.required]],
-    eight: [null, [Validators.required]],
-    ninth: [null, [Validators.required]],
-    tenth: [null, [Validators.required]]
+    first: [null, [Validators.required, Validators.min(-15), Validators.max(15)]],
+    second: [null, [Validators.required, Validators.min(-15), Validators.max(15)]],
+    third: [null, [Validators.required, Validators.min(-15), Validators.max(15)]],
+    fourth: [null, [Validators.required, Validators.min(-15), Validators.max(15)]],
+    fifth: [null, [Validators.required, Validators.min(-15), Validators.max(15)]],
+    sixth: [null, [Validators.required, Validators.min(-15), Validators.max(15)]],
+    seventh: [null, [Validators.required, Validators.min(-15), Validators.max(15)]],
+    eight: [null, [Validators.required, Validators.min(-15), Validators.max(15)]],
+    ninth: [null, [Validators.required, Validators.min(-15), Validators.max(15)]],
+    tenth: [null, [Validators.required, Validators.min(-15), Validators.max(15)]]
   });
 
   constructor(

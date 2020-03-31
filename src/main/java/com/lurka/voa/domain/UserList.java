@@ -21,6 +21,9 @@ public class UserList implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "created_by")
+    private Boolean createdBy;
+
     @ManyToOne
     @JsonIgnoreProperties("userLists")
     private Playlist playlist;
@@ -36,6 +39,19 @@ public class UserList implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean isCreatedBy() {
+        return createdBy;
+    }
+
+    public UserList createdBy(Boolean createdBy) {
+        this.createdBy = createdBy;
+        return this;
+    }
+
+    public void setCreatedBy(Boolean createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Playlist getPlaylist() {
@@ -85,6 +101,7 @@ public class UserList implements Serializable {
     public String toString() {
         return "UserList{" +
             "id=" + getId() +
+            ", createdBy='" + isCreatedBy() + "'" +
             "}";
     }
 }

@@ -1,6 +1,11 @@
 {
     "name": "UserList",
-    "fields": [],
+    "fields": [
+        {
+            "fieldName": "createdBy",
+            "fieldType": "Boolean"
+        }
+    ],
     "relationships": [
         {
             "relationshipType": "many-to-one",

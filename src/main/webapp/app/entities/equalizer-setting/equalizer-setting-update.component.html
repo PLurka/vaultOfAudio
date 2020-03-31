@@ -38,6 +38,14 @@
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
+                               *ngIf="editForm.get('first').errors.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: -15 }">
+                            This field should be at least -15.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('first').errors.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 15 }">
+                            This field cannot be more than 15.
+                        </small>
+                        <small class="form-text text-danger"
                             [hidden]="!editForm.get('first')?.errors?.number" jhiTranslate="entity.validation.number">
                             This field should be a number.
                         </small>
@@ -51,6 +59,14 @@
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('second').errors.required" jhiTranslate="entity.validation.required">
                         This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('second').errors.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: -15 }">
+                            This field should be at least -15.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('second').errors.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 15 }">
+                            This field cannot be more than 15.
                         </small>
                         <small class="form-text text-danger"
                             [hidden]="!editForm.get('second')?.errors?.number" jhiTranslate="entity.validation.number">
@@ -68,6 +84,14 @@
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
+                               *ngIf="editForm.get('third').errors.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: -15 }">
+                            This field should be at least -15.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('third').errors.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 15 }">
+                            This field cannot be more than 15.
+                        </small>
+                        <small class="form-text text-danger"
                             [hidden]="!editForm.get('third')?.errors?.number" jhiTranslate="entity.validation.number">
                             This field should be a number.
                         </small>
@@ -81,6 +105,14 @@
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('fourth').errors.required" jhiTranslate="entity.validation.required">
                         This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('fourth').errors.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: -15 }">
+                            This field should be at least -15.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('fourth').errors.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 15 }">
+                            This field cannot be more than 15.
                         </small>
                         <small class="form-text text-danger"
                             [hidden]="!editForm.get('fourth')?.errors?.number" jhiTranslate="entity.validation.number">
@@ -98,6 +130,14 @@
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
+                               *ngIf="editForm.get('fifth').errors.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: -15 }">
+                            This field should be at least -15.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('fifth').errors.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 15 }">
+                            This field cannot be more than 15.
+                        </small>
+                        <small class="form-text text-danger"
                             [hidden]="!editForm.get('fifth')?.errors?.number" jhiTranslate="entity.validation.number">
                             This field should be a number.
                         </small>
@@ -111,6 +151,14 @@
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('sixth').errors.required" jhiTranslate="entity.validation.required">
                         This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('sixth').errors.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: -15 }">
+                            This field should be at least -15.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('sixth').errors.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 15 }">
+                            This field cannot be more than 15.
                         </small>
                         <small class="form-text text-danger"
                             [hidden]="!editForm.get('sixth')?.errors?.number" jhiTranslate="entity.validation.number">
@@ -128,6 +176,14 @@
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
+                               *ngIf="editForm.get('seventh').errors.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: -15 }">
+                            This field should be at least -15.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('seventh').errors.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 15 }">
+                            This field cannot be more than 15.
+                        </small>
+                        <small class="form-text text-danger"
                             [hidden]="!editForm.get('seventh')?.errors?.number" jhiTranslate="entity.validation.number">
                             This field should be a number.
                         </small>
@@ -141,6 +197,14 @@
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('eight').errors.required" jhiTranslate="entity.validation.required">
                         This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('eight').errors.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: -15 }">
+                            This field should be at least -15.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('eight').errors.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 15 }">
+                            This field cannot be more than 15.
                         </small>
                         <small class="form-text text-danger"
                             [hidden]="!editForm.get('eight')?.errors?.number" jhiTranslate="entity.validation.number">
@@ -158,6 +222,14 @@
                         This field is required.
                         </small>
                         <small class="form-text text-danger"
+                               *ngIf="editForm.get('ninth').errors.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: -15 }">
+                            This field should be at least -15.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('ninth').errors.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 15 }">
+                            This field cannot be more than 15.
+                        </small>
+                        <small class="form-text text-danger"
                             [hidden]="!editForm.get('ninth')?.errors?.number" jhiTranslate="entity.validation.number">
                             This field should be a number.
                         </small>
@@ -171,6 +243,14 @@
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('tenth').errors.required" jhiTranslate="entity.validation.required">
                         This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('tenth').errors.min" jhiTranslate="entity.validation.min" [translateValues]="{ min: -15 }">
+                            This field should be at least -15.
+                        </small>
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('tenth').errors.max" jhiTranslate="entity.validation.max" [translateValues]="{ max: 15 }">
+                            This field cannot be more than 15.
                         </small>
                         <small class="form-text text-danger"
                             [hidden]="!editForm.get('tenth')?.errors?.number" jhiTranslate="entity.validation.number">

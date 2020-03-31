@@ -16,6 +16,18 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="created_by" type="boolean">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="group_accepted" type="boolean">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="user_accepted" type="boolean">
+                <constraints nullable="true" />
+            </column>
+
             <column name="group_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -48,6 +60,9 @@
                   separator=";"
                   tableName="user_group">
             <column name="id" type="numeric"/>
+            <column name="created_by" type="boolean"/>
+            <column name="group_accepted" type="boolean"/>
+            <column name="user_accepted" type="boolean"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

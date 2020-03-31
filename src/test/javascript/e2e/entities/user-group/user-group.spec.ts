@@ -40,6 +40,30 @@ describe('UserGroup e2e test', () => {
 
     await userGroupComponentsPage.clickOnCreateButton();
     await promise.all([userGroupUpdatePage.groupSelectLastOption(), userGroupUpdatePage.userSelectLastOption()]);
+    const selectedCreatedBy = userGroupUpdatePage.getCreatedByInput();
+    if (await selectedCreatedBy.isSelected()) {
+      await userGroupUpdatePage.getCreatedByInput().click();
+      expect(await userGroupUpdatePage.getCreatedByInput().isSelected(), 'Expected createdBy not to be selected').to.be.false;
+    } else {
+      await userGroupUpdatePage.getCreatedByInput().click();
+      expect(await userGroupUpdatePage.getCreatedByInput().isSelected(), 'Expected createdBy to be selected').to.be.true;
+    }
+    const selectedGroupAccepted = userGroupUpdatePage.getGroupAcceptedInput();
+    if (await selectedGroupAccepted.isSelected()) {
+      await userGroupUpdatePage.getGroupAcceptedInput().click();
+      expect(await userGroupUpdatePage.getGroupAcceptedInput().isSelected(), 'Expected groupAccepted not to be selected').to.be.false;
+    } else {
+      await userGroupUpdatePage.getGroupAcceptedInput().click();
+      expect(await userGroupUpdatePage.getGroupAcceptedInput().isSelected(), 'Expected groupAccepted to be selected').to.be.true;
+    }
+    const selectedUserAccepted = userGroupUpdatePage.getUserAcceptedInput();
+    if (await selectedUserAccepted.isSelected()) {
+      await userGroupUpdatePage.getUserAcceptedInput().click();
+      expect(await userGroupUpdatePage.getUserAcceptedInput().isSelected(), 'Expected userAccepted not to be selected').to.be.false;
+    } else {
+      await userGroupUpdatePage.getUserAcceptedInput().click();
+      expect(await userGroupUpdatePage.getUserAcceptedInput().isSelected(), 'Expected userAccepted to be selected').to.be.true;
+    }
     await userGroupUpdatePage.save();
     expect(await userGroupUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;
 

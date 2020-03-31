@@ -23,7 +23,7 @@ describe('Service Tests', () => {
       service = injector.get(UserGroupService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new UserGroup(0);
+      elemDefault = new UserGroup(0, false, false, false);
     });
 
     describe('Service methods', () => {
@@ -57,7 +57,14 @@ describe('Service Tests', () => {
       });
 
       it('should update a UserGroup', async () => {
-        const returnedFromService = Object.assign({}, elemDefault);
+        const returnedFromService = Object.assign(
+          {
+            createdBy: true,
+            groupAccepted: true,
+            userAccepted: true
+          },
+          elemDefault
+        );
 
         const expected = Object.assign({}, returnedFromService);
         service
@@ -70,7 +77,14 @@ describe('Service Tests', () => {
       });
 
       it('should return a list of UserGroup', async () => {
-        const returnedFromService = Object.assign({}, elemDefault);
+        const returnedFromService = Object.assign(
+          {
+            createdBy: true,
+            groupAccepted: true,
+            userAccepted: true
+          },
+          elemDefault
+        );
         const expected = Object.assign({}, returnedFromService);
         service
           .query(expected)

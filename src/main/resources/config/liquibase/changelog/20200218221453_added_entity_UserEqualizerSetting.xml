@@ -16,6 +16,10 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="created_by" type="boolean">
+                <constraints nullable="true" />
+            </column>
+
             <column name="equalizer_setting_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -48,6 +52,7 @@
                   separator=";"
                   tableName="user_equalizer_setting">
             <column name="id" type="numeric"/>
+            <column name="created_by" type="boolean"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

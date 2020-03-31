@@ -18,6 +18,7 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="vaultOfAudioApp.userList.createdBy">Created By</span></th>
             <th><span jhiTranslate="vaultOfAudioApp.userList.playlist">Playlist</span></th>
             <th><span jhiTranslate="vaultOfAudioApp.userList.user">User</span></th>
             <th></th>
@@ -26,6 +27,7 @@
             <tbody>
             <tr *ngFor="let userList of userLists ;trackBy: trackId">
                 <td><a [routerLink]="['/user-list', userList.id, 'view' ]">{{userList.id}}</a></td>
+                <td>{{userList.createdBy}}</td>
                 <td>
                     <div *ngIf="userList.playlist">
                         <a [routerLink]="['/playlist', userList.playlist?.id, 'view' ]" >{{userList.playlist?.id}}</a>

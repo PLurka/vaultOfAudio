@@ -16,6 +16,7 @@
       "detail": {
         "title": "User Equalizer Setting"
       },
+      "createdBy": "Created By",
       "equalizerSetting": "Equalizer Setting",
       "user": "User"
     }

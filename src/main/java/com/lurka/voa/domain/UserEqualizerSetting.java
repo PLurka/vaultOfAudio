@@ -21,6 +21,9 @@ public class UserEqualizerSetting implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "created_by")
+    private Boolean createdBy;
+
     @ManyToOne
     @JsonIgnoreProperties("userEqualizerSettings")
     private EqualizerSetting equalizerSetting;
@@ -36,6 +39,19 @@ public class UserEqualizerSetting implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean isCreatedBy() {
+        return createdBy;
+    }
+
+    public UserEqualizerSetting createdBy(Boolean createdBy) {
+        this.createdBy = createdBy;
+        return this;
+    }
+
+    public void setCreatedBy(Boolean createdBy) {
+        this.createdBy = createdBy;
     }
 
     public EqualizerSetting getEqualizerSetting() {
@@ -85,6 +101,7 @@ public class UserEqualizerSetting implements Serializable {
     public String toString() {
         return "UserEqualizerSetting{" +
             "id=" + getId() +
+            ", createdBy='" + isCreatedBy() + "'" +
             "}";
     }
 }

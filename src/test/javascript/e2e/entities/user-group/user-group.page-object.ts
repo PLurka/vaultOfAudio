@@ -26,11 +26,24 @@ export class UserGroupUpdatePage {
   pageTitle = element(by.id('jhi-user-group-heading'));
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
+  createdByInput = element(by.id('field_createdBy'));
+  groupAcceptedInput = element(by.id('field_groupAccepted'));
+  userAcceptedInput = element(by.id('field_userAccepted'));
   groupSelect = element(by.id('field_group'));
   userSelect = element(by.id('field_user'));
 
   async getPageTitle() {
     return this.pageTitle.getAttribute('jhiTranslate');
+  }
+
+  getCreatedByInput(timeout?: number) {
+    return this.createdByInput;
+  }
+  getGroupAcceptedInput(timeout?: number) {
+    return this.groupAcceptedInput;
+  }
+  getUserAcceptedInput(timeout?: number) {
+    return this.userAcceptedInput;
   }
 
   async groupSelectLastOption(timeout?: number) {

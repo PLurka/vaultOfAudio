@@ -24,6 +24,7 @@ export class UserListUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
+    createdBy: [],
     playlist: [],
     user: []
   });
@@ -61,6 +62,7 @@ export class UserListUpdateComponent implements OnInit {
   updateForm(userList: IUserList) {
     this.editForm.patchValue({
       id: userList.id,
+      createdBy: userList.createdBy,
       playlist: userList.playlist,
       user: userList.user
     });
@@ -84,6 +86,7 @@ export class UserListUpdateComponent implements OnInit {
     return {
       ...new UserList(),
       id: this.editForm.get(['id']).value,
+      createdBy: this.editForm.get(['createdBy']).value,
       playlist: this.editForm.get(['playlist']).value,
       user: this.editForm.get(['user']).value
     };

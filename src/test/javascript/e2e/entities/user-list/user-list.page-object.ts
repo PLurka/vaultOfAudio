@@ -26,11 +26,16 @@ export class UserListUpdatePage {
   pageTitle = element(by.id('jhi-user-list-heading'));
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
+  createdByInput = element(by.id('field_createdBy'));
   playlistSelect = element(by.id('field_playlist'));
   userSelect = element(by.id('field_user'));
 
   async getPageTitle() {
     return this.pageTitle.getAttribute('jhiTranslate');
+  }
+
+  getCreatedByInput(timeout?: number) {
+    return this.createdByInput;
   }
 
   async playlistSelectLastOption(timeout?: number) {

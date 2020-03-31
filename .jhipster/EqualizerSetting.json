@@ -16,71 +16,111 @@
             "fieldName": "first",
             "fieldType": "Integer",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": -15,
+            "fieldValidateRulesMax": 15
         },
         {
             "fieldName": "second",
             "fieldType": "Integer",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": -15,
+            "fieldValidateRulesMax": 15
         },
         {
             "fieldName": "third",
             "fieldType": "Integer",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": -15,
+            "fieldValidateRulesMax": 15
         },
         {
             "fieldName": "fourth",
             "fieldType": "Integer",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": -15,
+            "fieldValidateRulesMax": 15
         },
         {
             "fieldName": "fifth",
             "fieldType": "Integer",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": -15,
+            "fieldValidateRulesMax": 15
         },
         {
             "fieldName": "sixth",
             "fieldType": "Integer",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": -15,
+            "fieldValidateRulesMax": 15
         },
         {
             "fieldName": "seventh",
             "fieldType": "Integer",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": -15,
+            "fieldValidateRulesMax": 15
         },
         {
             "fieldName": "eight",
             "fieldType": "Integer",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": -15,
+            "fieldValidateRulesMax": 15
         },
         {
             "fieldName": "ninth",
             "fieldType": "Integer",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": -15,
+            "fieldValidateRulesMax": 15
         },
         {
             "fieldName": "tenth",
             "fieldType": "Integer",
             "fieldValidateRules": [
-                "required"
-            ]
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": -15,
+            "fieldValidateRulesMax": 15
         }
     ],
     "relationships": [

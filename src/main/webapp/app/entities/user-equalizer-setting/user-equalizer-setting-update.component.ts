@@ -24,6 +24,7 @@ export class UserEqualizerSettingUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
+    createdBy: [],
     equalizerSetting: [],
     user: []
   });
@@ -61,6 +62,7 @@ export class UserEqualizerSettingUpdateComponent implements OnInit {
   updateForm(userEqualizerSetting: IUserEqualizerSetting) {
     this.editForm.patchValue({
       id: userEqualizerSetting.id,
+      createdBy: userEqualizerSetting.createdBy,
       equalizerSetting: userEqualizerSetting.equalizerSetting,
       user: userEqualizerSetting.user
     });
@@ -84,6 +86,7 @@ export class UserEqualizerSettingUpdateComponent implements OnInit {
     return {
       ...new UserEqualizerSetting(),
       id: this.editForm.get(['id']).value,
+      createdBy: this.editForm.get(['createdBy']).value,
       equalizerSetting: this.editForm.get(['equalizerSetting']).value,
       user: this.editForm.get(['user']).value
     };

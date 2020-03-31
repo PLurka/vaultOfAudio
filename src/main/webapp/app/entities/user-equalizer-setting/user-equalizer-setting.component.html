@@ -18,6 +18,7 @@
             <thead>
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="vaultOfAudioApp.userEqualizerSetting.createdBy">Created By</span></th>
             <th><span jhiTranslate="vaultOfAudioApp.userEqualizerSetting.equalizerSetting">Equalizer Setting</span></th>
             <th><span jhiTranslate="vaultOfAudioApp.userEqualizerSetting.user">User</span></th>
             <th></th>
@@ -26,6 +27,7 @@
             <tbody>
             <tr *ngFor="let userEqualizerSetting of userEqualizerSettings ;trackBy: trackId">
                 <td><a [routerLink]="['/user-equalizer-setting', userEqualizerSetting.id, 'view' ]">{{userEqualizerSetting.id}}</a></td>
+                <td>{{userEqualizerSetting.createdBy}}</td>
                 <td>
                     <div *ngIf="userEqualizerSetting.equalizerSetting">
                         <a [routerLink]="['/equalizer-setting', userEqualizerSetting.equalizerSetting?.id, 'view' ]" >{{userEqualizerSetting.equalizerSetting?.id}}</a>

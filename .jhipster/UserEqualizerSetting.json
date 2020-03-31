@@ -1,6 +1,6 @@
 {
-    "name": "UserEqualizerSetting",
-    "fields": [],
+    "fluentMethods": true,
+    "clientRootFolder": "",
     "relationships": [
         {
             "relationshipType": "many-to-one",
@@ -17,13 +17,20 @@
             "otherEntityField": "id"
         }
     ],
+    "fields": [
+        {
+            "fieldName": "createdBy",
+            "fieldType": "Boolean"
+        }
+    ],
     "changelogDate": "20200218221453",
-    "entityTableName": "user_equalizer_setting",
     "dto": "no",
-    "pagination": "no",
+    "searchEngine": false,
     "service": "no",
+    "entityTableName": "user_equalizer_setting",
+    "databaseType": "sql",
     "jpaMetamodelFiltering": false,
-    "fluentMethods": true,
-    "clientRootFolder": "",
+    "pagination": "no",
+    "name": "UserEqualizerSetting",
     "applications": "*"
 }

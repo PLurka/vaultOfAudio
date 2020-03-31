@@ -100,37 +100,12 @@ export class PlayerComponent implements OnInit {
   }
 
   loadAll(path: String) {
-    /*this.songService.pullFileFromStorage(path).subscribe(
-          res => {
-              var reader = res.body.getReader();
-          },
-          /!*data => {
-              console.log(data);
-              if(data.partialText){
-                  console.error("filePath: " + data.partialText);
-                  this.filePath = data.partialText;
-
-              }
-          },*!/ err => {
-              alert("Error to perform the regression");
-              console.error(err);
-          }
-      );*/
     this.songService.pullPromiseFileFromStorage(path).then(blob => {
       let blo = new Blob([blob], { type: 'audio/mp3' });
       let url = URL.createObjectURL(blob);
       let name = path;
       this.cloudService.addFTPFile(blo, url, name);
     });
-    /*.then((response) => {
-              let blob = new Blob([response.value], {type: 'audio/mp3'});
-              console.error('blob: ' + blob);
-              let url = URL.createObjectURL(blob);
-              this.cloudService.addFTPFile(blob, url);
-          })
-          .catch((error) => {
-              console.error('błąd: ' + error.message);
-          });*/
   }
 
   playStream(url) {

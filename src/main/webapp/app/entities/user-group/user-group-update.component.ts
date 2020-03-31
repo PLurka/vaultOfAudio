@@ -24,6 +24,9 @@ export class UserGroupUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
+    createdBy: [],
+    groupAccepted: [],
+    userAccepted: [],
     group: [],
     user: []
   });
@@ -61,6 +64,9 @@ export class UserGroupUpdateComponent implements OnInit {
   updateForm(userGroup: IUserGroup) {
     this.editForm.patchValue({
       id: userGroup.id,
+      createdBy: userGroup.createdBy,
+      groupAccepted: userGroup.groupAccepted,
+      userAccepted: userGroup.userAccepted,
       group: userGroup.group,
       user: userGroup.user
     });
@@ -84,6 +90,9 @@ export class UserGroupUpdateComponent implements OnInit {
     return {
       ...new UserGroup(),
       id: this.editForm.get(['id']).value,
+      createdBy: this.editForm.get(['createdBy']).value,
+      groupAccepted: this.editForm.get(['groupAccepted']).value,
+      userAccepted: this.editForm.get(['userAccepted']).value,
       group: this.editForm.get(['group']).value,
       user: this.editForm.get(['user']).value
     };

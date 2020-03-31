@@ -23,7 +23,7 @@ describe('Service Tests', () => {
       service = injector.get(UserEqualizerSettingService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new UserEqualizerSetting(0);
+      elemDefault = new UserEqualizerSetting(0, false);
     });
 
     describe('Service methods', () => {
@@ -57,7 +57,12 @@ describe('Service Tests', () => {
       });
 
       it('should update a UserEqualizerSetting', async () => {
-        const returnedFromService = Object.assign({}, elemDefault);
+        const returnedFromService = Object.assign(
+          {
+            createdBy: true
+          },
+          elemDefault
+        );
 
         const expected = Object.assign({}, returnedFromService);
         service
@@ -70,7 +75,12 @@ describe('Service Tests', () => {
       });
 
       it('should return a list of UserEqualizerSetting', async () => {
-        const returnedFromService = Object.assign({}, elemDefault);
+        const returnedFromService = Object.assign(
+          {
+            createdBy: true
+          },
+          elemDefault
+        );
         const expected = Object.assign({}, returnedFromService);
         service
           .query(expected)

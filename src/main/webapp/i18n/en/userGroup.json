@@ -16,6 +16,9 @@
       "detail": {
         "title": "User Group"
       },
+      "createdBy": "Created By",
+      "groupAccepted": "Group Accepted",
+      "userAccepted": "User Accepted",
       "group": "Group",
       "user": "User"
     }
