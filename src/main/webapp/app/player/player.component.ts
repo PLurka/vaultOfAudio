@@ -111,7 +111,7 @@ export class PlayerComponent implements OnInit {
   playStream(url) {
     this.audioService.playStream(url).subscribe(events => {
       // listening for fun here
-      if (events.type && this.currentFile.index < this.files.length) {
+      if (!this.isLastPlaying() && events.type) {
         if (events.type == 'ended') {
           this.next();
         }

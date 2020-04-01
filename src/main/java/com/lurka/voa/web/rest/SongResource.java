@@ -34,6 +34,7 @@ import org.apache.commons.fileupload.disk.DiskFileItem;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -84,7 +85,9 @@ public class SongResource {
                 FileOutputStream fos = new FileOutputStream( ftpFile );
                 fos.write(file.getBytes());
                 fos.close();
-                localFTPClient.putFileToPath(ftpFile, "/" + file.getOriginalFilename());
+                Long time = new Timestamp(System.currentTimeMillis()).getTime();
+                String stamp = time.toString();
+                localFTPClient.putFileToPath(ftpFile, "/" + stamp + file.getOriginalFilename());
             } catch (Exception e) {
                 throw new RuntimeException("FAIL!" + " EXCEPTION IS: " + e.getMessage());
             }
