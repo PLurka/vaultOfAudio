@@ -10,10 +10,10 @@
     </h2>
     <jhi-alert></jhi-alert>
     <br/>
-    <div class="alert alert-warning" *ngIf="songs?.length === 0">
+    <div class="alert alert-warning" *ngIf="userSongs?.length === 0">
         <span jhiTranslate="vaultOfAudioApp.song.home.notFound">No songs found</span>
     </div>
-    <div class="table-responsive" *ngIf="songs?.length > 0">
+    <div class="table-responsive" *ngIf="userSongs?.length > 0">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -28,30 +28,30 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let song of songs ;trackBy: trackId">
-                <td><a [routerLink]="['/song', song.id, 'view' ]">{{song.id}}</a></td>
-                <td>{{song.songName}}</td>
-                <td>{{song.lyrics}}</td>
-                <td>{{song.authors}}</td>
-                <td>{{song.songMetadata}}</td>
-                <td>{{song.year}}</td>
-                <td>{{song.songDescription}}</td>
+            <tr *ngFor="let song of userSongs ;trackBy: trackId">
+                <td><a [routerLink]="['/song', song.song.id, 'view' ]">{{song.song.id}}</a></td>
+                <td>{{song.song.songName}}</td>
+                <td>{{song.song.lyrics}}</td>
+                <td>{{song.song.authors}}</td>
+                <td>{{song.song.songMetadata}}</td>
+                <td>{{song.song.year}}</td>
+                <td>{{song.song.songDescription}}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
-                                [routerLink]="['/song', song.id, 'view' ]"
+                                [routerLink]="['/song', song.song.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/song', song.id, 'edit']"
+                                [routerLink]="['/song', song.song.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/song', { outlets: { popup: song.id + '/delete'} }]"
+                                [routerLink]="['/song', { outlets: { popup: song.song.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">

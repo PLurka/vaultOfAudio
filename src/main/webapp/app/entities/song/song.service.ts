@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
+import { filter, map } from 'rxjs/operators';
 import { ISong } from 'app/shared/model/song.model';
 
 type EntityResponseType = HttpResponse<ISong>;
@@ -12,8 +13,21 @@ type EntityArrayResponseType = HttpResponse<ISong[]>;
 @Injectable({ providedIn: 'root' })
 export class SongService {
   public resourceUrl = SERVER_API_URL + 'api/songs';
+  jwt: string;
 
-  constructor(protected http: HttpClient, private https: HttpClient) {}
+  constructor(protected http: HttpClient, private https: HttpClient) {
+    this.getJWT()
+      .pipe(
+        filter((res: HttpResponse<string>) => res.ok),
+        map((res: HttpResponse<string>) => res.body)
+      )
+      .subscribe((res: string) => {
+        if (res != undefined) {
+          console.error('getJWT(): ' + res);
+          this.jwt = res;
+        }
+      });
+  }
 
   create(song: ISong): Observable<EntityResponseType> {
     return this.http.post<ISong>(this.resourceUrl, song, { observe: 'response' });
@@ -36,11 +50,29 @@ export class SongService {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  getLogin() {
+    //return this.http.get<String>(`${this.resourceUrl}/mylogin`, { observe: 'response' });
+
+    const newRequest = new HttpRequest('GET', this.resourceUrl + '/mylogin', {
+      reportProgress: true,
+      responseType: 'text'
+    });
+    return this.https.request(newRequest);
+  }
+
+  getJWT() {
+    //return this.http.get<String>(`${this.resourceUrl}/myjwt`, { observe: 'response' });
+
+    const newRequest = new HttpRequest('GET', this.resourceUrl + '/myjwt', {
+      reportProgress: true,
+      responseType: 'text'
+    });
+    return this.https.request(newRequest);
+  }
+
   pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
     const data: FormData = new FormData();
     data.append('file', file);
-
-    //return this.http.post<any>(this.resourceUrl+'/savefile', data, { reportProgress: true });
 
     const newRequest = new HttpRequest('POST', this.resourceUrl + '/savefile', data, {
       reportProgress: true,
@@ -54,8 +86,7 @@ export class SongService {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTU4NTc1OTE1OH0.6uMQP-5K2ORQJXscz_jQlaxc5PNII5Sg6R0z3rFYSluFdcV-qwxcRrwXvoWERySbQ2PTS06av0VM4njUZwic6A'
+        Authorization: 'Bearer ' + this.jwt
       }
     };
     return fetch(this.resourceUrl + '/file/' + path, requestOptions).then(res => {

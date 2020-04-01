@@ -2,6 +2,7 @@ package com.lurka.voa.web.rest;
 
 import com.lurka.voa.domain.Song;
 import com.lurka.voa.repository.SongRepository;
+import com.lurka.voa.security.SecurityUtils;
 import com.lurka.voa.web.ftp.LocalFtpClient;
 import com.lurka.voa.web.rest.errors.BadRequestAlertException;
 
@@ -157,6 +158,19 @@ public class SongResource {
     public List<Song> getAllSongs() {
         log.debug("REST request to get all Songs");
         return songRepository.findAll();
+    }
+
+
+    /** Returns my login */
+    @GetMapping("/songs/mylogin")
+    public String getMyLogin(){
+        return SecurityUtils.getCurrentUserLogin().get();
+    }
+
+    /** Returns my JWT */
+    @GetMapping("/songs/myjwt")
+    public String getMyJWT(){
+        return SecurityUtils.getCurrentUserJWT().get();
     }
 
     /**
