@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity Playlist.
+    -->
+    <changeSet id="20200218221456-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="playlist_id"
+                                 baseTableName="playlist_user"
+                                 constraintName="fk_playlist_user_playlist_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="playlist"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="playlist_user"
+                                 constraintName="fk_playlist_user_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_extra"/>
+        
+        <addForeignKeyConstraint baseColumnNames="playlist_id"
+                                 baseTableName="playlist_song"
+                                 constraintName="fk_playlist_song_playlist_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="playlist"/>
+
+        <addForeignKeyConstraint baseColumnNames="song_id"
+                                 baseTableName="playlist_song"
+                                 constraintName="fk_playlist_song_song_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="song"/>
+        
+        <addForeignKeyConstraint baseColumnNames="created_by_id"
+                                 baseTableName="playlist"
+                                 constraintName="fk_playlist_created_by_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_extra"/>
+
+    </changeSet>
+</databaseChangeLog>

@@ -24,6 +24,8 @@
             <th><span jhiTranslate="vaultOfAudioApp.song.songMetadata">Song Metadata</span></th>
             <th><span jhiTranslate="vaultOfAudioApp.song.year">Year</span></th>
             <th><span jhiTranslate="vaultOfAudioApp.song.songDescription">Song Description</span></th>
+            <th><span jhiTranslate="vaultOfAudioApp.song.user">User</span></th>
+            <th><span jhiTranslate="vaultOfAudioApp.song.createdBy">Created By</span></th>
             <th></th>
             </tr>
             </thead>
@@ -36,6 +38,16 @@
                 <td>{{song.songMetadata}}</td>
                 <td>{{song.year}}</td>
                 <td>{{song.songDescription}}</td>
+                <td>
+                    <span *ngFor="let user of song.users; let last = last">
+                            <a class="form-control-static" [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.id}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
+                    <div *ngIf="song.createdBy">
+                        <a [routerLink]="['/user-extra', song.createdBy?.id, 'view' ]" >{{song.createdBy?.id}}</a>
+                    </div>
+                </td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

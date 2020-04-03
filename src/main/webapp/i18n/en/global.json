@@ -19,6 +19,8 @@
         "userGroup": "User Group",
         "groupList": "Group List",
         "listSong": "List Song",
+        "crowd": "Crowd",
+        "userExtra": "User Extra",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

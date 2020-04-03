@@ -1,4 +1,6 @@
 package com.lurka.voa.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -48,13 +50,21 @@ public class Song implements Serializable {
     @Column(name = "song_description", length = 2000)
     private String songDescription;
 
-    @OneToMany(mappedBy = "song")
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<UserSong> userSongs = new HashSet<>();
+    @JoinTable(name = "song_user",
+               joinColumns = @JoinColumn(name = "song_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    private Set<UserExtra> users = new HashSet<>();
 
-    @OneToMany(mappedBy = "song")
+    @ManyToOne
+    @JsonIgnoreProperties("createdSongs")
+    private UserExtra createdBy;
+
+    @ManyToMany(mappedBy = "songs")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<ListSong> listSongs = new HashSet<>();
+    @JsonIgnore
+    private Set<Playlist> playlists = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -143,54 +153,67 @@ public class Song implements Serializable {
         this.songDescription = songDescription;
     }
 
-    public Set<UserSong> getUserSongs() {
-        return userSongs;
+    public Set<UserExtra> getUsers() {
+        return users;
     }
 
-    public Song userSongs(Set<UserSong> userSongs) {
-        this.userSongs = userSongs;
+    public Song users(Set<UserExtra> userExtras) {
+        this.users = userExtras;
         return this;
     }
 
-    public Song addUserSong(UserSong userSong) {
-        this.userSongs.add(userSong);
-        userSong.setSong(this);
+    public Song addUser(UserExtra userExtra) {
+        this.users.add(userExtra);
+        userExtra.getSongs().add(this);
         return this;
     }
 
-    public Song removeUserSong(UserSong userSong) {
-        this.userSongs.remove(userSong);
-        userSong.setSong(null);
+    public Song removeUser(UserExtra userExtra) {
+        this.users.remove(userExtra);
+        userExtra.getSongs().remove(this);
         return this;
     }
 
-    public void setUserSongs(Set<UserSong> userSongs) {
-        this.userSongs = userSongs;
+    public void setUsers(Set<UserExtra> userExtras) {
+        this.users = userExtras;
     }
 
-    public Set<ListSong> getListSongs() {
-        return listSongs;
+    public UserExtra getCreatedBy() {
+        return createdBy;
     }
 
-    public Song listSongs(Set<ListSong> listSongs) {
-        this.listSongs = listSongs;
+    public Song createdBy(UserExtra userExtra) {
+        this.createdBy = userExtra;
         return this;
     }
 
-    public Song addListSong(ListSong listSong) {
-        this.listSongs.add(listSong);
-        listSong.setSong(this);
+    public void setCreatedBy(UserExtra userExtra) {
+        this.createdBy = userExtra;
+    }
+
+    public Set<Playlist> getPlaylists() {
+        return playlists;
+    }
+
+    public Song playlists(Set<Playlist> playlists) {
+        this.playlists = playlists;
         return this;
     }
 
-    public Song removeListSong(ListSong listSong) {
-        this.listSongs.remove(listSong);
-        listSong.setSong(null);
+    public Song addPlaylist(Playlist playlist) {
+        this.playlists.add(playlist);
+        playlist.getSongs().add(this);
         return this;
     }
 
-    public void setListSongs(Set<ListSong> listSongs) {
-        this.listSongs = listSongs;
+    public Song removePlaylist(Playlist playlist) {
+        this.playlists.remove(playlist);
+        playlist.getSongs().remove(this);
+        return this;
+    }
+
+    public void setPlaylists(Set<Playlist> playlists) {
+        this.playlists = playlists;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

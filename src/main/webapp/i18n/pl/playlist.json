@@ -18,9 +18,10 @@
       },
       "listName": "List Name",
       "listDescription": "List Description",
-      "userList": "User List",
-      "groupList": "Group List",
-      "listSong": "List Song"
+      "user": "User",
+      "song": "Song",
+      "createdBy": "Created By",
+      "crowd": "Crowd"
     }
   }
 }

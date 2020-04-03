@@ -1,4 +1,6 @@
 package com.lurka.voa.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -32,17 +34,28 @@ public class Playlist implements Serializable {
     @Column(name = "list_description", length = 2000)
     private String listDescription;
 
-    @OneToMany(mappedBy = "playlist")
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<UserList> userLists = new HashSet<>();
+    @JoinTable(name = "playlist_user",
+               joinColumns = @JoinColumn(name = "playlist_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    private Set<UserExtra> users = new HashSet<>();
 
-    @OneToMany(mappedBy = "playlist")
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<GroupList> groupLists = new HashSet<>();
+    @JoinTable(name = "playlist_song",
+               joinColumns = @JoinColumn(name = "playlist_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "song_id", referencedColumnName = "id"))
+    private Set<Song> songs = new HashSet<>();
 
-    @OneToMany(mappedBy = "playlist")
+    @ManyToOne
+    @JsonIgnoreProperties("createdPlaylists")
+    private UserExtra createdBy;
+
+    @ManyToMany(mappedBy = "playlists")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<ListSong> listSongs = new HashSet<>();
+    @JsonIgnore
+    private Set<Crowd> crowds = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -79,79 +92,92 @@ public class Playlist implements Serializable {
         this.listDescription = listDescription;
     }
 
-    public Set<UserList> getUserLists() {
-        return userLists;
+    public Set<UserExtra> getUsers() {
+        return users;
     }
 
-    public Playlist userLists(Set<UserList> userLists) {
-        this.userLists = userLists;
+    public Playlist users(Set<UserExtra> userExtras) {
+        this.users = userExtras;
         return this;
     }
 
-    public Playlist addUserList(UserList userList) {
-        this.userLists.add(userList);
-        userList.setPlaylist(this);
+    public Playlist addUser(UserExtra userExtra) {
+        this.users.add(userExtra);
+        userExtra.getPlaylists().add(this);
         return this;
     }
 
-    public Playlist removeUserList(UserList userList) {
-        this.userLists.remove(userList);
-        userList.setPlaylist(null);
+    public Playlist removeUser(UserExtra userExtra) {
+        this.users.remove(userExtra);
+        userExtra.getPlaylists().remove(this);
         return this;
     }
 
-    public void setUserLists(Set<UserList> userLists) {
-        this.userLists = userLists;
+    public void setUsers(Set<UserExtra> userExtras) {
+        this.users = userExtras;
     }
 
-    public Set<GroupList> getGroupLists() {
-        return groupLists;
+    public Set<Song> getSongs() {
+        return songs;
     }
 
-    public Playlist groupLists(Set<GroupList> groupLists) {
-        this.groupLists = groupLists;
+    public Playlist songs(Set<Song> songs) {
+        this.songs = songs;
         return this;
     }
 
-    public Playlist addGroupList(GroupList groupList) {
-        this.groupLists.add(groupList);
-        groupList.setPlaylist(this);
+    public Playlist addSong(Song song) {
+        this.songs.add(song);
+        song.getPlaylists().add(this);
         return this;
     }
 
-    public Playlist removeGroupList(GroupList groupList) {
-        this.groupLists.remove(groupList);
-        groupList.setPlaylist(null);
+    public Playlist removeSong(Song song) {
+        this.songs.remove(song);
+        song.getPlaylists().remove(this);
         return this;
     }
 
-    public void setGroupLists(Set<GroupList> groupLists) {
-        this.groupLists = groupLists;
+    public void setSongs(Set<Song> songs) {
+        this.songs = songs;
     }
 
-    public Set<ListSong> getListSongs() {
-        return listSongs;
+    public UserExtra getCreatedBy() {
+        return createdBy;
     }
 
-    public Playlist listSongs(Set<ListSong> listSongs) {
-        this.listSongs = listSongs;
+    public Playlist createdBy(UserExtra userExtra) {
+        this.createdBy = userExtra;
         return this;
     }
 
-    public Playlist addListSong(ListSong listSong) {
-        this.listSongs.add(listSong);
-        listSong.setPlaylist(this);
+    public void setCreatedBy(UserExtra userExtra) {
+        this.createdBy = userExtra;
+    }
+
+    public Set<Crowd> getCrowds() {
+        return crowds;
+    }
+
+    public Playlist crowds(Set<Crowd> crowds) {
+        this.crowds = crowds;
         return this;
     }
 
-    public Playlist removeListSong(ListSong listSong) {
-        this.listSongs.remove(listSong);
-        listSong.setPlaylist(null);
+    public Playlist addCrowd(Crowd crowd) {
+        this.crowds.add(crowd);
+        crowd.getPlaylists().add(this);
         return this;
     }
 
-    public void setListSongs(Set<ListSong> listSongs) {
-        this.listSongs = listSongs;
+    public Playlist removeCrowd(Crowd crowd) {
+        this.crowds.remove(crowd);
+        crowd.getPlaylists().remove(this);
+        return this;
+    }
+
+    public void setCrowds(Set<Crowd> crowds) {
+        this.crowds = crowds;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

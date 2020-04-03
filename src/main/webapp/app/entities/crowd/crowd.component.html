@@ -1,0 +1,88 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="vaultOfAudioApp.crowd.home.title">Crowds</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-crowd" [routerLink]="['/crowd/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="vaultOfAudioApp.crowd.home.createLabel">
+            Create a new Crowd
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="crowds?.length === 0">
+        <span jhiTranslate="vaultOfAudioApp.crowd.home.notFound">No crowds found</span>
+    </div>
+    <div class="table-responsive" *ngIf="crowds?.length > 0">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="vaultOfAudioApp.crowd.crowdName">Crowd Name</span></th>
+            <th><span jhiTranslate="vaultOfAudioApp.crowd.crowdDescription">Crowd Description</span></th>
+            <th><span jhiTranslate="vaultOfAudioApp.crowd.crowdPhoto">Crowd Photo</span></th>
+            <th><span jhiTranslate="vaultOfAudioApp.crowd.user">User</span></th>
+            <th><span jhiTranslate="vaultOfAudioApp.crowd.accepted">Accepted</span></th>
+            <th><span jhiTranslate="vaultOfAudioApp.crowd.playlist">Playlist</span></th>
+            <th><span jhiTranslate="vaultOfAudioApp.crowd.createdBy">Created By</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let crowd of crowds ;trackBy: trackId">
+                <td><a [routerLink]="['/crowd', crowd.id, 'view' ]">{{crowd.id}}</a></td>
+                <td>{{crowd.crowdName}}</td>
+                <td>{{crowd.crowdDescription}}</td>
+                <td>
+                    <a *ngIf="crowd.crowdPhoto" (click)="openFile(crowd.crowdPhotoContentType, crowd.crowdPhoto)" jhiTranslate="entity.action.open">open</a>
+                    <span *ngIf="crowd.crowdPhoto">{{crowd.crowdPhotoContentType}}, {{byteSize(crowd.crowdPhoto)}}</span>
+                </td>
+                <td>
+                    <span *ngFor="let user of crowd.users; let last = last">
+                            <a class="form-control-static" [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.id}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
+                    <span *ngFor="let accepted of crowd.accepteds; let last = last">
+                            <a class="form-control-static" [routerLink]="['/user-extra', accepted?.id, 'view' ]">{{accepted.id}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
+                    <span *ngFor="let playlist of crowd.playlists; let last = last">
+                            <a class="form-control-static" [routerLink]="['/playlist', playlist?.id, 'view' ]">{{playlist.id}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
+                    <div *ngIf="crowd.createdBy">
+                        <a [routerLink]="['/user-extra', crowd.createdBy?.id, 'view' ]" >{{crowd.createdBy?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/crowd', crowd.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/crowd', crowd.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/crowd', { outlets: { popup: crowd.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

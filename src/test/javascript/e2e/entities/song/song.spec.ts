@@ -45,7 +45,9 @@ describe('Song e2e test', () => {
       songUpdatePage.setAuthorsInput('authors'),
       songUpdatePage.setSongMetadataInput('songMetadata'),
       songUpdatePage.setYearInput('5'),
-      songUpdatePage.setSongDescriptionInput('songDescription')
+      songUpdatePage.setSongDescriptionInput('songDescription'),
+      // songUpdatePage.userSelectLastOption(),
+      songUpdatePage.createdBySelectLastOption()
     ]);
     expect(await songUpdatePage.getSongNameInput()).to.eq('songName', 'Expected SongName value to be equals to songName');
     expect(await songUpdatePage.getLyricsInput()).to.eq('lyrics', 'Expected Lyrics value to be equals to lyrics');

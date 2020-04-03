@@ -82,13 +82,13 @@ public class EqualizerSettingResource {
     /**
      * {@code GET  /equalizer-settings} : get all the equalizerSettings.
      *
-
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of equalizerSettings in body.
      */
     @GetMapping("/equalizer-settings")
-    public List<EqualizerSetting> getAllEqualizerSettings() {
+    public List<EqualizerSetting> getAllEqualizerSettings(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all EqualizerSettings");
-        return equalizerSettingRepository.findAll();
+        return equalizerSettingRepository.findAllWithEagerRelationships();
     }
 
     /**
@@ -100,7 +100,7 @@ public class EqualizerSettingResource {
     @GetMapping("/equalizer-settings/{id}")
     public ResponseEntity<EqualizerSetting> getEqualizerSetting(@PathVariable Long id) {
         log.debug("REST request to get EqualizerSetting : {}", id);
-        Optional<EqualizerSetting> equalizerSetting = equalizerSettingRepository.findById(id);
+        Optional<EqualizerSetting> equalizerSetting = equalizerSettingRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(equalizerSetting);
     }
 

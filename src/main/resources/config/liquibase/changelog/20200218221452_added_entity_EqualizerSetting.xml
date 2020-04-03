@@ -60,6 +60,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="created_by_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
 
@@ -67,6 +71,17 @@
 
     <changeSet id="20200218221452-1-relations" author="jhipster">
 
+        <createTable tableName="equalizer_setting_user">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="equalizer_setting_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="equalizer_setting_id, user_id" tableName="equalizer_setting_user"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 

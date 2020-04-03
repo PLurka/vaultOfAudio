@@ -1,4 +1,4 @@
-import { IUserEqualizerSetting } from 'app/shared/model/user-equalizer-setting.model';
+import { IUserExtra } from 'app/shared/model/user-extra.model';
 
 export interface IEqualizerSetting {
   id?: number;
@@ -13,7 +13,8 @@ export interface IEqualizerSetting {
   eight?: number;
   ninth?: number;
   tenth?: number;
-  userEqualizerSettings?: IUserEqualizerSetting[];
+  users?: IUserExtra[];
+  createdBy?: IUserExtra;
 }
 
 export class EqualizerSetting implements IEqualizerSetting {
@@ -30,6 +31,7 @@ export class EqualizerSetting implements IEqualizerSetting {
     public eight?: number,
     public ninth?: number,
     public tenth?: number,
-    public userEqualizerSettings?: IUserEqualizerSetting[]
+    public users?: IUserExtra[],
+    public createdBy?: IUserExtra
   ) {}
 }

@@ -1,0 +1,31 @@
+{
+  "vaultOfAudioApp": {
+    "userExtra": {
+      "home": {
+        "title": "User Extra",
+        "createLabel": "Dodaj User Extra",
+        "createOrEditLabel": "Dodaj lub edytuj: User Extra",
+        "notFound": "No User Extras found"
+      },
+      "created": "Utworzono nowy obiekt typu User Extra z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu User Extra z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu User Extra z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć User Extra {{ id }}?"
+      },
+      "detail": {
+        "title": "User Extra"
+      },
+      "user": "User",
+      "createdEqualizerSetting": "Created Equalizer Setting",
+      "createdSong": "Created Song",
+      "createdPlaylist": "Created Playlist",
+      "createdCrowd": "Created Crowd",
+      "equalizerSetting": "Equalizer Setting",
+      "song": "Song",
+      "playlist": "Playlist",
+      "crowd": "Crowd",
+      "acceptedCrowd": "Accepted Crowd"
+    }
+  }
+}

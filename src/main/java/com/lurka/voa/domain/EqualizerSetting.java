@@ -1,4 +1,5 @@
 package com.lurka.voa.domain;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -88,9 +89,16 @@ public class EqualizerSetting implements Serializable {
     @Column(name = "tenth", nullable = false)
     private Integer tenth;
 
-    @OneToMany(mappedBy = "equalizerSetting")
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<UserEqualizerSetting> userEqualizerSettings = new HashSet<>();
+    @JoinTable(name = "equalizer_setting_user",
+               joinColumns = @JoinColumn(name = "equalizer_setting_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+    private Set<UserExtra> users = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties("createdEqualizerSettings")
+    private UserExtra createdBy;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -244,29 +252,42 @@ public class EqualizerSetting implements Serializable {
         this.tenth = tenth;
     }
 
-    public Set<UserEqualizerSetting> getUserEqualizerSettings() {
-        return userEqualizerSettings;
+    public Set<UserExtra> getUsers() {
+        return users;
     }
 
-    public EqualizerSetting userEqualizerSettings(Set<UserEqualizerSetting> userEqualizerSettings) {
-        this.userEqualizerSettings = userEqualizerSettings;
+    public EqualizerSetting users(Set<UserExtra> userExtras) {
+        this.users = userExtras;
         return this;
     }
 
-    public EqualizerSetting addUserEqualizerSetting(UserEqualizerSetting userEqualizerSetting) {
-        this.userEqualizerSettings.add(userEqualizerSetting);
-        userEqualizerSetting.setEqualizerSetting(this);
+    public EqualizerSetting addUser(UserExtra userExtra) {
+        this.users.add(userExtra);
+        userExtra.getEqualizerSettings().add(this);
         return this;
     }
 
-    public EqualizerSetting removeUserEqualizerSetting(UserEqualizerSetting userEqualizerSetting) {
-        this.userEqualizerSettings.remove(userEqualizerSetting);
-        userEqualizerSetting.setEqualizerSetting(null);
+    public EqualizerSetting removeUser(UserExtra userExtra) {
+        this.users.remove(userExtra);
+        userExtra.getEqualizerSettings().remove(this);
         return this;
     }
 
-    public void setUserEqualizerSettings(Set<UserEqualizerSetting> userEqualizerSettings) {
-        this.userEqualizerSettings = userEqualizerSettings;
+    public void setUsers(Set<UserExtra> userExtras) {
+        this.users = userExtras;
+    }
+
+    public UserExtra getCreatedBy() {
+        return createdBy;
+    }
+
+    public EqualizerSetting createdBy(UserExtra userExtra) {
+        this.createdBy = userExtra;
+        return this;
+    }
+
+    public void setCreatedBy(UserExtra userExtra) {
+        this.createdBy = userExtra;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

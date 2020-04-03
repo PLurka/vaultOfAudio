@@ -32,6 +32,8 @@ export class SongUpdatePage {
   songMetadataInput = element(by.id('field_songMetadata'));
   yearInput = element(by.id('field_year'));
   songDescriptionInput = element(by.id('field_songDescription'));
+  userSelect = element(by.id('field_user'));
+  createdBySelect = element(by.id('field_createdBy'));
 
   async getPageTitle() {
     return this.pageTitle.getAttribute('jhiTranslate');
@@ -83,6 +85,44 @@ export class SongUpdatePage {
 
   async getSongDescriptionInput() {
     return await this.songDescriptionInput.getAttribute('value');
+  }
+
+  async userSelectLastOption(timeout?: number) {
+    await this.userSelect
+      .all(by.tagName('option'))
+      .last()
+      .click();
+  }
+
+  async userSelectOption(option) {
+    await this.userSelect.sendKeys(option);
+  }
+
+  getUserSelect(): ElementFinder {
+    return this.userSelect;
+  }
+
+  async getUserSelectedOption() {
+    return await this.userSelect.element(by.css('option:checked')).getText();
+  }
+
+  async createdBySelectLastOption(timeout?: number) {
+    await this.createdBySelect
+      .all(by.tagName('option'))
+      .last()
+      .click();
+  }
+
+  async createdBySelectOption(option) {
+    await this.createdBySelect.sendKeys(option);
+  }
+
+  getCreatedBySelect(): ElementFinder {
+    return this.createdBySelect;
+  }
+
+  async getCreatedBySelectedOption() {
+    return await this.createdBySelect.element(by.css('option:checked')).getText();
   }
 
   async save(timeout?: number) {

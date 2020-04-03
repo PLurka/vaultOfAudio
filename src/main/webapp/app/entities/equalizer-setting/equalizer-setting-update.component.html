@@ -259,6 +259,19 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label jhiTranslate="vaultOfAudioApp.equalizerSetting.user" for="field_users">User</label>
+                    <select class="form-control" id="field_users" multiple name="users" formControlName="users">
+                        <option [ngValue]="getSelected(editForm.get('users').value, userExtraOption)" *ngFor="let userExtraOption of userextras; trackBy: trackUserExtraById">{{userExtraOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.equalizerSetting.createdBy" for="field_createdBy">Created By</label>
+                    <select class="form-control" id="field_createdBy" name="createdBy" formControlName="createdBy">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="userExtraOption.id === editForm.get('createdBy').value?.id ? editForm.get('createdBy').value : userExtraOption" *ngFor="let userExtraOption of userextras; trackBy: trackUserExtraById">{{userExtraOption.id}}</option>
+                    </select>
+                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

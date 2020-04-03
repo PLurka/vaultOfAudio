@@ -3,8 +3,12 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { JhiAlertService } from 'ng-jhipster';
 import { IEqualizerSetting, EqualizerSetting } from 'app/shared/model/equalizer-setting.model';
 import { EqualizerSettingService } from './equalizer-setting.service';
+import { IUserExtra } from 'app/shared/model/user-extra.model';
+import { UserExtraService } from 'app/entities/user-extra';
 
 @Component({
   selector: 'jhi-equalizer-setting-update',
@@ -12,6 +16,8 @@ import { EqualizerSettingService } from './equalizer-setting.service';
 })
 export class EqualizerSettingUpdateComponent implements OnInit {
   isSaving: boolean;
+
+  userextras: IUserExtra[];
 
   editForm = this.fb.group({
     id: [],
@@ -25,11 +31,15 @@ export class EqualizerSettingUpdateComponent implements OnInit {
     seventh: [null, [Validators.required, Validators.min(-15), Validators.max(15)]],
     eight: [null, [Validators.required, Validators.min(-15), Validators.max(15)]],
     ninth: [null, [Validators.required, Validators.min(-15), Validators.max(15)]],
-    tenth: [null, [Validators.required, Validators.min(-15), Validators.max(15)]]
+    tenth: [null, [Validators.required, Validators.min(-15), Validators.max(15)]],
+    users: [],
+    createdBy: []
   });
 
   constructor(
+    protected jhiAlertService: JhiAlertService,
     protected equalizerSettingService: EqualizerSettingService,
+    protected userExtraService: UserExtraService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -39,6 +49,13 @@ export class EqualizerSettingUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ equalizerSetting }) => {
       this.updateForm(equalizerSetting);
     });
+    this.userExtraService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IUserExtra[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IUserExtra[]>) => response.body)
+      )
+      .subscribe((res: IUserExtra[]) => (this.userextras = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(equalizerSetting: IEqualizerSetting) {
@@ -54,7 +71,9 @@ export class EqualizerSettingUpdateComponent implements OnInit {
       seventh: equalizerSetting.seventh,
       eight: equalizerSetting.eight,
       ninth: equalizerSetting.ninth,
-      tenth: equalizerSetting.tenth
+      tenth: equalizerSetting.tenth,
+      users: equalizerSetting.users,
+      createdBy: equalizerSetting.createdBy
     });
   }
 
@@ -86,7 +105,9 @@ export class EqualizerSettingUpdateComponent implements OnInit {
       seventh: this.editForm.get(['seventh']).value,
       eight: this.editForm.get(['eight']).value,
       ninth: this.editForm.get(['ninth']).value,
-      tenth: this.editForm.get(['tenth']).value
+      tenth: this.editForm.get(['tenth']).value,
+      users: this.editForm.get(['users']).value,
+      createdBy: this.editForm.get(['createdBy']).value
     };
   }
 
@@ -101,5 +122,23 @@ export class EqualizerSettingUpdateComponent implements OnInit {
 
   protected onSaveError() {
     this.isSaving = false;
+  }
+  protected onError(errorMessage: string) {
+    this.jhiAlertService.error(errorMessage, null, null);
+  }
+
+  trackUserExtraById(index: number, item: IUserExtra) {
+    return item.id;
+  }
+
+  getSelected(selectedVals: Array<any>, option: any) {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

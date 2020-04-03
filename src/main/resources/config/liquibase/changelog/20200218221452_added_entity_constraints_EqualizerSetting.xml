@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity EqualizerSetting.
+    -->
+    <changeSet id="20200218221452-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="equalizer_setting_id"
+                                 baseTableName="equalizer_setting_user"
+                                 constraintName="fk_equalizer_setting_user_equalizer_setting_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="equalizer_setting"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="equalizer_setting_user"
+                                 constraintName="fk_equalizer_setting_user_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_extra"/>
+        
+        <addForeignKeyConstraint baseColumnNames="created_by_id"
+                                 baseTableName="equalizer_setting"
+                                 constraintName="fk_equalizer_setting_created_by_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_extra"/>
+
+    </changeSet>
+</databaseChangeLog>

@@ -39,7 +39,13 @@ describe('Playlist e2e test', () => {
     const nbButtonsBeforeCreate = await playlistComponentsPage.countDeleteButtons();
 
     await playlistComponentsPage.clickOnCreateButton();
-    await promise.all([playlistUpdatePage.setListNameInput('listName'), playlistUpdatePage.setListDescriptionInput('listDescription')]);
+    await promise.all([
+      playlistUpdatePage.setListNameInput('listName'),
+      playlistUpdatePage.setListDescriptionInput('listDescription'),
+      // playlistUpdatePage.userSelectLastOption(),
+      // playlistUpdatePage.songSelectLastOption(),
+      playlistUpdatePage.createdBySelectLastOption()
+    ]);
     expect(await playlistUpdatePage.getListNameInput()).to.eq('listName', 'Expected ListName value to be equals to listName');
     expect(await playlistUpdatePage.getListDescriptionInput()).to.eq(
       'listDescription',

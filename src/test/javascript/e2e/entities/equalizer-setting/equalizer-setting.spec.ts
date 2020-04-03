@@ -50,7 +50,9 @@ describe('EqualizerSetting e2e test', () => {
       equalizerSettingUpdatePage.setSeventhInput('5'),
       equalizerSettingUpdatePage.setEightInput('5'),
       equalizerSettingUpdatePage.setNinthInput('5'),
-      equalizerSettingUpdatePage.setTenthInput('5')
+      equalizerSettingUpdatePage.setTenthInput('5'),
+      // equalizerSettingUpdatePage.userSelectLastOption(),
+      equalizerSettingUpdatePage.createdBySelectLastOption()
     ]);
     expect(await equalizerSettingUpdatePage.getEqualizerNameInput()).to.eq(
       'equalizerName',

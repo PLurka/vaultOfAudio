@@ -7,9 +7,12 @@ import com.lurka.voa.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -19,11 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.lurka.voa.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -78,6 +83,9 @@ public class EqualizerSettingResourceIT {
 
     @Autowired
     private EqualizerSettingRepository equalizerSettingRepository;
+
+    @Mock
+    private EqualizerSettingRepository equalizerSettingRepositoryMock;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -428,6 +436,39 @@ public class EqualizerSettingResourceIT {
             .andExpect(jsonPath("$.[*].tenth").value(hasItem(DEFAULT_TENTH)));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllEqualizerSettingsWithEagerRelationshipsIsEnabled() throws Exception {
+        EqualizerSettingResource equalizerSettingResource = new EqualizerSettingResource(equalizerSettingRepositoryMock);
+        when(equalizerSettingRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restEqualizerSettingMockMvc = MockMvcBuilders.standaloneSetup(equalizerSettingResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restEqualizerSettingMockMvc.perform(get("/api/equalizer-settings?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(equalizerSettingRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllEqualizerSettingsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        EqualizerSettingResource equalizerSettingResource = new EqualizerSettingResource(equalizerSettingRepositoryMock);
+            when(equalizerSettingRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restEqualizerSettingMockMvc = MockMvcBuilders.standaloneSetup(equalizerSettingResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restEqualizerSettingMockMvc.perform(get("/api/equalizer-settings?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(equalizerSettingRepositoryMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getEqualizerSetting() throws Exception {

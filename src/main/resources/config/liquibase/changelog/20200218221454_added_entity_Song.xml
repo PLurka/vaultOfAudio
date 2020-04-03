@@ -40,6 +40,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="created_by_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
 
@@ -47,6 +51,17 @@
 
     <changeSet id="20200218221454-1-relations" author="jhipster">
 
+        <createTable tableName="song_user">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="song_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="song_id, user_id" tableName="song_user"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 

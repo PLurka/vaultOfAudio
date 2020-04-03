@@ -1,0 +1,62 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="crowd">
+            <h2><span jhiTranslate="vaultOfAudioApp.crowd.detail.title">Crowd</span> {{crowd.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="vaultOfAudioApp.crowd.crowdName">Crowd Name</span></dt>
+                <dd>
+                    <span>{{crowd.crowdName}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.crowd.crowdDescription">Crowd Description</span></dt>
+                <dd>
+                    <span>{{crowd.crowdDescription}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.crowd.crowdPhoto">Crowd Photo</span></dt>
+                <dd>
+                    <div *ngIf="crowd.crowdPhoto">
+                        <a (click)="openFile(crowd.crowdPhotoContentType, crowd.crowdPhoto)" jhiTranslate="entity.action.open">open</a>
+                        {{crowd.crowdPhotoContentType}}, {{byteSize(crowd.crowdPhoto)}}
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.crowd.user">User</span></dt>
+                <dd>
+                    <span *ngFor="let user of crowd.users; let last = last">
+                        <a [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.crowd.accepted">Accepted</span></dt>
+                <dd>
+                    <span *ngFor="let accepted of crowd.accepteds; let last = last">
+                        <a [routerLink]="['/user-extra', accepted?.id, 'view' ]">{{accepted.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.crowd.playlist">Playlist</span></dt>
+                <dd>
+                    <span *ngFor="let playlist of crowd.playlists; let last = last">
+                        <a [routerLink]="['/playlist', playlist?.id, 'view' ]">{{playlist.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.crowd.createdBy">Created By</span></dt>
+                <dd>
+                    <div *ngIf="crowd.createdBy">
+                        <a [routerLink]="['/user-extra', crowd.createdBy?.id, 'view']">{{crowd.createdBy?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/crowd', crowd.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

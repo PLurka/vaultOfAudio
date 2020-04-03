@@ -3,8 +3,16 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { JhiAlertService } from 'ng-jhipster';
 import { IPlaylist, Playlist } from 'app/shared/model/playlist.model';
 import { PlaylistService } from './playlist.service';
+import { IUserExtra } from 'app/shared/model/user-extra.model';
+import { UserExtraService } from 'app/entities/user-extra';
+import { ISong } from 'app/shared/model/song.model';
+import { SongService } from 'app/entities/song';
+import { ICrowd } from 'app/shared/model/crowd.model';
+import { CrowdService } from 'app/entities/crowd';
 
 @Component({
   selector: 'jhi-playlist-update',
@@ -13,26 +21,67 @@ import { PlaylistService } from './playlist.service';
 export class PlaylistUpdateComponent implements OnInit {
   isSaving: boolean;
 
+  userextras: IUserExtra[];
+
+  songs: ISong[];
+
+  crowds: ICrowd[];
+
   editForm = this.fb.group({
     id: [],
     listName: [null, [Validators.required, Validators.maxLength(200)]],
-    listDescription: [null, [Validators.maxLength(2000)]]
+    listDescription: [null, [Validators.maxLength(2000)]],
+    users: [],
+    songs: [],
+    createdBy: []
   });
 
-  constructor(protected playlistService: PlaylistService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    protected jhiAlertService: JhiAlertService,
+    protected playlistService: PlaylistService,
+    protected userExtraService: UserExtraService,
+    protected songService: SongService,
+    protected crowdService: CrowdService,
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ playlist }) => {
       this.updateForm(playlist);
     });
+    this.userExtraService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IUserExtra[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IUserExtra[]>) => response.body)
+      )
+      .subscribe((res: IUserExtra[]) => (this.userextras = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.songService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ISong[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ISong[]>) => response.body)
+      )
+      .subscribe((res: ISong[]) => (this.songs = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.crowdService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<ICrowd[]>) => mayBeOk.ok),
+        map((response: HttpResponse<ICrowd[]>) => response.body)
+      )
+      .subscribe((res: ICrowd[]) => (this.crowds = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(playlist: IPlaylist) {
     this.editForm.patchValue({
       id: playlist.id,
       listName: playlist.listName,
-      listDescription: playlist.listDescription
+      listDescription: playlist.listDescription,
+      users: playlist.users,
+      songs: playlist.songs,
+      createdBy: playlist.createdBy
     });
   }
 
@@ -55,7 +104,10 @@ export class PlaylistUpdateComponent implements OnInit {
       ...new Playlist(),
       id: this.editForm.get(['id']).value,
       listName: this.editForm.get(['listName']).value,
-      listDescription: this.editForm.get(['listDescription']).value
+      listDescription: this.editForm.get(['listDescription']).value,
+      users: this.editForm.get(['users']).value,
+      songs: this.editForm.get(['songs']).value,
+      createdBy: this.editForm.get(['createdBy']).value
     };
   }
 
@@ -70,5 +122,31 @@ export class PlaylistUpdateComponent implements OnInit {
 
   protected onSaveError() {
     this.isSaving = false;
+  }
+  protected onError(errorMessage: string) {
+    this.jhiAlertService.error(errorMessage, null, null);
+  }
+
+  trackUserExtraById(index: number, item: IUserExtra) {
+    return item.id;
+  }
+
+  trackSongById(index: number, item: ISong) {
+    return item.id;
+  }
+
+  trackCrowdById(index: number, item: ICrowd) {
+    return item.id;
+  }
+
+  getSelected(selectedVals: Array<any>, option: any) {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

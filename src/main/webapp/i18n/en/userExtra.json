@@ -1,0 +1,31 @@
+{
+  "vaultOfAudioApp": {
+    "userExtra": {
+      "home": {
+        "title": "User Extras",
+        "createLabel": "Create a new User Extra",
+        "createOrEditLabel": "Create or edit a User Extra",
+        "notFound": "No User Extras found"
+      },
+      "created": "A new User Extra is created with identifier {{ param }}",
+      "updated": "A User Extra is updated with identifier {{ param }}",
+      "deleted": "A User Extra is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete User Extra {{ id }}?"
+      },
+      "detail": {
+        "title": "User Extra"
+      },
+      "user": "User",
+      "createdEqualizerSetting": "Created Equalizer Setting",
+      "createdSong": "Created Song",
+      "createdPlaylist": "Created Playlist",
+      "createdCrowd": "Created Crowd",
+      "equalizerSetting": "Equalizer Setting",
+      "song": "Song",
+      "playlist": "Playlist",
+      "crowd": "Crowd",
+      "acceptedCrowd": "Accepted Crowd"
+    }
+  }
+}

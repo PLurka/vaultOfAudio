@@ -50,16 +50,27 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "userSong",
+            "relationshipType": "many-to-many",
+            "otherEntityName": "userExtra",
             "otherEntityRelationshipName": "song",
-            "relationshipName": "userSong"
+            "relationshipName": "user",
+            "otherEntityField": "id",
+            "ownerSide": true
         },
         {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "listSong",
+            "relationshipType": "many-to-one",
+            "otherEntityName": "userExtra",
+            "otherEntityRelationshipName": "createdSong",
+            "relationshipName": "createdBy",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "playlist",
             "otherEntityRelationshipName": "song",
-            "relationshipName": "listSong"
+            "relationshipName": "playlist",
+            "otherEntityField": "id",
+            "ownerSide": false
         }
     ],
     "changelogDate": "20200218221454",

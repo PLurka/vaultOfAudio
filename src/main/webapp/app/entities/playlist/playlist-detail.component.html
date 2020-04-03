@@ -13,6 +13,24 @@
                 <dd>
                     <span>{{playlist.listDescription}}</span>
                 </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.playlist.user">User</span></dt>
+                <dd>
+                    <span *ngFor="let user of playlist.users; let last = last">
+                        <a [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.playlist.song">Song</span></dt>
+                <dd>
+                    <span *ngFor="let song of playlist.songs; let last = last">
+                        <a [routerLink]="['/song', song?.id, 'view' ]">{{song.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.playlist.createdBy">Created By</span></dt>
+                <dd>
+                    <div *ngIf="playlist.createdBy">
+                        <a [routerLink]="['/user-extra', playlist.createdBy?.id, 'view']">{{playlist.createdBy?.id}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

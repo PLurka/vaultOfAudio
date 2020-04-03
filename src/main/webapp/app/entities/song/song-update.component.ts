@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { JhiAlertService } from 'ng-jhipster';
 import { ISong, Song } from 'app/shared/model/song.model';
 import { SongService } from './song.service';
+import { IUserExtra } from 'app/shared/model/user-extra.model';
+import { UserExtraService } from 'app/entities/user-extra';
+import { IPlaylist } from 'app/shared/model/playlist.model';
+import { PlaylistService } from 'app/entities/playlist';
 
 @Component({
   selector: 'jhi-song-update',
@@ -13,12 +19,9 @@ import { SongService } from './song.service';
 export class SongUpdateComponent implements OnInit {
   isSaving: boolean;
 
-  title = 'File-Upload-Save';
-  selectedFiles: FileList;
-  currentFileUpload: File;
-  progress: { percentage: number } = { percentage: 0 };
-  selectedFile = null;
-  changeImage = false;
+  userextras: IUserExtra[];
+
+  playlists: IPlaylist[];
 
   editForm = this.fb.group({
     id: [],
@@ -27,51 +30,39 @@ export class SongUpdateComponent implements OnInit {
     authors: [null, [Validators.maxLength(100)]],
     songMetadata: [null, [Validators.required, Validators.maxLength(500)]],
     year: [],
-    songDescription: [null, [Validators.maxLength(2000)]]
+    songDescription: [null, [Validators.maxLength(2000)]],
+    users: [],
+    createdBy: []
   });
 
-  constructor(protected songService: SongService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
-
-  downloadFile() {
-    const link = document.createElement('a');
-    link.setAttribute('target', '_blank');
-    link.setAttribute('href', '_File_Saved_Path');
-    link.setAttribute('download', 'file_name.pdf');
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  }
-
-  change($event) {
-    this.changeImage = true;
-  }
-
-  changedImage(event) {
-    this.selectedFile = event.target.files[0];
-  }
-
-  upload() {
-    this.progress.percentage = 0;
-    this.currentFileUpload = this.selectedFiles.item(0);
-    this.songService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
-      if (event.type == HttpEventType.UploadProgress) {
-        this.progress.percentage = Math.round((100 * event.loaded) / event.total);
-      } else if (event instanceof HttpResponse) {
-        alert('File Successfully Uploaded');
-      }
-      this.selectedFile = undefined;
-    });
-  }
-
-  selectFile(event) {
-    this.selectedFiles = event.target.files;
-  }
+  constructor(
+    protected jhiAlertService: JhiAlertService,
+    protected songService: SongService,
+    protected userExtraService: UserExtraService,
+    protected playlistService: PlaylistService,
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit() {
     this.isSaving = false;
     this.activatedRoute.data.subscribe(({ song }) => {
       this.updateForm(song);
     });
+    this.userExtraService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IUserExtra[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IUserExtra[]>) => response.body)
+      )
+      .subscribe((res: IUserExtra[]) => (this.userextras = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.playlistService
+      .query()
+      .pipe(
+        filter((mayBeOk: HttpResponse<IPlaylist[]>) => mayBeOk.ok),
+        map((response: HttpResponse<IPlaylist[]>) => response.body)
+      )
+      .subscribe((res: IPlaylist[]) => (this.playlists = res), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(song: ISong) {
@@ -82,7 +73,9 @@ export class SongUpdateComponent implements OnInit {
       authors: song.authors,
       songMetadata: song.songMetadata,
       year: song.year,
-      songDescription: song.songDescription
+      songDescription: song.songDescription,
+      users: song.users,
+      createdBy: song.createdBy
     });
   }
 
@@ -109,7 +102,9 @@ export class SongUpdateComponent implements OnInit {
       authors: this.editForm.get(['authors']).value,
       songMetadata: this.editForm.get(['songMetadata']).value,
       year: this.editForm.get(['year']).value,
-      songDescription: this.editForm.get(['songDescription']).value
+      songDescription: this.editForm.get(['songDescription']).value,
+      users: this.editForm.get(['users']).value,
+      createdBy: this.editForm.get(['createdBy']).value
     };
   }
 
@@ -124,5 +119,27 @@ export class SongUpdateComponent implements OnInit {
 
   protected onSaveError() {
     this.isSaving = false;
+  }
+  protected onError(errorMessage: string) {
+    this.jhiAlertService.error(errorMessage, null, null);
+  }
+
+  trackUserExtraById(index: number, item: IUserExtra) {
+    return item.id;
+  }
+
+  trackPlaylistById(index: number, item: IPlaylist) {
+    return item.id;
+  }
+
+  getSelected(selectedVals: Array<any>, option: any) {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

@@ -1,0 +1,28 @@
+{
+  "vaultOfAudioApp": {
+    "crowd": {
+      "home": {
+        "title": "Crowd",
+        "createLabel": "Dodaj Crowd",
+        "createOrEditLabel": "Dodaj lub edytuj: Crowd",
+        "notFound": "No Crowds found"
+      },
+      "created": "Utworzono nowy obiekt typu Crowd z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu Crowd z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu Crowd z identyfikatorem {{ param }}",
+      "delete": {
+        "question": "Czy na pewno chcesz usunąć Crowd {{ id }}?"
+      },
+      "detail": {
+        "title": "Crowd"
+      },
+      "crowdName": "Crowd Name",
+      "crowdDescription": "Crowd Description",
+      "crowdPhoto": "Crowd Photo",
+      "user": "User",
+      "accepted": "Accepted",
+      "playlist": "Playlist",
+      "createdBy": "Created By"
+    }
+  }
+}

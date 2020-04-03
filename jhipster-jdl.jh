@@ -12,10 +12,6 @@ entity EqualizerSetting{
     tenth Integer required min(-15) max(15)
 }
 
-entity UserEqualizerSetting{
-	createdBy Boolean
-}
-
 entity Song{
     songName String maxlength(200) required,
     lyrics String maxlength(2000),
@@ -25,53 +21,42 @@ entity Song{
     songDescription String maxlength(2000)
 }
 
-entity UserSong{
-}
-
 entity Playlist{
     listName String maxlength(200) required,
     listDescription String maxlength(2000)
 }
 
-entity UserList{
-	createdBy Boolean
+entity Crowd{
+    crowdName String maxlength(200) required,
+    crowdDescription String maxlength(2000),
+    crowdPhoto Blob
 }
 
-entity Group{
-    groupName String maxlength(200) required,
-    groupDescription String maxlength(2000),
-    groupPhoto Blob
+entity UserExtra{
 }
 
-entity UserGroup{
-	createdBy Boolean,
-    groupAccepted Boolean,
-    userAccepted Boolean
-}
+relationship ManyToMany {
+	EqualizerSetting{user} to UserExtra{equalizerSetting},
 
-entity GroupList{
-}
-
-entity ListSong{
-}
-
-relationship ManyToOne {
-	UserEqualizerSetting to EqualizerSetting,
-    UserEqualizerSetting to User,
+	Song{user} to UserExtra{song},
     
-    UserSong to Song,
-    UserSong to User,
-
-	UserList to Playlist,
-	UserList to User,
+    Playlist{user} to UserExtra{playlist},
     
-    UserGroup to Group,
-    UserGroup to User,
+    Crowd{user} to UserExtra{crowd},
+    Crowd{accepted} to UserExtra{acceptedCrowd},
     
-    GroupList to Group,
-    GroupList to Playlist,
+    Crowd{playlist} to Playlist{crowd},
     
-    ListSong to Playlist,
-    ListSong to Song
+    Playlist{song} to Song{playlist}
 }
 
+relationship OneToMany {
+	UserExtra{createdEqualizerSetting} to EqualizerSetting{createdBy},
+    UserExtra{createdSong} to Song{createdBy},
+    UserExtra{createdPlaylist} to Playlist{createdBy},
+    UserExtra{createdCrowd} to Crowd{createdBy}
+}
+
+relationship OneToOne{
+	UserExtra{user} to User
+}

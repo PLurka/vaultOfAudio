@@ -44,6 +44,14 @@ import { RouterModule } from '@angular/router';
       {
         path: 'list-song',
         loadChildren: () => import('./list-song/list-song.module').then(m => m.VaultOfAudioListSongModule)
+      },
+      {
+        path: 'crowd',
+        loadChildren: () => import('./crowd/crowd.module').then(m => m.VaultOfAudioCrowdModule)
+      },
+      {
+        path: 'user-extra',
+        loadChildren: () => import('./user-extra/user-extra.module').then(m => m.VaultOfAudioUserExtraModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

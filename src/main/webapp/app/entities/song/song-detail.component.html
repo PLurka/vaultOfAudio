@@ -29,6 +29,18 @@
                 <dd>
                     <span>{{song.songDescription}}</span>
                 </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.song.user">User</span></dt>
+                <dd>
+                    <span *ngFor="let user of song.users; let last = last">
+                        <a [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.song.createdBy">Created By</span></dt>
+                <dd>
+                    <div *ngIf="song.createdBy">
+                        <a [routerLink]="['/user-extra', song.createdBy?.id, 'view']">{{song.createdBy?.id}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

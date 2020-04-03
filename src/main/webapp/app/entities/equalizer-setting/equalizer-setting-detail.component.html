@@ -49,6 +49,18 @@
                 <dd>
                     <span>{{equalizerSetting.tenth}}</span>
                 </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.user">User</span></dt>
+                <dd>
+                    <span *ngFor="let user of equalizerSetting.users; let last = last">
+                        <a [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.createdBy">Created By</span></dt>
+                <dd>
+                    <div *ngIf="equalizerSetting.createdBy">
+                        <a [routerLink]="['/user-extra', equalizerSetting.createdBy?.id, 'view']">{{equalizerSetting.createdBy?.id}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

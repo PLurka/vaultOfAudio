@@ -27,7 +27,8 @@
       "eight": "Eight",
       "ninth": "Ninth",
       "tenth": "Tenth",
-      "userEqualizerSetting": "User Equalizer Setting"
+      "user": "User",
+      "createdBy": "Created By"
     }
   }
 }

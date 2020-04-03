@@ -37,6 +37,8 @@ export class EqualizerSettingUpdatePage {
   eightInput = element(by.id('field_eight'));
   ninthInput = element(by.id('field_ninth'));
   tenthInput = element(by.id('field_tenth'));
+  userSelect = element(by.id('field_user'));
+  createdBySelect = element(by.id('field_createdBy'));
 
   async getPageTitle() {
     return this.pageTitle.getAttribute('jhiTranslate');
@@ -128,6 +130,44 @@ export class EqualizerSettingUpdatePage {
 
   async getTenthInput() {
     return await this.tenthInput.getAttribute('value');
+  }
+
+  async userSelectLastOption(timeout?: number) {
+    await this.userSelect
+      .all(by.tagName('option'))
+      .last()
+      .click();
+  }
+
+  async userSelectOption(option) {
+    await this.userSelect.sendKeys(option);
+  }
+
+  getUserSelect(): ElementFinder {
+    return this.userSelect;
+  }
+
+  async getUserSelectedOption() {
+    return await this.userSelect.element(by.css('option:checked')).getText();
+  }
+
+  async createdBySelectLastOption(timeout?: number) {
+    await this.createdBySelect
+      .all(by.tagName('option'))
+      .last()
+      .click();
+  }
+
+  async createdBySelectOption(option) {
+    await this.createdBySelect.sendKeys(option);
+  }
+
+  getCreatedBySelect(): ElementFinder {
+    return this.createdBySelect;
+  }
+
+  async getCreatedBySelectedOption() {
+    return await this.createdBySelect.element(by.css('option:checked')).getText();
   }
 
   async save(timeout?: number) {

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity Crowd.
+    -->
+    <changeSet id="20200403221842-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="crowd_id"
+                                 baseTableName="crowd_user"
+                                 constraintName="fk_crowd_user_crowd_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="crowd"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="crowd_user"
+                                 constraintName="fk_crowd_user_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_extra"/>
+        
+        <addForeignKeyConstraint baseColumnNames="crowd_id"
+                                 baseTableName="crowd_accepted"
+                                 constraintName="fk_crowd_accepted_crowd_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="crowd"/>
+
+        <addForeignKeyConstraint baseColumnNames="accepted_id"
+                                 baseTableName="crowd_accepted"
+                                 constraintName="fk_crowd_accepted_accepted_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_extra"/>
+        
+        <addForeignKeyConstraint baseColumnNames="crowd_id"
+                                 baseTableName="crowd_playlist"
+                                 constraintName="fk_crowd_playlist_crowd_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="crowd"/>
+
+        <addForeignKeyConstraint baseColumnNames="playlist_id"
+                                 baseTableName="crowd_playlist"
+                                 constraintName="fk_crowd_playlist_playlist_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="playlist"/>
+        
+        <addForeignKeyConstraint baseColumnNames="created_by_id"
+                                 baseTableName="crowd"
+                                 constraintName="fk_crowd_created_by_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_extra"/>
+
+    </changeSet>
+</databaseChangeLog>

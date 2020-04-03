@@ -22,8 +22,9 @@
       "songMetadata": "Song Metadata",
       "year": "Year",
       "songDescription": "Song Description",
-      "userSong": "User Song",
-      "listSong": "List Song"
+      "user": "User",
+      "createdBy": "Created By",
+      "playlist": "Playlist"
     }
   }
 }

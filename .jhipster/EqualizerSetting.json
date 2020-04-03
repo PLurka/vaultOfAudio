@@ -125,10 +125,19 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "userEqualizerSetting",
+            "relationshipType": "many-to-many",
+            "otherEntityName": "userExtra",
             "otherEntityRelationshipName": "equalizerSetting",
-            "relationshipName": "userEqualizerSetting"
+            "relationshipName": "user",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "userExtra",
+            "otherEntityRelationshipName": "createdEqualizerSetting",
+            "relationshipName": "createdBy",
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20200218221452",

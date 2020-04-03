@@ -1,5 +1,5 @@
-import { IUserSong } from 'app/shared/model/user-song.model';
-import { IListSong } from 'app/shared/model/list-song.model';
+import { IUserExtra } from 'app/shared/model/user-extra.model';
+import { IPlaylist } from 'app/shared/model/playlist.model';
 
 export interface ISong {
   id?: number;
@@ -9,8 +9,9 @@ export interface ISong {
   songMetadata?: string;
   year?: number;
   songDescription?: string;
-  userSongs?: IUserSong[];
-  listSongs?: IListSong[];
+  users?: IUserExtra[];
+  createdBy?: IUserExtra;
+  playlists?: IPlaylist[];
 }
 
 export class Song implements ISong {
@@ -22,7 +23,8 @@ export class Song implements ISong {
     public songMetadata?: string,
     public year?: number,
     public songDescription?: string,
-    public userSongs?: IUserSong[],
-    public listSongs?: IListSong[]
+    public users?: IUserExtra[],
+    public createdBy?: IUserExtra,
+    public playlists?: IPlaylist[]
   ) {}
 }
