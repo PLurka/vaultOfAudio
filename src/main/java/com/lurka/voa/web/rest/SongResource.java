@@ -3,6 +3,7 @@ package com.lurka.voa.web.rest;
 import com.lurka.voa.domain.Song;
 import com.lurka.voa.repository.SongRepository;
 import com.lurka.voa.security.SecurityUtils;
+import com.lurka.voa.service.UserService;
 import com.lurka.voa.web.ftp.LocalFtpClient;
 import com.lurka.voa.web.rest.errors.BadRequestAlertException;
 
@@ -76,19 +77,37 @@ public class SongResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/songs/savefile")
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file,
+                                                   String id,
+                                                   String songName,
+                                                   String lyrics,
+                                                   String authors,
+                                                   String songMetadata,
+                                                   String year,
+                                                   String songDescription) {
         String message = "";
         try {
             try {
+                Long time = new Timestamp(System.currentTimeMillis()).getTime();
+                String stamp = time.toString();
+
+                Song song = new Song();
+                song.setSongName(songName);
+                song.setLyrics(lyrics);
+                song.setAuthors(authors);
+                song.setSongMetadata(stamp + file.getOriginalFilename());
+                song.setYear(Integer.parseInt(year));
+                song.setSongDescription(songDescription);
+                createSong(song);
+
                 localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
                 localFTPClient.open();
                 File ftpFile = new File(System.getProperty("java.io.tmpdir") + "/" + file.getOriginalFilename());
                 FileOutputStream fos = new FileOutputStream( ftpFile );
                 fos.write(file.getBytes());
                 fos.close();
-                Long time = new Timestamp(System.currentTimeMillis()).getTime();
-                String stamp = time.toString();
                 localFTPClient.putFileToPath(ftpFile, "/" + stamp + file.getOriginalFilename());
+
             } catch (Exception e) {
                 throw new RuntimeException("FAIL!" + " EXCEPTION IS: " + e.getMessage());
             }

@@ -53,14 +53,29 @@ export class SongUpdateComponent implements OnInit {
   upload() {
     this.progress.percentage = 0;
     this.currentFileUpload = this.selectedFiles.item(0);
-    this.songService.pushFileToStorage(this.currentFileUpload).subscribe(event => {
-      if (event.type == HttpEventType.UploadProgress) {
-        this.progress.percentage = Math.round((100 * event.loaded) / event.total);
-      } else if (event instanceof HttpResponse) {
-        alert('File Successfully Uploaded');
-      }
-      this.selectedFile = undefined;
-    });
+    this.songService
+      .pushFileToStorage(
+        this.currentFileUpload,
+        new Song(
+          this.editForm.get(['id']).value,
+          this.editForm.get(['songName']).value,
+          this.editForm.get(['lyrics']).value,
+          this.editForm.get(['authors']).value,
+          this.editForm.get(['songMetadata']).value,
+          this.editForm.get(['year']).value,
+          this.editForm.get(['songDescription']).value,
+          null,
+          null
+        )
+      )
+      .subscribe(event => {
+        if (event.type == HttpEventType.UploadProgress) {
+          this.progress.percentage = Math.round((100 * event.loaded) / event.total);
+        } else if (event instanceof HttpResponse) {
+          alert('File Successfully Uploaded');
+        }
+        this.selectedFile = undefined;
+      });
   }
 
   selectFile(event) {

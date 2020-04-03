@@ -6,6 +6,9 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { filter, map } from 'rxjs/operators';
 import { ISong } from 'app/shared/model/song.model';
+import { IUser, UserService } from 'app/core';
+import { UserSongService } from 'app/entities/user-song';
+import { UserSong } from 'app/shared/model/user-song.model';
 
 type EntityResponseType = HttpResponse<ISong>;
 type EntityArrayResponseType = HttpResponse<ISong[]>;
@@ -13,18 +16,63 @@ type EntityArrayResponseType = HttpResponse<ISong[]>;
 @Injectable({ providedIn: 'root' })
 export class SongService {
   public resourceUrl = SERVER_API_URL + 'api/songs';
-  jwt: string;
+  private jwt: string;
+  private login: string;
+  private user: IUser;
+  private initialSongNumber: number;
 
-  constructor(protected http: HttpClient, private https: HttpClient) {
+  constructor(
+    protected http: HttpClient,
+    private https: HttpClient,
+    private userService: UserService,
+    private userSongService: UserSongService
+  ) {
     this.getJWT()
       .pipe(
         filter((res: HttpResponse<string>) => res.ok),
         map((res: HttpResponse<string>) => res.body)
       )
       .subscribe((res: string) => {
-        if (res != undefined) {
+        if (res !== undefined) {
           console.error('getJWT(): ' + res);
           this.jwt = res;
+        }
+      });
+
+    this.getLogin()
+      .pipe(
+        filter((res: HttpResponse<string>) => res.ok),
+        map((res: HttpResponse<string>) => res.body)
+      )
+      .subscribe((res: string) => {
+        if (res !== undefined) {
+          console.error('getLogin(): ' + res);
+          this.login = res;
+
+          this.userService
+            .find(res)
+            .pipe(
+              filter((resp: HttpResponse<IUser>) => resp.ok),
+              map((resp: HttpResponse<IUser>) => resp.body)
+            )
+            .subscribe((resp: IUser) => {
+              if (resp !== undefined) {
+                console.error('getUser(): ' + resp);
+                this.user = resp;
+              }
+            });
+        }
+      });
+
+    this.query()
+      .pipe(
+        filter((res: HttpResponse<ISong[]>) => res.ok),
+        map((res: HttpResponse<ISong[]>) => res.body)
+      )
+      .subscribe((res: ISong[]) => {
+        if (res !== undefined) {
+          console.error('getSongs(): ' + res);
+          this.initialSongNumber = res.length;
         }
       });
   }
@@ -70,15 +118,51 @@ export class SongService {
     return this.https.request(newRequest);
   }
 
-  pushFileToStorage(file: File): Observable<HttpEvent<{}>> {
+  pushFileToStorage(file: File, song: ISong): Observable<HttpEvent<{}>> {
     const data: FormData = new FormData();
     data.append('file', file);
+
+    if (song.id != null) data.append('id', song.id.toString());
+
+    data.append('songName', song.songName);
+    data.append('lyrics', song.lyrics);
+    data.append('authors', song.authors);
+    data.append('songMetadata', song.songMetadata);
+
+    if (song.year != null) data.append('year', song.year.toString());
+
+    data.append('songDescription', song.songDescription);
 
     const newRequest = new HttpRequest('POST', this.resourceUrl + '/savefile', data, {
       reportProgress: true,
       responseType: 'text'
     });
-    return this.https.request(newRequest);
+
+    let response = this.https.request(newRequest);
+
+    this.query()
+      .pipe(
+        filter((res: HttpResponse<ISong[]>) => res.ok),
+        map((res: HttpResponse<ISong[]>) => res.body)
+      )
+      .subscribe((res: ISong[]) => {
+        if (res.length > this.initialSongNumber) {
+          console.error('getSongs(): ' + res);
+          res.forEach(function(iSong) {
+            if (
+              iSong.songName === song.songName &&
+              iSong.authors === song.authors &&
+              iSong.lyrics === song.lyrics &&
+              iSong.year === song.year &&
+              iSong.songDescription === song.songDescription
+            ) {
+              this.userSongService.create(new UserSong(null, iSong, this.user));
+            }
+          });
+        }
+      });
+
+    return response;
   }
 
   pullPromiseFileFromStorage(path: String) {
