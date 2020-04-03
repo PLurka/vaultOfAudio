@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { IUserSong, UserSong } from 'app/shared/model/user-song.model';
-import { UserSongService } from 'app/entities/user-song';
 
 @Component({
   selector: 'jhi-my-songs',
@@ -27,13 +26,12 @@ export class MySongsComponent implements OnInit {
   constructor(
     protected userService: UserService,
     protected songService: SongService,
-    protected userSongService: UserSongService,
     protected jhiAlertService: JhiAlertService,
     protected eventManager: JhiEventManager,
     protected accountService: AccountService
   ) {
     this.message = 'MySongsComponent message';
-    this.songService
+    /*this.songService
       .getLogin()
       .pipe(
         filter((res: HttpResponse<string>) => res.ok),
@@ -44,7 +42,7 @@ export class MySongsComponent implements OnInit {
           console.error('getLogin(): ' + res);
           this.login = res;
         }
-      });
+      });*/
   }
 
   loadAll() {

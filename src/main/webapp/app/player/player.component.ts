@@ -100,12 +100,12 @@ export class PlayerComponent implements OnInit {
   }
 
   loadAll(path: String) {
-    this.songService.pullPromiseFileFromStorage(path).then(blob => {
+    /*this.songService.pullPromiseFileFromStorage(path).then(blob => {
       let blo = new Blob([blob], { type: 'audio/mp3' });
       let url = URL.createObjectURL(blob);
       let name = path;
       this.cloudService.addFTPFile(blo, url, name);
-    });
+    });*/
   }
 
   playStream(url) {
