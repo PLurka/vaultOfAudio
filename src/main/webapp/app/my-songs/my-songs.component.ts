@@ -7,7 +7,6 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
-import { IUserSong, UserSong } from 'app/shared/model/user-song.model';
 
 @Component({
   selector: 'jhi-my-songs',
@@ -17,7 +16,6 @@ import { IUserSong, UserSong } from 'app/shared/model/user-song.model';
 export class MySongsComponent implements OnInit {
   message: string;
   songs: ISong[];
-  userSongs: IUserSong[];
   user: IUser;
   currentAccount: Account;
   eventSubscriber: Subscription;
@@ -46,7 +44,7 @@ export class MySongsComponent implements OnInit {
   }
 
   loadAll() {
-    this.userSongService
+    /*this.userSongService
       .query()
       .pipe(
         filter((res: HttpResponse<IUserSong[]>) => res.ok),
@@ -57,7 +55,7 @@ export class MySongsComponent implements OnInit {
           this.userSongs = res.filter(item => item.user.login == this.login);
         },
         (res: HttpErrorResponse) => this.onError(res.message)
-      );
+      );*/
   }
 
   ngOnInit() {
