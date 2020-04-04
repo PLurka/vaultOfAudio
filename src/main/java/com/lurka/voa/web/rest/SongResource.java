@@ -9,6 +9,7 @@ import com.lurka.voa.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import org.apache.commons.compress.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,7 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -184,12 +186,16 @@ public class SongResource {
     public ResponseEntity<byte[]> streamFile(@PathVariable String path){
         log.debug("REST request to get Song File : {}", path);
         String message = "";
-        File songFile = new File("processedFile.mp3");
+        File songFile = new File("");
         try {
+            songFile = File.createTempFile("temp",".mp3");
+            songFile.deleteOnExit();
+            FileOutputStream out = new FileOutputStream(songFile);
             try {
                 localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
                 localFTPClient.open();
-                localFTPClient.downloadToFile("/"+path, songFile);
+                InputStream inputStream = localFTPClient.streamFile("/"+path);
+                IOUtils.copy(inputStream, out);
             } catch (Exception e) {
                 throw new RuntimeException("FAIL!" + " EXCEPTION IS: " + e.getMessage());
             }

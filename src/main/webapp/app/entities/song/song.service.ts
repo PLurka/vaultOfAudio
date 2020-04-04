@@ -46,7 +46,7 @@ export class SongService {
               map((resp: HttpResponse<IUserExtra[]>) => resp.body)
             )
             .subscribe((resp: IUserExtra[]) => {
-              if (res !== undefined) {
+              if (resp !== undefined) {
                 resp.forEach(userExtra => {
                   if (userExtra.user['login'] === res) {
                     console.error('current login: ' + userExtra.user['login']);
@@ -124,17 +124,6 @@ export class SongService {
   }
 
   streamFile(path: String): Observable<any> {
-    const requestOptions = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + this.jwt
-      }
-    };
-    /*return fetch(this.resourceUrl + '/stream/' + path, requestOptions).then(res => {
-            return res;
-        });*/
-
     return this.http.get(`${this.resourceUrl + '/stream/'}/${path}`, { responseType: 'blob', observe: 'response' }).pipe(
       map((res: any) => {
         return new Blob([res.body], { type: 'audio/mpeg' });
