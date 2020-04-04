@@ -2,6 +2,8 @@ package com.lurka.voa.web.rest;
 
 import com.lurka.voa.domain.Song;
 import com.lurka.voa.repository.SongRepository;
+import com.lurka.voa.security.SecurityUtils;
+import com.lurka.voa.web.ftp.LocalFtpClient;
 import com.lurka.voa.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -9,13 +11,22 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +36,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class SongResource {
+
+    List<String> files = new ArrayList<String>();
+    private LocalFtpClient localFTPClient;
 
     private final Logger log = LoggerFactory.getLogger(SongResource.class);
 
@@ -38,6 +52,66 @@ public class SongResource {
     public SongResource(SongRepository songRepository) {
         this.songRepository = songRepository;
     }
+
+
+    /**
+     * {@code POST  /savefile} : Uploads a file to FTP.
+     *
+     * @param file the file to upload.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new song, or with status {@code 400 (Bad Request)} if the song has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PostMapping("/songs/savefile")
+    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file,
+                                                   String id,
+                                                   String songName,
+                                                   String lyrics,
+                                                   String authors,
+                                                   String songMetadata,
+                                                   String year,
+                                                   String songDescription) {
+        String message = "";
+        try {
+            try {
+                Long time = new Timestamp(System.currentTimeMillis()).getTime();
+                String stamp = time.toString();
+
+                /*Song song = new Song();
+                song.setSongName(songName);
+                song.setLyrics(lyrics);
+                song.setAuthors(authors);
+                song.setSongMetadata(stamp + file.getOriginalFilename());
+                song.setYear(Integer.parseInt(year));
+                song.setSongDescription(songDescription);
+                createSong(song);*/
+
+                localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
+                localFTPClient.open();
+                File ftpFile = new File(System.getProperty("java.io.tmpdir") + "/" + file.getOriginalFilename());
+                FileOutputStream fos = new FileOutputStream( ftpFile );
+                fos.write(file.getBytes());
+                fos.close();
+                localFTPClient.putFileToPath(ftpFile, "/" + stamp + file.getOriginalFilename());
+
+            } catch (Exception e) {
+                throw new RuntimeException("FAIL!" + " EXCEPTION IS: " + e.getMessage());
+            }
+            files.add(file.getOriginalFilename());
+
+            message += "Successfully uploaded!";
+            localFTPClient.close();
+            return ResponseEntity.status(HttpStatus.OK).body(message);
+        } catch (Exception e) {
+            message += " Failed to upload! File is: " + file.getOriginalFilename();
+            try {
+                localFTPClient.close();
+            } catch (Exception ex){
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message + " exception is: " + ex.getMessage());
+            }
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message + " exception is: " + e.getMessage());
+        }
+    }
+
 
     /**
      * {@code POST  /songs} : Create a new song.
@@ -91,6 +165,18 @@ public class SongResource {
         return songRepository.findAllWithEagerRelationships();
     }
 
+    /** Returns my login */
+    @GetMapping("/songs/mylogin")
+    public String getMyLogin(){
+        return SecurityUtils.getCurrentUserLogin().get();
+    }
+
+    /** Returns my JWT */
+    @GetMapping("/songs/myjwt")
+    public String getMyJWT(){
+        return SecurityUtils.getCurrentUserJWT().get();
+    }
+
     /**
      * {@code GET  /songs/:id} : get the "id" song.
      *
@@ -102,6 +188,49 @@ public class SongResource {
         log.debug("REST request to get Song : {}", id);
         Optional<Song> song = songRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(song);
+    }
+
+    @GetMapping("/songs/file/{path}")
+    public byte[] getSongFile(@PathVariable String path) {
+        log.debug("REST request to get Song File : {}", path);
+        String message = "";
+        File songFile = new File("processedFile.mp3");
+        try {
+            try {
+                localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
+                localFTPClient.open();
+                localFTPClient.downloadToFile(path, songFile);
+            } catch (Exception e) {
+                throw new RuntimeException("FAIL!" + " EXCEPTION IS: " + e.getMessage());
+            }
+            message += "Successfully downloaded!";
+            localFTPClient.close();
+            log.debug(ResponseEntity.status(HttpStatus.OK).body(message).toString());
+        } catch (Exception e) {
+            message += " Failed to download! File is: " + path;
+            try {
+                localFTPClient.close();
+            } catch (Exception ex){
+                log.debug(ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message + " exception is: " + ex.getMessage()).toString());
+            }
+            log.debug(ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message + " exception is: " + e.getMessage()).toString());
+        }
+        try {
+            // DiskFileItem fileItem = new DiskFileItem("file", Files.probeContentType(songFile.toPath()), false, songFile.getName(), (int) songFile.length(), songFile.getParentFile());
+            // FileItem fileItem = new DiskFileItemFactory().createItem("file", Files.probeContentType(songFile.toPath()), false, songFile.getName());
+            // fileItem.getOutputStream();
+            byte[] bytesArray = new byte[(int) songFile.length()];
+
+            FileInputStream fis = new FileInputStream(songFile);
+            fis.read(bytesArray); //read file into bytes[]
+            fis.close();
+            // MultipartFile mpf = new MockMultipartFile("file", songFile.getName(), Files.probeContentType(songFile.toPath()), IOUtils.toByteArray(input));
+            log.debug("ALL WELL bytesArray RETURNED");
+            return bytesArray;
+        } catch (Exception ex){
+            log.error(ex.toString());
+        }
+        return null;
     }
 
     /**

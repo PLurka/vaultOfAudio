@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -18,6 +18,13 @@ import { PlaylistService } from 'app/entities/playlist';
 })
 export class SongUpdateComponent implements OnInit {
   isSaving: boolean;
+
+  title = 'File-Upload-Save';
+  selectedFiles: FileList;
+  currentFileUpload: File;
+  progress: { percentage: number } = { percentage: 0 };
+  selectedFile = null;
+  changeImage = false;
 
   userextras: IUserExtra[];
 
@@ -43,6 +50,49 @@ export class SongUpdateComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
+
+  downloadFile() {
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', '_File_Saved_Path');
+    link.setAttribute('download', 'file_name.pdf');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  upload() {
+    this.progress.percentage = 0;
+    this.currentFileUpload = this.selectedFiles.item(0);
+    this.songService
+      .pushFileToStorage(
+        this.currentFileUpload,
+        new Song(
+          this.editForm.get(['id']).value,
+          this.editForm.get(['songName']).value,
+          this.editForm.get(['lyrics']).value,
+          this.editForm.get(['authors']).value,
+          this.editForm.get(['songMetadata']).value,
+          this.editForm.get(['year']).value,
+          this.editForm.get(['songDescription']).value,
+          this.editForm.get(['users']).value,
+          this.editForm.get(['createdBy']).value,
+          null
+        )
+      )
+      .subscribe(event => {
+        if (event.type == HttpEventType.UploadProgress) {
+          this.progress.percentage = Math.round((100 * event.loaded) / event.total);
+        } else if (event instanceof HttpResponse) {
+          alert('File Successfully Uploaded');
+        }
+        this.selectedFile = undefined;
+      });
+  }
+
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+  }
 
   ngOnInit() {
     this.isSaving = false;
