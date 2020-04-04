@@ -151,6 +151,14 @@ export class PlayerComponent implements OnInit {
     });
   }
 
+  trueCount(playedArray: boolean[]) {
+    let count = 0;
+    playedArray.forEach((value: boolean) => {
+      if (value === true) count++;
+    });
+    return count;
+  }
+
   playStream(url) {
     for (var i = 0; i < this.files.length; i++) {
       this.playedArray.push(false);

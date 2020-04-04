@@ -18,12 +18,14 @@
             Load All User Songs
             <mat-icon>get_app</mat-icon>
         </button>
-
-        <label for="playlists">Load playlist:</label>
+        <span *ngIf="!this.repeat.valueOf() && this.shuffle.valueOf()">Already Played:: + {{trueCount(this.playedArray)}}</span>
+        <!--<label for="playlists">Load playlist:</label>
         <select id="playlists">
-            <!--<option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>-->
+            &lt;!&ndash;<option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>&ndash;&gt;
             <option value="{{playlist.id}}" *ngFor="let playlist of playlists ;trackBy: trackId">{{playlist.listName}}</option>
-        </select>
+        </select>-->
+
+
     </div>
     <label for="shuffle">Shuffle</label>
     <input type="checkbox" id="shuffle" value="Shuffle" checked="false">
