@@ -11,7 +11,8 @@ import { EqualizerSettingService } from 'app/entities/equalizer-setting/equalize
 import { PlaylistService } from 'app/entities/playlist/playlist.service';
 import { IPlaylist } from 'app/shared/model/playlist.model';
 import { SongService } from 'app/entities/song';
-import { Song } from 'app/shared/model/song.model';
+import { ISong, Song } from 'app/shared/model/song.model';
+import { MySongsComponent } from 'app/my-songs';
 
 @Component({
   selector: 'jhi-player',
@@ -30,6 +31,8 @@ export class PlayerComponent implements OnInit {
   audioCtx = this.audioService.audioCtx; //new (window['AudioContext'] || window['webkitAudioContext'])();
   equalizerSettings: IEqualizerSetting[];
   playlists: IPlaylist[];
+  songs: ISong[] = [];
+  currentFileName: string = '13.mp3';
 
   loadPlaylists() {
     this.playlistService
@@ -82,6 +85,45 @@ export class PlayerComponent implements OnInit {
     this.audioService.getState().subscribe(state => {
       this.state = state;
     });
+
+    this.songService
+      .getLogin()
+      .pipe(
+        filter((res: HttpResponse<string>) => res.ok),
+        map((res: HttpResponse<string>) => res.body)
+      )
+      .subscribe((res: string) => {
+        if (res !== undefined) {
+          console.error('getLogin(): ' + res);
+          this.songService
+            .query()
+            .pipe(
+              filter((resp: HttpResponse<ISong[]>) => resp.ok),
+              map((resp: HttpResponse<ISong[]>) => resp.body)
+            )
+            .subscribe(
+              (resp: ISong[]) => {
+                if (resp !== null) {
+                  resp.forEach(song => {
+                    song.users.forEach(user => {
+                      if (user['user']['login'] === res) {
+                        this.songs.push(song);
+                      }
+                    });
+                  });
+                  this.removeAll();
+                  /*this.songs.forEach((song) => {
+                                      this.songService.pullPromiseFileFromStorage("/"+song.songMetadata).then((blob) => {
+                                          this.blobArray.push(new Blob([blob], {type: 'audio/mp3'}));
+                                      })
+                              });*/
+                  this.loadAll();
+                }
+              },
+              (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        }
+      });
   }
 
   handleFileInput(files: FileList) {
@@ -99,13 +141,83 @@ export class PlayerComponent implements OnInit {
     this.cloudService.removeAll();
   }
 
-  loadAll(path: String) {
+  loadFile(path: string) {
     this.songService.pullPromiseFileFromStorage(path).then(blob => {
       let blo = new Blob([blob], { type: 'audio/mp3' });
       let url = URL.createObjectURL(blob);
       let name = path;
-      this.cloudService.addFTPFile(blo, url, name);
+      this.cloudService.addFTPFile1(blo, url, name, 'unknown', null);
     });
+  }
+
+  loadAll(/*dlBtn: HTMLButtonElement*/) {
+    /*let i = 0;
+      this.blobArray.forEach((blob) => {
+          let blo = new Blob([blob], {type: 'audio/mp3'});
+          let url = URL.createObjectURL(blob);
+          let name = this.songs[i].songName;
+          let artist = this.songs[i].authors;
+
+          let songForMapping = new Map();
+          songForMapping.set('blo', blo);
+          songForMapping.set('url', url);
+          songForMapping.set('name', name);
+          songForMapping.set('artist', artist);
+
+          this.cloudService.addFTPFile(
+              songForMapping.get('blo'), songForMapping.get('url'), songForMapping.get('name'), songForMapping.get('artist'));
+          ++i;
+      });*/
+    /*let i = 0;
+      this.blobArray.forEach((blo) => {
+          let url = URL.createObjectURL(blo);
+          let name = this.songs[i].songName;
+          let artist = this.songs[i].authors;
+          let metadata = this.songs[i].songMetadata;
+
+          this.cloudService.addFTPFile(blo, url, name, artist, metadata);
+          ++i;
+      });*/
+
+    this.songs.forEach(song => {
+      this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata);
+    });
+
+    /*this.songService
+          .getLogin()
+          .pipe(
+              filter((res: HttpResponse<string>) => res.ok),
+              map((res: HttpResponse<string>) => res.body)
+          )
+          .subscribe((res: string) => {
+              if (res !== undefined) {
+                  console.error('getLogin(): ' + res);
+                  this.songService
+                      .query()
+                      .pipe(
+                          filter((resp: HttpResponse<ISong[]>) => resp.ok),
+                          map((resp: HttpResponse<ISong[]>) => resp.body)
+                      )
+                      .subscribe((resp: ISong[]) => {
+                              if (resp !== null) {
+                                  resp.forEach((song) => {
+                                      song.users.forEach((user) => {
+                                          if (user['user']['login'] === res) {
+                                              this.songs.push(song);
+                                          }
+                                      });
+                                  });
+                                  this.removeAll();
+                                  this.songs.forEach((song) => {
+                                      this.currentFileName = song.songMetadata;
+                                      dlBtn.click();
+                                  });
+                              }
+                          },
+                          (res: HttpErrorResponse) => this.onError(res.message)
+                      );
+              }
+          });*/
   }
 
   playStream(url) {
@@ -115,13 +227,32 @@ export class PlayerComponent implements OnInit {
         if (events['type'] === 'ended') {
           this.next();
         }
+      } else {
+        if (events['type'] === 'ended') this.openFile(this.files[0], 0);
       }
+    });
+  }
+
+  playStreamFromStream(url) {
+    this.songService.streamFile(url).subscribe(res => {
+      const blobUrl = URL.createObjectURL(res);
+      this.audioService.playStream(blobUrl).subscribe(events => {
+        // listening for fun here
+        if (!this.isLastPlaying()) {
+          if (events['type'] === 'ended') {
+            this.next();
+          }
+        } else {
+          if (events['type'] === 'ended') this.openFile(this.files[0], 0);
+        }
+      });
     });
   }
 
   openFile(file, index) {
     this.currentFile = { index, file };
     this.audioService.stop();
+    if (file.metaData) this.playStreamFromStream(file.metaData);
     if (file.url) this.playStream(file.url);
     else this.playStream(URL.createObjectURL(file));
   }
@@ -175,6 +306,11 @@ export class PlayerComponent implements OnInit {
   }
 
   ngOnInit() {
+    let dlBtn = <HTMLButtonElement>document.getElementById('downloadAll');
+
+    /*this.removeAll();
+    this.loadAll();*/
+
     this.visualization = true;
     // get the audio element
     let audioElement = this.audioService.getElement();

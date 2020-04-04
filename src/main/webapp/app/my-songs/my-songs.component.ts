@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SongService } from 'app/entities/song';
-import { Account, AccountService, IUser, UserService } from 'app/core';
-import { ISong, Song } from 'app/shared/model/song.model';
+import { Account, AccountService, IUser } from 'app/core';
+import { ISong } from 'app/shared/model/song.model';
 
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';

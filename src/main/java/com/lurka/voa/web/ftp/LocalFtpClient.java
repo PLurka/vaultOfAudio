@@ -57,6 +57,10 @@ public class LocalFtpClient {
         ftp.retrieveFile(source, out);
     }
 
+    public InputStream streamFile(String source) throws IOException {
+        return ftp.retrieveFileStream(source);
+    }
+
     public void downloadToFile(String source, File destination) throws IOException {
         FileOutputStream out = new FileOutputStream(destination);
         ftp.retrieveFile(source, out);

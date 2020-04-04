@@ -14,12 +14,16 @@
             Remove all files
             <mat-icon>clear</mat-icon>
         </button>
-        <button mat-button (click)="loadAll('13.mp3')">
+        <button mat-button id="downloadAll" (click)="loadFile(this.currentFileName)">
             Load 13.mp3 from FTP
             <mat-icon>get_app</mat-icon>
         </button>
-        <button mat-button (click)="loadAll('Dire Straits - Money For Nothing.mp3')">
+        <button mat-button (click)="loadFile('Dire Straits - Money For Nothing.mp3')">
             Load MFN.mp3 from FTP
+            <mat-icon>get_app</mat-icon>
+        </button>
+        <button mat-button (click)="loadAll()">
+            Load All User Songs
             <mat-icon>get_app</mat-icon>
         </button>
 

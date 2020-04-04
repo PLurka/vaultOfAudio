@@ -6,6 +6,9 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { filter, map } from 'rxjs/operators';
 import { ISong } from 'app/shared/model/song.model';
+import { UserExtraService } from 'app/entities/user-extra';
+import { IUserExtra } from 'app/shared/model/user-extra.model';
+import { IUser } from 'app/core';
 
 type EntityResponseType = HttpResponse<ISong>;
 type EntityArrayResponseType = HttpResponse<ISong[]>;
@@ -14,8 +17,9 @@ type EntityArrayResponseType = HttpResponse<ISong[]>;
 export class SongService {
   public resourceUrl = SERVER_API_URL + 'api/songs';
   private jwt: string;
+  private currentUserExtra: IUserExtra;
 
-  constructor(protected http: HttpClient, private https: HttpClient) {
+  constructor(protected http: HttpClient, private https: HttpClient, private userExtraService: UserExtraService) {
     this.getJWT()
       .pipe(
         filter((res: HttpResponse<string>) => res.ok),
@@ -25,6 +29,32 @@ export class SongService {
         if (res !== undefined) {
           console.error('getJWT(): ' + res);
           this.jwt = res;
+        }
+      });
+
+    this.getLogin()
+      .pipe(
+        filter((res: HttpResponse<string>) => res.ok),
+        map((res: HttpResponse<string>) => res.body)
+      )
+      .subscribe((res: string) => {
+        if (res !== undefined) {
+          this.userExtraService
+            .query()
+            .pipe(
+              filter((resp: HttpResponse<IUserExtra[]>) => resp.ok),
+              map((resp: HttpResponse<IUserExtra[]>) => resp.body)
+            )
+            .subscribe((resp: IUserExtra[]) => {
+              if (res !== undefined) {
+                resp.forEach(userExtra => {
+                  if (userExtra.user['login'] === res) {
+                    console.error('current login: ' + userExtra.user['login']);
+                    this.currentUserExtra = userExtra;
+                  }
+                });
+              }
+            });
         }
       });
   }
@@ -69,36 +99,18 @@ export class SongService {
   pushFileToStorage(file: File, song: ISong): Observable<HttpEvent<{}>> {
     const data: FormData = new FormData();
     data.append('file', file);
-
-    if (song.id != null) data.append('id', song.id.toString());
-
-    data.append('songName', song.songName);
-    data.append('lyrics', song.lyrics);
-    data.append('authors', song.authors);
-    data.append('songMetadata', song.songMetadata);
-
-    if (song.year != null) data.append('year', song.year.toString());
-
-    data.append('songDescription', song.songDescription);
+    data.append('song', JSON.stringify(song));
+    data.append('userExtra', JSON.stringify(this.currentUserExtra));
 
     const newRequest = new HttpRequest('POST', this.resourceUrl + '/savefile', data, {
       reportProgress: true,
       responseType: 'text'
     });
 
-    let response = this.https.request(newRequest);
-
-    this.query()
-      .pipe(
-        filter((res: HttpResponse<ISong[]>) => res.ok),
-        map((res: HttpResponse<ISong[]>) => res.body)
-      )
-      .subscribe((res: ISong[]) => {});
-
-    return response;
+    return this.https.request(newRequest);
   }
 
-  pullPromiseFileFromStorage(path: String) {
+  pullPromiseFileFromStorage(path: String): Promise<any> {
     const requestOptions = {
       method: 'GET',
       headers: {
@@ -109,5 +121,24 @@ export class SongService {
     return fetch(this.resourceUrl + '/file/' + path, requestOptions).then(res => {
       return res.blob();
     });
+  }
+
+  streamFile(path: String): Observable<any> {
+    const requestOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + this.jwt
+      }
+    };
+    /*return fetch(this.resourceUrl + '/stream/' + path, requestOptions).then(res => {
+            return res;
+        });*/
+
+    return this.http.get(`${this.resourceUrl + '/stream/'}/${path}`, { responseType: 'blob', observe: 'response' }).pipe(
+      map((res: any) => {
+        return new Blob([res.body], { type: 'audio/mpeg' });
+      })
+    );
   }
 }

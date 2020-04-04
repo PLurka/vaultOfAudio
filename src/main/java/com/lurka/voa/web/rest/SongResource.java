@@ -1,6 +1,7 @@
 package com.lurka.voa.web.rest;
 
-import com.lurka.voa.domain.Song;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lurka.voa.domain.*;
 import com.lurka.voa.repository.SongRepository;
 import com.lurka.voa.security.SecurityUtils;
 import com.lurka.voa.web.ftp.LocalFtpClient;
@@ -11,6 +12,11 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +29,12 @@ import java.io.FileOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * REST controller for managing {@link com.lurka.voa.domain.Song}.
@@ -63,27 +69,13 @@ public class SongResource {
      */
     @PostMapping("/songs/savefile")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file,
-                                                   String id,
-                                                   String songName,
-                                                   String lyrics,
-                                                   String authors,
-                                                   String songMetadata,
-                                                   String year,
-                                                   String songDescription) {
-        String message = "";
+                                                   String song,
+                                                   String userExtra) {
+        String message = "", path = "";
         try {
             try {
                 Long time = new Timestamp(System.currentTimeMillis()).getTime();
                 String stamp = time.toString();
-
-                /*Song song = new Song();
-                song.setSongName(songName);
-                song.setLyrics(lyrics);
-                song.setAuthors(authors);
-                song.setSongMetadata(stamp + file.getOriginalFilename());
-                song.setYear(Integer.parseInt(year));
-                song.setSongDescription(songDescription);
-                createSong(song);*/
 
                 localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
                 localFTPClient.open();
@@ -91,10 +83,21 @@ public class SongResource {
                 FileOutputStream fos = new FileOutputStream( ftpFile );
                 fos.write(file.getBytes());
                 fos.close();
-                localFTPClient.putFileToPath(ftpFile, "/" + stamp + file.getOriginalFilename());
+                path = "/" + stamp + file.getOriginalFilename();
+                localFTPClient.putFileToPath(ftpFile, path);
+                try {
+                    UserExtra userExt = new ObjectMapper().readValue(userExtra, UserExtra.class); //new UserExtra();
 
-            } catch (Exception e) {
-                throw new RuntimeException("FAIL!" + " EXCEPTION IS: " + e.getMessage());
+                    Song newSong = new ObjectMapper().readValue(song, Song.class);//new Song();
+                    newSong.setSongMetadata(stamp + file.getOriginalFilename());
+                    newSong.setCreatedBy(userExt);
+                    createSong(newSong);
+                }catch (Exception ex){
+                    localFTPClient.deleteFile(path);
+                    throw new RuntimeException(ex.getMessage());
+                }
+            } catch (Exception ex) {
+                throw new RuntimeException("FAIL!" + " EXCEPTION IS: " + ex.getMessage());
             }
             files.add(file.getOriginalFilename());
 
@@ -177,6 +180,44 @@ public class SongResource {
         return SecurityUtils.getCurrentUserJWT().get();
     }
 
+    @GetMapping("/songs/stream/{path}")
+    public ResponseEntity<byte[]> streamFile(@PathVariable String path){
+        log.debug("REST request to get Song File : {}", path);
+        String message = "";
+        File songFile = new File("processedFile.mp3");
+        try {
+            try {
+                localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
+                localFTPClient.open();
+                localFTPClient.downloadToFile("/"+path, songFile);
+            } catch (Exception e) {
+                throw new RuntimeException("FAIL!" + " EXCEPTION IS: " + e.getMessage());
+            }
+            message += "Successfully downloaded!";
+            localFTPClient.close();
+            log.debug(ResponseEntity.status(HttpStatus.OK).body(message).toString());
+        } catch (Exception e) {
+            message += " Failed to download! File is: " + path;
+            try {
+                localFTPClient.close();
+            } catch (Exception ex){
+                log.debug(ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message + " exception is: " + ex.getMessage()).toString());
+            }
+            log.debug(ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message + " exception is: " + e.getMessage()).toString());
+        }
+        try {
+            long length = songFile.length();
+            InputStreamResource inputStreamResource = new InputStreamResource( new FileInputStream(songFile));
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentLength(length);
+            httpHeaders.setCacheControl(CacheControl.noCache().getHeaderValue());
+            return new ResponseEntity(inputStreamResource, httpHeaders, HttpStatus.OK);
+        } catch (Exception ex){
+            log.error(ex.toString());
+        }
+        return null;
+    }
+
     /**
      * {@code GET  /songs/:id} : get the "id" song.
      *
@@ -242,6 +283,15 @@ public class SongResource {
     @DeleteMapping("/songs/{id}")
     public ResponseEntity<Void> deleteSong(@PathVariable Long id) {
         log.debug("REST request to delete Song : {}", id);
+        String path = "";
+        try {
+            localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
+            localFTPClient.open();
+            path = "/" + songRepository.findOneWithEagerRelationships(id).get().getSongMetadata();
+            localFTPClient.deleteFile(path);
+        } catch (Exception ex) {
+            throw new RuntimeException("FAILED TO REMOVE FILE: " + path + "with exception: " + ex.getMessage());
+        }
         songRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
