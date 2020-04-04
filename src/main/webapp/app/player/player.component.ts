@@ -26,7 +26,9 @@ export class PlayerComponent implements OnInit {
   currentFile: any = {};
   fileToUpload: File = null;
   visualization: boolean;
-  fileN: String;
+  shuffle: boolean = false;
+  auto: boolean = true;
+  repeat: boolean = true;
 
   audioCtx = this.audioService.audioCtx; //new (window['AudioContext'] || window['webkitAudioContext'])();
   equalizerSettings: IEqualizerSetting[];
@@ -112,11 +114,6 @@ export class PlayerComponent implements OnInit {
                     });
                   });
                   this.removeAll();
-                  /*this.songs.forEach((song) => {
-                                      this.songService.pullPromiseFileFromStorage("/"+song.songMetadata).then((blob) => {
-                                          this.blobArray.push(new Blob([blob], {type: 'audio/mp3'}));
-                                      })
-                              });*/
                   this.loadAll();
                 }
               },
@@ -128,9 +125,7 @@ export class PlayerComponent implements OnInit {
 
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
-    console.error(URL.createObjectURL(this.fileToUpload));
     this.cloudService.addFiles(files);
-    console.error('files: ' + this.cloudService.files);
   }
 
   removeFile(index: number) {
@@ -150,85 +145,25 @@ export class PlayerComponent implements OnInit {
     });
   }
 
-  loadAll(/*dlBtn: HTMLButtonElement*/) {
-    /*let i = 0;
-      this.blobArray.forEach((blob) => {
-          let blo = new Blob([blob], {type: 'audio/mp3'});
-          let url = URL.createObjectURL(blob);
-          let name = this.songs[i].songName;
-          let artist = this.songs[i].authors;
-
-          let songForMapping = new Map();
-          songForMapping.set('blo', blo);
-          songForMapping.set('url', url);
-          songForMapping.set('name', name);
-          songForMapping.set('artist', artist);
-
-          this.cloudService.addFTPFile(
-              songForMapping.get('blo'), songForMapping.get('url'), songForMapping.get('name'), songForMapping.get('artist'));
-          ++i;
-      });*/
-    /*let i = 0;
-      this.blobArray.forEach((blo) => {
-          let url = URL.createObjectURL(blo);
-          let name = this.songs[i].songName;
-          let artist = this.songs[i].authors;
-          let metadata = this.songs[i].songMetadata;
-
-          this.cloudService.addFTPFile(blo, url, name, artist, metadata);
-          ++i;
-      });*/
-
+  loadAll() {
     this.songs.forEach(song => {
       this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata);
     });
-
-    /*this.songService
-          .getLogin()
-          .pipe(
-              filter((res: HttpResponse<string>) => res.ok),
-              map((res: HttpResponse<string>) => res.body)
-          )
-          .subscribe((res: string) => {
-              if (res !== undefined) {
-                  console.error('getLogin(): ' + res);
-                  this.songService
-                      .query()
-                      .pipe(
-                          filter((resp: HttpResponse<ISong[]>) => resp.ok),
-                          map((resp: HttpResponse<ISong[]>) => resp.body)
-                      )
-                      .subscribe((resp: ISong[]) => {
-                              if (resp !== null) {
-                                  resp.forEach((song) => {
-                                      song.users.forEach((user) => {
-                                          if (user['user']['login'] === res) {
-                                              this.songs.push(song);
-                                          }
-                                      });
-                                  });
-                                  this.removeAll();
-                                  this.songs.forEach((song) => {
-                                      this.currentFileName = song.songMetadata;
-                                      dlBtn.click();
-                                  });
-                              }
-                          },
-                          (res: HttpErrorResponse) => this.onError(res.message)
-                      );
-              }
-          });*/
   }
 
   playStream(url) {
     this.audioService.playStream(url).subscribe(events => {
+      if (events['type'] === 'ended' && this.shuffle.valueOf()) {
+        let rand = Math.floor(Math.random() * this.files.length);
+        this.openFile(this.files[rand], rand);
+      }
       // listening for fun here
-      if (!this.isLastPlaying()) {
+      if (!this.isLastPlaying() && this.auto.valueOf()) {
         if (events['type'] === 'ended') {
           this.next();
         }
       } else {
-        if (events['type'] === 'ended') this.openFile(this.files[0], 0);
+        if (events['type'] === 'ended' && this.repeat.valueOf()) this.openFile(this.files[0], 0);
       }
     });
   }
@@ -237,13 +172,17 @@ export class PlayerComponent implements OnInit {
     this.songService.streamFile(url).subscribe(res => {
       const blobUrl = URL.createObjectURL(res);
       this.audioService.playStream(blobUrl).subscribe(events => {
+        if (events['type'] === 'ended' && this.shuffle.valueOf()) {
+          let rand = Math.floor(Math.random() * this.files.length);
+          this.openFile(this.files[rand], rand);
+        }
         // listening for fun here
-        if (!this.isLastPlaying()) {
+        if (!this.isLastPlaying() && this.auto.valueOf()) {
           if (events['type'] === 'ended') {
             this.next();
           }
         } else {
-          if (events['type'] === 'ended') this.openFile(this.files[0], 0);
+          if (events['type'] === 'ended' && this.repeat.valueOf()) this.openFile(this.files[0], 0);
         }
       });
     });
@@ -276,15 +215,25 @@ export class PlayerComponent implements OnInit {
   }
 
   next() {
-    const index = this.currentFile.index + 1;
-    const file = this.files[index];
-    this.openFile(file, index);
+    if (!this.shuffle.valueOf()) {
+      const index = this.currentFile.index + 1;
+      const file = this.files[index];
+      this.openFile(file, index);
+    } else {
+      let rand = Math.floor(Math.random() * this.files.length);
+      this.openFile(this.files[rand], rand);
+    }
   }
 
   previous() {
-    const index = this.currentFile.index - 1;
-    const file = this.files[index];
-    this.openFile(file, index);
+    if (!this.shuffle.valueOf()) {
+      const index = this.currentFile.index - 1;
+      const file = this.files[index];
+      this.openFile(file, index);
+    } else {
+      let rand = Math.floor(Math.random() * this.files.length);
+      this.openFile(this.files[rand], rand);
+    }
   }
 
   showHide() {
@@ -308,9 +257,6 @@ export class PlayerComponent implements OnInit {
   ngOnInit() {
     let dlBtn = <HTMLButtonElement>document.getElementById('downloadAll');
 
-    /*this.removeAll();
-    this.loadAll();*/
-
     this.visualization = true;
     // get the audio element
     let audioElement = this.audioService.getElement();
@@ -333,7 +279,12 @@ export class PlayerComponent implements OnInit {
 
     const resetFiltersButton = document.getElementById('resetFiltersButton');
 
-    let slider = <HTMLInputElement>document.getElementById('time-slider');
+    let shuffle = <HTMLInputElement>document.getElementById('shuffle');
+    shuffle.checked = false;
+    let auto = <HTMLInputElement>document.getElementById('auto');
+    auto.checked = true;
+    let repeat = <HTMLInputElement>document.getElementById('repeat');
+    repeat.checked = true;
 
     //CREATION OF EQUALIZER FILTERS
     let firstEq = this.audioCtx.createBiquadFilter();
@@ -519,6 +470,30 @@ export class PlayerComponent implements OnInit {
     const self = this;
     this.loadEqSettings();
     this.loadPlaylists();
+
+    shuffle.addEventListener(
+      'click',
+      () => {
+        this.shuffle = shuffle.checked.valueOf();
+      },
+      null
+    );
+
+    auto.addEventListener(
+      'click',
+      () => {
+        this.auto = auto.checked.valueOf();
+      },
+      null
+    );
+
+    repeat.addEventListener(
+      'click',
+      () => {
+        this.repeat = repeat.checked.valueOf();
+      },
+      null
+    );
 
     // WYBÓR EQUALIZERA
     eqChooser.addEventListener(

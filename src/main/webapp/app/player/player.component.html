@@ -14,14 +14,6 @@
             Remove all files
             <mat-icon>clear</mat-icon>
         </button>
-        <button mat-button id="downloadAll" (click)="loadFile(this.currentFileName)">
-            Load 13.mp3 from FTP
-            <mat-icon>get_app</mat-icon>
-        </button>
-        <button mat-button (click)="loadFile('Dire Straits - Money For Nothing.mp3')">
-            Load MFN.mp3 from FTP
-            <mat-icon>get_app</mat-icon>
-        </button>
         <button mat-button (click)="loadAll()">
             Load All User Songs
             <mat-icon>get_app</mat-icon>
@@ -33,13 +25,19 @@
             <option value="{{playlist.id}}" *ngFor="let playlist of playlists ;trackBy: trackId">{{playlist.listName}}</option>
         </select>
     </div>
+    <label for="shuffle">Shuffle</label>
+    <input type="checkbox" id="shuffle" value="Shuffle" checked="false">
+    <label for="auto">AutoPlay</label>
+    <input type="checkbox" id="auto" value="AutoPlay" checked="true">
+    <label for="repeat">Repeat</label>
+    <input type="checkbox" id="repeat" checked="true">
 
     <div class="content">
         <!--<div class="logo">
             <img src="../../content/images/AOV_white.png" class="logoImage"/>
         </div>-->
         <mat-list color="primary" class="songList">
-            <h3 mat-subheader>Songs</h3>
+            <h3 mat-subheader>Songs ({{files.length}})</h3>
             <mat-list-item *ngFor="let file of files; let i = index" (click)="openFile(file, i)">
                 <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
                 <h4 mat-line>{{ file.name }}</h4>
@@ -68,7 +66,7 @@
                 <input type="range" class="panner" id="panner" min="-1" max="1" value="0" step="0.01">
                  R
                 <div class="separator"></div>
-                <button mat-button [disabled]="isFirstPlaying()" (click)="previous()">
+                <button mat-button [disabled]="isFirstPlaying() && !this.shuffle.valueOf()" (click)="previous()">
                     <mat-icon mat-list-icon>skip_previous</mat-icon>
                 </button>
                 <button mat-button (click)="play()" [disabled]="state?.error" *ngIf="!state?.playing">
@@ -77,7 +75,7 @@
                 <button mat-button (click)="pause()" *ngIf="state?.playing">
                     <mat-icon mat-list-icon>pause</mat-icon>
                 </button>
-                <button  mat-button [disabled]="isLastPlaying()" (click)="next()">
+                <button  mat-button [disabled]="isLastPlaying() && !this.shuffle.valueOf()" (click)="next()">
                     <mat-icon mat-list-icon>skip_next</mat-icon>
                 </button>
                 <div class="separator"></div>
