@@ -34,7 +34,7 @@ export class PlayerComponent implements OnInit {
   equalizerSettings: IEqualizerSetting[];
   playlists: IPlaylist[];
   songs: ISong[] = [];
-  currentFileName: string = '13.mp3';
+  playedArray: boolean[] = [];
 
   loadPlaylists() {
     this.playlistService
@@ -152,10 +152,27 @@ export class PlayerComponent implements OnInit {
   }
 
   playStream(url) {
+    for (var i = 0; i < this.files.length; i++) {
+      this.playedArray.push(false);
+    }
     this.audioService.playStream(url).subscribe(events => {
       if (events['type'] === 'ended' && this.shuffle.valueOf()) {
+        if (!this.repeat.valueOf()) this.playedArray[this.currentFile.index] = true;
         let rand = Math.floor(Math.random() * this.files.length);
-        this.openFile(this.files[rand], rand);
+        do {
+          if (this.playedArray.every(this.isTrue)) {
+            this.stop();
+            break;
+          }
+          rand = Math.floor(Math.random() * this.files.length);
+        } while ((this.playedArray[rand] = true));
+        if (!this.playedArray.every(this.isTrue)) {
+          this.openFile(this.files[rand], rand);
+        } else {
+          for (var i = 0; i < this.files.length; i++) {
+            this.playedArray.push(false);
+          }
+        }
       }
       // listening for fun here
       if (!this.isLastPlaying() && this.auto.valueOf()) {
@@ -168,13 +185,31 @@ export class PlayerComponent implements OnInit {
     });
   }
 
+  isTrue(value: boolean) {
+    return value;
+  }
+
   playStreamFromStream(url) {
     this.songService.streamFile(url).subscribe(res => {
       const blobUrl = URL.createObjectURL(res);
       this.audioService.playStream(blobUrl).subscribe(events => {
         if (events['type'] === 'ended' && this.shuffle.valueOf()) {
+          if (!this.repeat.valueOf()) this.playedArray[this.currentFile.index] = true;
           let rand = Math.floor(Math.random() * this.files.length);
-          this.openFile(this.files[rand], rand);
+          do {
+            if (this.playedArray.every(this.isTrue)) {
+              this.stop();
+              break;
+            }
+            rand = Math.floor(Math.random() * this.files.length);
+          } while ((this.playedArray[rand] = true));
+          if (!this.playedArray.every(this.isTrue)) {
+            this.openFile(this.files[rand], rand);
+          } else {
+            for (var i = 0; i < this.files.length; i++) {
+              this.playedArray.push(false);
+            }
+          }
         }
         // listening for fun here
         if (!this.isLastPlaying() && this.auto.valueOf()) {
