@@ -23,6 +23,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import 'hammerjs';
 import { VaultOfAudioAppMySongsModule } from './my-songs/my-songs.module';
+import { VaultOfAudioAppMyPlaylistsModule } from './my-playlists/my-playlists.module';
+import { VaultOfAudioAppMyCrowdsModule } from './my-crowds/my-crowds.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent } from './layouts';
 
@@ -45,6 +47,8 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
     VaultOfAudioAccountModule,
     VaultOfAudioAppPlayerModule,
     VaultOfAudioAppMySongsModule,
+    VaultOfAudioAppMyPlaylistsModule,
+    VaultOfAudioAppMyCrowdsModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     VaultOfAudioEntityModule,
     VaultOfAudioAppRoutingModule
