@@ -50,12 +50,12 @@
                 <td>{{equalizerSetting.tenth}}</td>
                 <td>
                     <span *ngFor="let user of equalizerSetting.users; let last = last">
-                            <a class="form-control-static" [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.id}}</a>{{last ? '' : ', '}}
+                            <a class="form-control-static" [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.user.login}}</a>{{last ? '' : ', '}}
                         </span>
                 </td>
                 <td>
                     <div *ngIf="equalizerSetting.createdBy">
-                        <a [routerLink]="['/user-extra', equalizerSetting.createdBy?.id, 'view' ]" >{{equalizerSetting.createdBy?.id}}</a>
+                        <a [routerLink]="['/user-extra', equalizerSetting.createdBy?.id, 'view' ]" >{{equalizerSetting.createdBy?.user.login}}</a>
                     </div>
                 </td>
                 <td class="text-right">

@@ -39,22 +39,22 @@
                 </td>
                 <td>
                     <span *ngFor="let user of crowd.users; let last = last">
-                            <a class="form-control-static" [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.id}}</a>{{last ? '' : ', '}}
+                            <a class="form-control-static" [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.user.login}}</a>{{last ? '' : ', '}}
                         </span>
                 </td>
                 <td>
                     <span *ngFor="let accepted of crowd.accepteds; let last = last">
-                            <a class="form-control-static" [routerLink]="['/user-extra', accepted?.id, 'view' ]">{{accepted.id}}</a>{{last ? '' : ', '}}
+                            <a class="form-control-static" [routerLink]="['/user-extra', accepted?.id, 'view' ]">{{accepted.user.login}}</a>{{last ? '' : ', '}}
                         </span>
                 </td>
                 <td>
                     <span *ngFor="let playlist of crowd.playlists; let last = last">
-                            <a class="form-control-static" [routerLink]="['/playlist', playlist?.id, 'view' ]">{{playlist.id}}</a>{{last ? '' : ', '}}
+                            <a class="form-control-static" [routerLink]="['/playlist', playlist?.id, 'view' ]">{{playlist.listName}}</a>{{last ? '' : ', '}}
                         </span>
                 </td>
                 <td>
                     <div *ngIf="crowd.createdBy">
-                        <a [routerLink]="['/user-extra', crowd.createdBy?.id, 'view' ]" >{{crowd.createdBy?.id}}</a>
+                        <a [routerLink]="['/user-extra', crowd.createdBy?.id, 'view' ]" >{{crowd.createdBy?.user.login}}</a>
                     </div>
                 </td>
                 <td class="text-right">

@@ -57,26 +57,26 @@
                 <div class="form-group">
                     <label jhiTranslate="vaultOfAudioApp.crowd.user" for="field_users">User</label>
                     <select class="form-control" id="field_users" multiple name="users" formControlName="users">
-                        <option [ngValue]="getSelected(editForm.get('users').value, userExtraOption)" *ngFor="let userExtraOption of userextras; trackBy: trackUserExtraById">{{userExtraOption.id}}</option>
+                        <option [ngValue]="getSelected(editForm.get('users').value, userExtraOption)" *ngFor="let userExtraOption of userextras; trackBy: trackUserExtraById">{{userExtraOption.user.login}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label jhiTranslate="vaultOfAudioApp.crowd.accepted" for="field_accepteds">Accepted</label>
                     <select class="form-control" id="field_accepteds" multiple name="accepteds" formControlName="accepteds">
-                        <option [ngValue]="getSelected(editForm.get('accepteds').value, userExtraOption)" *ngFor="let userExtraOption of userextras; trackBy: trackUserExtraById">{{userExtraOption.id}}</option>
+                        <option [ngValue]="getSelected(editForm.get('accepteds').value, userExtraOption)" *ngFor="let userExtraOption of userextras; trackBy: trackUserExtraById">{{userExtraOption.user.login}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label jhiTranslate="vaultOfAudioApp.crowd.playlist" for="field_playlists">Playlist</label>
                     <select class="form-control" id="field_playlists" multiple name="playlists" formControlName="playlists">
-                        <option [ngValue]="getSelected(editForm.get('playlists').value, playlistOption)" *ngFor="let playlistOption of playlists; trackBy: trackPlaylistById">{{playlistOption.id}}</option>
+                        <option [ngValue]="getSelected(editForm.get('playlists').value, playlistOption)" *ngFor="let playlistOption of playlists; trackBy: trackPlaylistById">{{playlistOption.listName}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="vaultOfAudioApp.crowd.createdBy" for="field_createdBy">Created By</label>
                     <select class="form-control" id="field_createdBy" name="createdBy" formControlName="createdBy">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="userExtraOption.id === editForm.get('createdBy').value?.id ? editForm.get('createdBy').value : userExtraOption" *ngFor="let userExtraOption of userextras; trackBy: trackUserExtraById">{{userExtraOption.id}}</option>
+                        <option [ngValue]="userExtraOption.id === editForm.get('createdBy').value?.id ? editForm.get('createdBy').value : userExtraOption" *ngFor="let userExtraOption of userextras; trackBy: trackUserExtraById">{{userExtraOption.user.login}}</option>
                     </select>
                 </div>
             </div>

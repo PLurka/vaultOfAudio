@@ -40,12 +40,12 @@
                 <td>{{song.songDescription}}</td>
                 <td>
                     <span *ngFor="let user of song.users; let last = last">
-                            <a class="form-control-static" [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.id}}</a>{{last ? '' : ', '}}
+                            <a class="form-control-static" [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.user.login}}</a>{{last ? '' : ', '}}
                         </span>
                 </td>
                 <td>
                     <div *ngIf="song.createdBy">
-                        <a [routerLink]="['/user-extra', song.createdBy?.id, 'view' ]" >{{song.createdBy?.id}}</a>
+                        <a [routerLink]="['/user-extra', song.createdBy?.id, 'view' ]" >{{song.createdBy?.user.login}}</a>
                     </div>
                 </td>
                 <td class="text-right">
