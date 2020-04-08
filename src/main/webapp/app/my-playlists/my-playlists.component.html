@@ -33,17 +33,17 @@
                 <td>{{playlist.listDescription}}</td>
                 <td>
                     <span *ngFor="let user of playlist.users; let last = last">
-                            <a class="form-control-static" [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.id}}</a>{{last ? '' : ', '}}
+                            <a class="form-control-static" [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.user.login}}</a>{{last ? '' : ', '}}
                         </span>
                 </td>
                 <td>
                     <span *ngFor="let song of playlist.songs; let last = last">
-                            <a class="form-control-static" [routerLink]="['/song', song?.id, 'view' ]">{{song.id}}</a>{{last ? '' : ', '}}
+                            <a class="form-control-static" [routerLink]="['/song', song?.id, 'view' ]">{{song.songName}}</a>{{last ? '' : ', '}}
                         </span>
                 </td>
                 <td>
                     <div *ngIf="playlist.createdBy">
-                        <a [routerLink]="['/user-extra', playlist.createdBy?.id, 'view' ]" >{{playlist.createdBy?.id}}</a>
+                        <a [routerLink]="['/user-extra', playlist.createdBy?.id, 'view' ]" >{{playlist.createdBy?.user.login}}</a>
                     </div>
                 </td>
                 <td class="text-right">
