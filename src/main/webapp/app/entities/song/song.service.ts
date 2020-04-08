@@ -124,7 +124,7 @@ export class SongService {
   }
 
   streamFile(path: String): Observable<any> {
-    return this.http.get(`${this.resourceUrl + '/stream/'}/${path}`, { responseType: 'blob', observe: 'response' }).pipe(
+    return this.http.get(`${this.resourceUrl + '/stream/'}${path}`, { responseType: 'blob', observe: 'response' }).pipe(
       map((res: any) => {
         return new Blob([res.body], { type: 'audio/mpeg' });
       })

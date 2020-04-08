@@ -192,7 +192,7 @@ export class PlayerComponent implements OnInit {
     this.currentFile = { index, file };
     this.audioService.stop();
     if (file.metaData) this.playStreamFromStream(file.metaData);
-    if (file.url) this.playStream(file.url);
+    else if (file.url) this.playStream(file.url);
     else this.playStream(URL.createObjectURL(file));
   }
 
