@@ -19,7 +19,7 @@ export class SongService {
   private jwt: string;
   private currentUserExtra: IUserExtra;
 
-  constructor(protected http: HttpClient, private https: HttpClient, private userExtraService: UserExtraService) {
+  constructor(protected http: HttpClient, private https: HttpClient, public userExtraService: UserExtraService) {
     this.getJWT()
       .pipe(
         filter((res: HttpResponse<string>) => res.ok),

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -44,7 +44,8 @@ export class UserExtraUpdateComponent implements OnInit {
     protected userExtraService: UserExtraService,
     protected userService: UserService,
     protected equalizerSettingService: EqualizerSettingService,
-    protected songService: SongService,
+    protected http: HttpClient,
+    protected https: HttpClient,
     protected playlistService: PlaylistService,
     protected crowdService: CrowdService,
     protected activatedRoute: ActivatedRoute,
@@ -70,7 +71,7 @@ export class UserExtraUpdateComponent implements OnInit {
         map((response: HttpResponse<IEqualizerSetting[]>) => response.body)
       )
       .subscribe((res: IEqualizerSetting[]) => (this.equalizersettings = res), (res: HttpErrorResponse) => this.onError(res.message));
-    this.songService
+    new SongService(this.http, this.https, this.userExtraService)
       .query()
       .pipe(
         filter((mayBeOk: HttpResponse<ISong[]>) => mayBeOk.ok),
