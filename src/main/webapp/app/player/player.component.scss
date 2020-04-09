@@ -69,9 +69,9 @@
     }
     .media-action-bar {
       width: 100%;
-      margin-left: 25px;
-      margin-right: 25px;
-      padding: 2px;
+      //margin-left: 25px;
+      //margin-right: 25px;
+      //padding: 2px;
       justify-content: space-evenly;
       flex: auto;
       flex-direction: row;
@@ -136,7 +136,7 @@
         }
 
         .next {
-          max-width: 30%;
+          max-width: 20%;
           // margin: auto;
           display: flex;
           flex-grow: 1;
@@ -146,9 +146,16 @@
           padding: 0px;
         }
         .mat-icon {
-          height: 48px !important;
-          width: 48px !important;
-          font-size: 48px !important;
+          @media only screen and (min-width: 600px) {
+            height: 48px !important;
+            width: 48px !important;
+            font-size: 48px !important;
+          }
+          @media only screen and (max-width: 600px) {
+            height: 36px !important;
+            width: 36px !important;
+            font-size: 36px !important;
+          }
           display: flex;
           justify-content: center;
           // margin: 0px;
@@ -156,7 +163,7 @@
       }
       .volume {
         //float: right;
-        //max-width: 30%;
+        max-width: 25%;
         //margin: auto;
         display: flex;
         flex: auto;
@@ -168,13 +175,13 @@
         .volumeBar {
           display: flex;
           // margin: auto;
-          max-width: 70%;
+          max-width: 75%;
           justify-content: center;
         }
         .volumeText {
           display: flex;
           // margin: auto;
-          max-width: 70%;
+          max-width: 75%;
           justify-content: center;
         }
       }
@@ -244,6 +251,15 @@
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
+    width: 100%;
+    .showHideEq {
+      flex: auto;
+      flex-grow: 1;
+    }
+    .showHideAdvanced {
+      flex: auto;
+      flex-grow: 1;
+    }
   }
 
   .cdk-drop-list-dragging .cdk-drag {
