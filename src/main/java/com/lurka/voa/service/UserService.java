@@ -3,7 +3,9 @@ package com.lurka.voa.service;
 import com.lurka.voa.config.Constants;
 import com.lurka.voa.domain.Authority;
 import com.lurka.voa.domain.User;
+import com.lurka.voa.domain.UserExtra;
 import com.lurka.voa.repository.AuthorityRepository;
+import com.lurka.voa.repository.UserExtraRepository;
 import com.lurka.voa.repository.UserRepository;
 import com.lurka.voa.security.AuthoritiesConstants;
 import com.lurka.voa.security.SecurityUtils;
@@ -37,17 +39,20 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final UserExtraRepository userExtraRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager, UserExtraRepository userExtraRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.userExtraRepository = userExtraRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -161,6 +166,13 @@ public class UserService {
         userRepository.save(user);
         this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);
+
+        // Create and save the UserExtra entity
+        UserExtra newUserExtra = new UserExtra();
+        newUserExtra.setUser(user);
+        userExtraRepository.save(newUserExtra);
+        log.debug("Created Information for UserExtra: {}", newUserExtra);
+
         return user;
     }
 
