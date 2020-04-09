@@ -178,6 +178,10 @@ export class PlayerComponent implements OnInit {
 
   removeFile(index: number) {
     this.cloudService.removeFile(index);
+    if (index === this.currentFile.index) {
+      this.currentFile.index = null;
+      this.stop();
+    }
   }
 
   removeAll() {
