@@ -15,6 +15,7 @@ import { ISong, Song } from 'app/shared/model/song.model';
 import { MySongsComponent } from 'app/my-songs';
 import { CrowdService } from 'app/entities/crowd';
 import { ICrowd } from 'app/shared/model/crowd.model';
+import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'jhi-player',
@@ -59,8 +60,6 @@ export class PlayerComponent implements OnInit {
             )
             .subscribe(
               (resp: IPlaylist[]) => {
-                /*this.playlists = resp;*/
-
                 this.crowdService
                   .query()
                   .pipe(
@@ -83,7 +82,6 @@ export class PlayerComponent implements OnInit {
                     },
                     (res: HttpErrorResponse) => this.onError(res.message)
                   );
-
                 resp.forEach(function(playlist) {
                   playlist.users.forEach(function(user) {
                     if (user['user']['login'] === res) {
@@ -223,6 +221,12 @@ export class PlayerComponent implements OnInit {
       }
     });
   }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.files, event.previousIndex, event.currentIndex);
+  }
+
+  saveCurrentEq() {}
 
   playStream(url) {
     this.audioService.playStream(url).subscribe(events => {

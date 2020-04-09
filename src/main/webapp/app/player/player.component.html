@@ -41,9 +41,9 @@
         <!--<div class="logo">
             <img src="../../content/images/AOV_white.png" class="logoImage"/>
         </div>-->
-        <mat-list color="primary" class="songList">
+        <mat-list cdkDropList color="primary" class="songList" (cdkDropListDropped)="drop($event)" *ngIf="files">
             <h3 mat-subheader>Songs ({{files.length}})</h3>
-            <mat-list-item *ngFor="let file of files; let i = index" (click)="openFile(file, i)">
+            <mat-list-item *ngFor="let file of files; let i = index" (click)="openFile(file, i)" cdkDrag>
                 <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
                 <h4 mat-line>{{i+1}}. {{ file.name }}</h4>
                 <h5 mat-line>by {{ file.artist }}</h5>
@@ -112,6 +112,12 @@
         <select id="equalizers">
             <option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>
         </select>
+
+        <button mat-button (click)="saveCurrentEq()">
+            Save current Equalizer
+            <mat-icon>backup</mat-icon>
+        </button>
+        <input type="text" id="newEqName" value="newEq">
 
         <div class="equalizer">
             <div class="wholeBar">
