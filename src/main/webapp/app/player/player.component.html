@@ -67,25 +67,29 @@
                 {{ state?.readableDuration }}
             </mat-toolbar-row>
             <mat-toolbar-row class="media-action-bar">
-                L
-                <input type="range" class="panner" id="panner" min="-1" max="1" value="0" step="0.01">
-                 R
-                <div class="separator"></div>
-                <button mat-button [disabled]="isFirstPlaying() && !this.shuffle.valueOf()" (click)="previous()">
+                <div class="panner">
+                    <h6 class="lTxt">L</h6>
+                    <input type="range" class="pannerBar" min="-1" max="1" value="0" step="0.01">
+                    <h6 class="rTxt">R</h6>
+                </div>
+                <div class="playerButtons">
+                <button mat-button [disabled]="isFirstPlaying() && !this.shuffle.valueOf()" (click)="previous()" class="previous">
                     <mat-icon mat-list-icon>skip_previous</mat-icon>
                 </button>
-                <button mat-button (click)="play()" [disabled]="state?.error" *ngIf="!state?.playing">
+                <button mat-button (click)="play()" [disabled]="state?.error" *ngIf="!state?.playing" class="playPause">
                     <mat-icon mat-list-icon>play_circle_filled</mat-icon>
                 </button>
-                <button mat-button (click)="pause()" *ngIf="state?.playing">
+                <button mat-button (click)="pause()" *ngIf="state?.playing" class="previous">
                     <mat-icon mat-list-icon>pause</mat-icon>
                 </button>
-                <button  mat-button [disabled]="isLastPlaying() && !this.shuffle.valueOf()" (click)="next()">
+                <button  mat-button [disabled]="isLastPlaying() && !this.shuffle.valueOf()" (click)="next()" class="next">
                     <mat-icon mat-list-icon>skip_next</mat-icon>
                 </button>
-                <div class="separator"></div>
-                Volume:
-                <input type="range" class="volume" id="volume" min="0" max="2" value="1" step="0.01">
+                </div>
+                <div class="volume">
+                    <h6 class="volumeText">Volume:</h6>
+                    <input type="range" class="volumeBar" id="volume" min="0" max="2" value="1" step="0.01">
+                </div>
             </mat-toolbar-row>
         </mat-toolbar>
     </div>

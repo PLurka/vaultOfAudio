@@ -61,28 +61,122 @@
   .media-footer {
     //position: absolute;
     bottom: 0;
+    justify-content: center;
     .time-slider {
       width: 100% !important;
       margin-left: 20px;
       margin-right: 20px;
     }
     .media-action-bar {
-      .panner {
-        float: left;
-      }
-      .separator {
-        width: 50%;
-      }
       width: 100%;
-      padding: 2.5rem;
-      justify-content: center;
-      .mat-icon {
-        height: 48px !important;
-        width: 48px !important;
-        font-size: 48px !important;
+      margin-left: 25px;
+      margin-right: 25px;
+      padding: 2px;
+      justify-content: space-evenly;
+      flex: auto;
+      flex-direction: row;
+      .panner {
+        //float: left;
+        // margin: auto;
+        display: flex;
+        flex-grow: 1;
+        justify-content: center;
+        //margin-left: 5px;
+        flex: auto;
+        max-width: 25%;
+        .lTxt {
+          //margin: auto;
+          flex-grow: 0.25;
+          justify-content: flex-end;
+          text-align: right;
+          display: flex;
+        }
+        .pannerBar {
+          // margin: auto;
+          max-width: 60%;
+          flex-grow: 8;
+          justify-content: center;
+          display: flex;
+        }
+        .rTxt {
+          //margin: auto;
+          flex-grow: 0.25;
+          justify-content: flex-start;
+          text-align: left;
+          display: flex;
+        }
+      }
+      .playerButtons {
+        // margin: auto;
+        // max-width: 35%;
+        display: flex;
+        flex: auto;
+        flex-direction: row;
+        flex-grow: 1;
+        justify-content: center;
+        max-width: 40%;
+        .previous {
+          // margin: auto;
+          max-width: 20%;
+          display: flex;
+          flex-grow: 1;
+          //justify-content: center;
+          //padding-left: 40%;
+          //align-items: flex-end;
+          justify-content: flex-end;
+          padding: 0px;
+        }
+
+        .playPause {
+          max-width: 20%;
+          display: flex;
+          flex-grow: 1;
+          // margin: auto;
+          justify-content: center;
+        }
+
+        .next {
+          max-width: 30%;
+          // margin: auto;
+          display: flex;
+          flex-grow: 1;
+          //justify-content: center;
+          //padding-right: 40%;
+          justify-content: flex-start;
+          padding: 0px;
+        }
+        .mat-icon {
+          height: 48px !important;
+          width: 48px !important;
+          font-size: 48px !important;
+          display: flex;
+          justify-content: center;
+          // margin: 0px;
+        }
       }
       .volume {
-        float: right;
+        //float: right;
+        //max-width: 30%;
+        //margin: auto;
+        display: flex;
+        flex: auto;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: center;
+        // margin-right: 5px;
+        //width:auto;
+        .volumeBar {
+          display: flex;
+          // margin: auto;
+          max-width: 70%;
+          justify-content: center;
+        }
+        .volumeText {
+          display: flex;
+          // margin: auto;
+          max-width: 70%;
+          justify-content: center;
+        }
       }
     }
   }
