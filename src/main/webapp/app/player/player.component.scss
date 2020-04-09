@@ -35,8 +35,8 @@
     }
     .songList {
       overflow: auto;
-      min-height: 400px;
-      max-height: 600px;
+      min-height: 240px;
+      max-height: 560px;
     }
     .songList::-webkit-scrollbar {
       //display: none;

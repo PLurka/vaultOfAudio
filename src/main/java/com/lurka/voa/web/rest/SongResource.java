@@ -145,15 +145,43 @@ public class SongResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/songs")
-    public ResponseEntity<Song> updateSong(@Valid @RequestBody Song song) throws URISyntaxException {
-        log.debug("REST request to update Song : {}", song);
-        if (song.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+    public ResponseEntity<Song> updateSong(@RequestParam("file") MultipartFile file, @Valid String song) throws URISyntaxException {
+        Song songObject;
+        try {
+            songObject = new ObjectMapper().readValue(song, Song.class);
+        } catch (Exception ex){
+            throw new BadRequestAlertException("Invalid song object!", ENTITY_NAME, "idnull");
         }
-        Song result = songRepository.save(song);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, song.getId().toString()))
-            .body(result);
+            log.debug("REST request to update Song : {}", songObject);
+            if (songObject.getId() == null) {
+                throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            }
+            if(file != null){
+                String path = "";
+                try {
+                    Long time = new Timestamp(System.currentTimeMillis()).getTime();
+                    String stamp = time.toString();
+
+                    localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
+                    localFTPClient.open();
+                    localFTPClient.deleteFile("/"+songObject.getSongMetadata());
+                    File ftpFile = new File(System.getProperty("java.io.tmpdir") + "/" + file.getOriginalFilename());
+                    FileOutputStream fos = new FileOutputStream( ftpFile );
+                    fos.write(file.getBytes());
+                    fos.close();
+                    path = stamp + file.getOriginalFilename();
+                    songObject.setSongMetadata(path);
+                    localFTPClient.putFileToPath(ftpFile, "/" + path);
+                    localFTPClient.close();
+                } catch (Exception ex) {
+                    throw new RuntimeException("FAIL!" + " EXCEPTION IS: " + ex.getMessage());
+                }
+            }
+            Song result = songRepository.save(songObject);
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, songObject.getId().toString()))
+                .body(result);
+
     }
 
     /**

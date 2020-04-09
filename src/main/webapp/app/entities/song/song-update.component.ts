@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpResponse, HttpErrorResponse, HttpEventType } from '@angular/common/http';
+import { HttpResponse, HttpErrorResponse, HttpEventType, HttpEvent } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -64,23 +64,22 @@ export class SongUpdateComponent implements OnInit {
   upload() {
     this.progress.percentage = 0;
     this.currentFileUpload = this.selectedFiles.item(0);
-    this.songService
-      .pushFileToStorage(
-        this.currentFileUpload,
-        new Song(
-          this.editForm.get(['id']).value,
-          this.editForm.get(['songName']).value,
-          this.editForm.get(['lyrics']).value,
-          this.editForm.get(['authors']).value,
-          this.editForm.get(['songMetadata']).value,
-          this.editForm.get(['year']).value,
-          this.editForm.get(['songDescription']).value,
-          this.editForm.get(['users']).value,
-          this.editForm.get(['createdBy']).value,
-          null
-        )
-      )
-      .subscribe(event => {
+
+    let song = new Song(
+      this.editForm.get(['id']).value,
+      this.editForm.get(['songName']).value,
+      this.editForm.get(['lyrics']).value,
+      this.editForm.get(['authors']).value,
+      this.editForm.get(['songMetadata']).value,
+      this.editForm.get(['year']).value,
+      this.editForm.get(['songDescription']).value,
+      this.editForm.get(['users']).value,
+      this.editForm.get(['createdBy']).value,
+      null
+    );
+
+    if (song.id === undefined) {
+      this.songService.pushFileToStorage(this.currentFileUpload, song).subscribe(event => {
         if (event.type == HttpEventType.UploadProgress) {
           this.progress.percentage = Math.round((100 * event.loaded) / event.total);
         } else if (event instanceof HttpResponse) {
@@ -88,6 +87,12 @@ export class SongUpdateComponent implements OnInit {
         }
         this.selectedFile = undefined;
       });
+    } else {
+      this.songService.update(this.currentFileUpload, song).subscribe(event => {
+        alert('File Successfully Uploaded');
+        this.selectedFile = undefined;
+      });
+    }
   }
 
   selectFile(event) {
@@ -137,7 +142,12 @@ export class SongUpdateComponent implements OnInit {
     this.isSaving = true;
     const song = this.createFromForm();
     if (song.id !== undefined) {
-      this.subscribeToSaveResponse(this.songService.update(song));
+      this.songService.update(null, song).subscribe(
+        (res: HttpEvent<{}>) => {
+          alert(res.toString());
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
     } else {
       this.subscribeToSaveResponse(this.songService.create(song));
     }

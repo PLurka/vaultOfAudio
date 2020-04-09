@@ -274,8 +274,9 @@ export class PlayerComponent implements OnInit {
             map((res: HttpResponse<IEqualizerSetting>) => res.body)
           )
           .subscribe((res: IEqualizerSetting) => {
-            console.error(
-              'newEqualizerSettings.first = ' +
+            console
+              .error
+              /*'newEqualizerSettings.first = ' +
                 res.first +
                 '\nthisTemp.newEqualizerSettings.second = ' +
                 res.second +
@@ -302,8 +303,8 @@ export class PlayerComponent implements OnInit {
                 '\nthisTemp.newEqualizerSettings.users = ' +
                 res.users +
                 '\nthisTemp.newEqualizerSettings.id = ' +
-                res.id
-            );
+                res.id*/
+              ();
             //newEq = res;
           });
         alreadyExists = true;
@@ -317,9 +318,6 @@ export class PlayerComponent implements OnInit {
           }
           if (settingFound) break;
         }
-        /*currentSettings.value = (currentSettings.length).toString();
-              currentSettings.value = (1).toString();
-              currentSettings.value = (existingIndex+1).toString();*/
         this.loadEqSettings();
       }
     });
@@ -330,36 +328,7 @@ export class PlayerComponent implements OnInit {
           filter((res: HttpResponse<IEqualizerSetting>) => res.ok),
           map((res: HttpResponse<IEqualizerSetting>) => res.body)
         )
-        .subscribe((res: IEqualizerSetting) => {
-          console.error(
-            'newEqualizerSettings.first = ' +
-              res.first +
-              '\nthisTemp.newEqualizerSettings.second = ' +
-              res.second +
-              '\nthisTemp.newEqualizerSettings.third = ' +
-              res.third +
-              '\nthisTemp.newEqualizerSettings.fourth = ' +
-              res.fourth +
-              '\nthisTemp.newEqualizerSettings.fifth = ' +
-              res.fifth +
-              '\nthisTemp.newEqualizerSettings.sixth = ' +
-              res.sixth +
-              '\nthisTemp.newEqualizerSettings.seventh = ' +
-              res.seventh +
-              '\nthisTemp.newEqualizerSettings.eight = ' +
-              res.eight +
-              '\nthisTemp.newEqualizerSettings.ninth = ' +
-              res.ninth +
-              '\nthisTemp.newEqualizerSettings.tenth = ' +
-              res.tenth +
-              '\nthisTemp.newEqualizerSettings.equalizerName = ' +
-              res.equalizerName +
-              '\nthisTemp.newEqualizerSettings.createdBy = ' +
-              res.createdBy +
-              '\nthisTemp.newEqualizerSettings.users = ' +
-              res.users
-          );
-        });
+        .subscribe((res: IEqualizerSetting) => {});
       this.equalizerSettings.push(this.newEqualizerSettings);
     }
   }
@@ -367,11 +336,10 @@ export class PlayerComponent implements OnInit {
   playStream(url) {
     this.audioService.playStream(url).subscribe(events => {
       if (events['type'] === 'ended' && this.shuffle.valueOf()) {
-        let rand = Math.floor(Math.random() * this.files.length);
-        this.openFile(this.files[rand], rand);
+        this.next();
       }
       // listening for fun here
-      if (!this.isLastPlaying() && this.auto.valueOf()) {
+      else if (!this.isLastPlaying() && this.auto.valueOf()) {
         if (events['type'] === 'ended') {
           this.next();
         }
@@ -386,11 +354,10 @@ export class PlayerComponent implements OnInit {
       const blobUrl = URL.createObjectURL(res);
       this.audioService.playStream(blobUrl).subscribe(events => {
         if (events['type'] === 'ended' && this.shuffle.valueOf()) {
-          let rand = Math.floor(Math.random() * this.files.length);
-          this.openFile(this.files[rand], rand);
+          this.next();
         }
         // listening for fun here
-        if (!this.isLastPlaying() && this.auto.valueOf()) {
+        else if (!this.isLastPlaying() && this.auto.valueOf()) {
           if (events['type'] === 'ended') {
             this.next();
           }

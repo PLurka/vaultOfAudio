@@ -63,8 +63,19 @@ export class SongService {
     return this.http.post<ISong>(this.resourceUrl, song, { observe: 'response' });
   }
 
-  update(song: ISong): Observable<EntityResponseType> {
-    return this.http.put<ISong>(this.resourceUrl, song, { observe: 'response' });
+  update(file: File, song: ISong): Observable<HttpEvent<{}>> {
+    const data: FormData = new FormData();
+    data.append('file', file);
+    data.append('song', JSON.stringify(song));
+    return this.http.put<ISong>(this.resourceUrl, data, { observe: 'response' });
+
+    /*const newRequest = new HttpRequest('PUT', this.resourceUrl , data, {
+          reportProgress: true,
+          responseType: 'text'
+      })
+
+
+      return this.https.request(newRequest);*/
   }
 
   find(id: number): Observable<EntityResponseType> {
