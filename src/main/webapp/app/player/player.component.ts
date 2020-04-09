@@ -37,18 +37,38 @@ export class PlayerComponent implements OnInit {
   currentFileName: string = '13.mp3';
 
   loadPlaylists() {
-    this.playlistService
-      .query()
+    let playlistsTemp: IPlaylist[] = [];
+    this.songService
+      .getLogin()
       .pipe(
-        filter((res: HttpResponse<IPlaylist[]>) => res.ok),
-        map((res: HttpResponse<IPlaylist[]>) => res.body)
+        filter((res: HttpResponse<string>) => res.ok),
+        map((res: HttpResponse<string>) => res.body)
       )
-      .subscribe(
-        (res: IPlaylist[]) => {
-          this.playlists = res;
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+      .subscribe((res: string) => {
+        if (res != undefined) {
+          console.error('getLogin(): ' + res);
+          this.playlistService
+            .query()
+            .pipe(
+              filter((resp: HttpResponse<IPlaylist[]>) => resp.ok),
+              map((resp: HttpResponse<IPlaylist[]>) => resp.body)
+            )
+            .subscribe(
+              (resp: IPlaylist[]) => {
+                /*this.playlists = resp;*/
+                resp.forEach(function(playlist) {
+                  playlist.users.forEach(function(user) {
+                    if (user['user']['login'] === res) {
+                      playlistsTemp.push(playlist);
+                    }
+                  });
+                });
+              },
+              (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        }
+      });
+    this.playlists = playlistsTemp;
   }
 
   loadEqSettings() {
@@ -359,6 +379,8 @@ export class PlayerComponent implements OnInit {
 
     let eqChooser = <HTMLSelectElement>document.getElementById('equalizers');
 
+    let playlistChooser = <HTMLSelectElement>document.getElementById('playlists');
+
     // CREATION OF ALL OTHER FILTERS
     let lowpass = this.audioCtx.createBiquadFilter();
     lowpass.type = 'lowpass';
@@ -493,6 +515,25 @@ export class PlayerComponent implements OnInit {
         this.repeat = repeat.checked.valueOf();
       },
       null
+    );
+
+    // WYBÓR PLAYLISTY
+    playlistChooser.addEventListener(
+      'input',
+      event => {
+        this.cloudService.removeAll();
+        console.error('event.returnValue: ' + event.currentTarget['selectedOptions'][0]['value']);
+
+        this.playlists.forEach(playlist => {
+          let selectedId = +event.currentTarget['selectedOptions'][0]['value'];
+          if (playlist.id === selectedId) {
+            playlist.songs.forEach(song => {
+              this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata);
+            });
+          }
+        });
+      },
+      false
     );
 
     // WYBÓR EQUALIZERA
