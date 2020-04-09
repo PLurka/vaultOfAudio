@@ -181,6 +181,8 @@ export class PlayerComponent implements OnInit {
   }
 
   removeAll() {
+    this.stop();
+    this.currentFile.index = null;
     this.cloudService.removeAll();
   }
 
@@ -200,6 +202,8 @@ export class PlayerComponent implements OnInit {
   }
 
   loadFromPlaylist(event) {
+    this.stop();
+    this.currentFile.index = null;
     this.cloudService.removeAll();
     console.error('event.returnValue: ' + event.currentTarget['selectedOptions'][0]['value']);
 
