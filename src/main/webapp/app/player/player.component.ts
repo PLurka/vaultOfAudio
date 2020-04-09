@@ -6,7 +6,7 @@ import { StreamState } from '../interfaces/stream-state';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
-import { IEqualizerSetting } from 'app/shared/model/equalizer-setting.model';
+import { EqualizerSetting, IEqualizerSetting } from 'app/shared/model/equalizer-setting.model';
 import { EqualizerSettingService } from 'app/entities/equalizer-setting/equalizer-setting.service';
 import { PlaylistService } from 'app/entities/playlist/playlist.service';
 import { IPlaylist } from 'app/shared/model/playlist.model';
@@ -16,6 +16,11 @@ import { MySongsComponent } from 'app/my-songs';
 import { CrowdService } from 'app/entities/crowd';
 import { ICrowd } from 'app/shared/model/crowd.model';
 import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { IUser } from 'app/core';
+import { IUserExtra } from 'app/shared/model/user-extra.model';
+import { Observable } from 'rxjs';
+
+type EntityResponseType = HttpResponse<IEqualizerSetting>;
 
 @Component({
   selector: 'jhi-player',
@@ -32,13 +37,29 @@ export class PlayerComponent implements OnInit {
   shuffle: boolean = false;
   auto: boolean = true;
   repeat: boolean = true;
+  currentUser: IUserExtra;
 
   audioCtx = this.audioService.audioCtx; //new (window['AudioContext'] || window['webkitAudioContext'])();
   equalizerSettings: IEqualizerSetting[];
   playlists: IPlaylist[];
   crowdPlaylists: IPlaylist[];
   songs: ISong[] = [];
-  currentFileName: string = '13.mp3';
+  newEqualizerSettings: IEqualizerSetting = new EqualizerSetting(
+    null,
+    'newEq',
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    [this.currentUser],
+    this.currentUser
+  );
 
   loadPlaylists() {
     let playlistsTemp: IPlaylist[] = [];
@@ -71,6 +92,7 @@ export class PlayerComponent implements OnInit {
                       respo.forEach(crowd => {
                         crowd.users.forEach(user => {
                           if (user['user']['login'] === res) {
+                            this.currentUser = user;
                             crowd.playlists.forEach(playlist => {
                               resp.forEach(function(playlst) {
                                 if (playlist.id === playlst.id) crowdPlaylistsTemp.push(playlst);
@@ -239,7 +261,108 @@ export class PlayerComponent implements OnInit {
       this.currentFile.index = event.currentIndex + 1;
   }
 
-  saveCurrentEq() {}
+  saveCurrentEq() /*: Observable<EntityResponseType> */ {
+    //let newEq;
+    let alreadyExists = false;
+    this.equalizerSettings.forEach(equalizerSetting => {
+      if (equalizerSetting.equalizerName === this.newEqualizerSettings.equalizerName) {
+        this.newEqualizerSettings.id = equalizerSetting.id;
+        this.equalizerSettingService
+          .update(this.newEqualizerSettings)
+          .pipe(
+            filter((res: HttpResponse<IEqualizerSetting>) => res.ok),
+            map((res: HttpResponse<IEqualizerSetting>) => res.body)
+          )
+          .subscribe((res: IEqualizerSetting) => {
+            console.error(
+              'newEqualizerSettings.first = ' +
+                res.first +
+                '\nthisTemp.newEqualizerSettings.second = ' +
+                res.second +
+                '\nthisTemp.newEqualizerSettings.third = ' +
+                res.third +
+                '\nthisTemp.newEqualizerSettings.fourth = ' +
+                res.fourth +
+                '\nthisTemp.newEqualizerSettings.fifth = ' +
+                res.fifth +
+                '\nthisTemp.newEqualizerSettings.sixth = ' +
+                res.sixth +
+                '\nthisTemp.newEqualizerSettings.seventh = ' +
+                res.seventh +
+                '\nthisTemp.newEqualizerSettings.eight = ' +
+                res.eight +
+                '\nthisTemp.newEqualizerSettings.ninth = ' +
+                res.ninth +
+                '\nthisTemp.newEqualizerSettings.tenth = ' +
+                res.tenth +
+                '\nthisTemp.newEqualizerSettings.equalizerName = ' +
+                res.equalizerName +
+                '\nthisTemp.newEqualizerSettings.createdBy = ' +
+                res.createdBy +
+                '\nthisTemp.newEqualizerSettings.users = ' +
+                res.users +
+                '\nthisTemp.newEqualizerSettings.id = ' +
+                res.id
+            );
+            //newEq = res;
+          });
+        alreadyExists = true;
+        let settingFound = false;
+        let existingIndex: number = this.equalizerSettings.length;
+        for (let setting of this.equalizerSettings) {
+          if (setting.equalizerName === this.newEqualizerSettings.equalizerName) {
+            existingIndex = this.equalizerSettings.indexOf(setting);
+            setting = this.newEqualizerSettings;
+            settingFound = true;
+          }
+          if (settingFound) break;
+        }
+        /*currentSettings.value = (currentSettings.length).toString();
+              currentSettings.value = (1).toString();
+              currentSettings.value = (existingIndex+1).toString();*/
+        this.loadEqSettings();
+      }
+    });
+    if (!alreadyExists) {
+      this.equalizerSettingService
+        .create(this.newEqualizerSettings)
+        .pipe(
+          filter((res: HttpResponse<IEqualizerSetting>) => res.ok),
+          map((res: HttpResponse<IEqualizerSetting>) => res.body)
+        )
+        .subscribe((res: IEqualizerSetting) => {
+          console.error(
+            'newEqualizerSettings.first = ' +
+              res.first +
+              '\nthisTemp.newEqualizerSettings.second = ' +
+              res.second +
+              '\nthisTemp.newEqualizerSettings.third = ' +
+              res.third +
+              '\nthisTemp.newEqualizerSettings.fourth = ' +
+              res.fourth +
+              '\nthisTemp.newEqualizerSettings.fifth = ' +
+              res.fifth +
+              '\nthisTemp.newEqualizerSettings.sixth = ' +
+              res.sixth +
+              '\nthisTemp.newEqualizerSettings.seventh = ' +
+              res.seventh +
+              '\nthisTemp.newEqualizerSettings.eight = ' +
+              res.eight +
+              '\nthisTemp.newEqualizerSettings.ninth = ' +
+              res.ninth +
+              '\nthisTemp.newEqualizerSettings.tenth = ' +
+              res.tenth +
+              '\nthisTemp.newEqualizerSettings.equalizerName = ' +
+              res.equalizerName +
+              '\nthisTemp.newEqualizerSettings.createdBy = ' +
+              res.createdBy +
+              '\nthisTemp.newEqualizerSettings.users = ' +
+              res.users
+          );
+        });
+      this.equalizerSettings.push(this.newEqualizerSettings);
+    }
+  }
 
   playStream(url) {
     this.audioService.playStream(url).subscribe(events => {
@@ -453,6 +576,8 @@ export class PlayerComponent implements OnInit {
 
     let crowdPlaylistChooser = <HTMLSelectElement>document.getElementById('crowdPlaylists');
 
+    let newEqName = <HTMLInputElement>document.getElementById('newEqName');
+
     // CREATION OF ALL OTHER FILTERS
     let lowpass = this.audioCtx.createBiquadFilter();
     lowpass.type = 'lowpass';
@@ -589,48 +714,49 @@ export class PlayerComponent implements OnInit {
       null
     );
 
-    // WYBÓR PLAYLISTY
-    playlistChooser.addEventListener(
+    let thisTemp = this;
+    function setNewEq() {
+      thisTemp.newEqualizerSettings.first = firstEq.gain.value;
+      thisTemp.newEqualizerSettings.second = secondEq.gain.value;
+      thisTemp.newEqualizerSettings.third = thirdEq.gain.value;
+      thisTemp.newEqualizerSettings.fourth = fourthEq.gain.value;
+      thisTemp.newEqualizerSettings.fifth = fifthEq.gain.value;
+      thisTemp.newEqualizerSettings.sixth = sixthEq.gain.value;
+      thisTemp.newEqualizerSettings.seventh = seventhEq.gain.value;
+      thisTemp.newEqualizerSettings.eight = eightEq.gain.value;
+      thisTemp.newEqualizerSettings.ninth = ninthEq.gain.value;
+      thisTemp.newEqualizerSettings.tenth = tenthEq.gain.value;
+      thisTemp.newEqualizerSettings.equalizerName = newEqName.value;
+      thisTemp.newEqualizerSettings.createdBy = thisTemp.currentUser;
+      thisTemp.newEqualizerSettings.users = [thisTemp.currentUser['user']];
+
+      /*console.error('newEqualizerSettings.first = ' + thisTemp.newEqualizerSettings.first + '\nthisTemp.newEqualizerSettings.second = ' +
+        thisTemp.newEqualizerSettings.second + '\nthisTemp.newEqualizerSettings.third = ' +
+        thisTemp.newEqualizerSettings.third + '\nthisTemp.newEqualizerSettings.fourth = ' +
+        thisTemp.newEqualizerSettings.fourth + '\nthisTemp.newEqualizerSettings.fifth = ' +
+        thisTemp.newEqualizerSettings.fifth + '\nthisTemp.newEqualizerSettings.sixth = ' +
+        thisTemp.newEqualizerSettings.sixth + '\nthisTemp.newEqualizerSettings.seventh = ' +
+        thisTemp.newEqualizerSettings.seventh + '\nthisTemp.newEqualizerSettings.eight = ' +
+        thisTemp.newEqualizerSettings.eight + '\nthisTemp.newEqualizerSettings.ninth = ' +
+        thisTemp.newEqualizerSettings.ninth + '\nthisTemp.newEqualizerSettings.tenth = ' +
+        thisTemp.newEqualizerSettings.tenth + '\nthisTemp.newEqualizerSettings.equalizerName = ' +
+        thisTemp.newEqualizerSettings.equalizerName + '\nthisTemp.newEqualizerSettings.createdBy = ' +
+        thisTemp.newEqualizerSettings.createdBy + '\nthisTemp.newEqualizerSettings.users = ' +
+        thisTemp.newEqualizerSettings.users);*/
+    }
+
+    newEqName.addEventListener(
       'input',
-      event => {
-        /*this.cloudService.removeAll();
-          console.error('event.returnValue: ' + event.currentTarget['selectedOptions'][0]['value']);
-
-          this.playlists.forEach(playlist => {
-              let selectedId = +event.currentTarget['selectedOptions'][0]['value'];
-              if (playlist.id === selectedId) {
-                  playlist.songs.forEach(song => {
-                      this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata);
-                  });
-              }
-          });*/
+      function() {
+        setNewEq();
       },
-      false
-    );
-
-    crowdPlaylistChooser.addEventListener(
-      'input',
-      event => {
-        /*this.cloudService.removeAll();
-              console.error('event.returnValue: ' + event.currentTarget['selectedOptions'][0]['value']);
-
-              this.crowdPlaylists.forEach(playlist => {
-                  let selectedId = +event.currentTarget['selectedOptions'][0]['value'];
-                  if (playlist.id === selectedId) {
-                      if(playlist.songs != null)
-                          playlist.songs.forEach(song => {
-                              this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata);
-                          });
-                  }
-              });*/
-      },
-      false
+      null
     );
 
     // WYBÓR EQUALIZERA
     eqChooser.addEventListener(
       'input',
-      function() {
+      () => {
         firstEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].first.toString();
         secondEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].second.toString();
         thirdEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].third.toString();
@@ -651,6 +777,8 @@ export class PlayerComponent implements OnInit {
         eightEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].eight.toString();
         ninthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].ninth.toString();
         tenthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].tenth.toString();
+        newEqName.value = self.equalizerSettings[eqChooser.selectedIndex].equalizerName.toString();
+        setNewEq();
       },
       false
     );
@@ -995,6 +1123,7 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         firstEq.gain.value = this.value;
+        setNewEq();
       },
       false
     );
@@ -1003,6 +1132,7 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         secondEq.gain.value = this.value;
+        setNewEq();
       },
       false
     );
@@ -1011,6 +1141,7 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         thirdEq.gain.value = this.value;
+        setNewEq();
       },
       false
     );
@@ -1019,6 +1150,7 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         fourthEq.gain.value = this.value;
+        setNewEq();
       },
       false
     );
@@ -1027,6 +1159,7 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         fifthEq.gain.value = this.value;
+        setNewEq();
       },
       false
     );
@@ -1035,6 +1168,7 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         sixthEq.gain.value = this.value;
+        setNewEq();
       },
       false
     );
@@ -1043,6 +1177,7 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         seventhEq.gain.value = this.value;
+        setNewEq();
       },
       false
     );
@@ -1051,6 +1186,7 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         eightEq.gain.value = this.value;
+        setNewEq();
       },
       false
     );
@@ -1059,6 +1195,7 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         ninthEq.gain.value = this.value;
+        setNewEq();
       },
       false
     );
@@ -1067,6 +1204,7 @@ export class PlayerComponent implements OnInit {
       'input',
       function() {
         tenthEq.gain.value = this.value;
+        setNewEq();
       },
       false
     );
@@ -1095,6 +1233,7 @@ export class PlayerComponent implements OnInit {
         eightEq.gain.value = '0';
         ninthEq.gain.value = '0';
         tenthEq.gain.value = '0';
+        setNewEq();
       },
       false
     );
@@ -1365,9 +1504,5 @@ export class PlayerComponent implements OnInit {
 
   onSliderChangeEnd(change) {
     this.audioService.seekTo(change.value);
-  }
-
-  autoPlay(change) {
-    console.error(change);
   }
 }
