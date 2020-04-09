@@ -224,6 +224,11 @@ export class PlayerComponent implements OnInit {
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.files, event.previousIndex, event.currentIndex);
+    if (this.currentFile.index === event.previousIndex) this.currentFile.index = event.currentIndex;
+    else if (this.currentFile.index === event.currentIndex && event.previousIndex < event.currentIndex)
+      this.currentFile.index = event.currentIndex - 1;
+    else if (this.currentFile.index === event.currentIndex && event.previousIndex > event.currentIndex)
+      this.currentFile.index = event.currentIndex + 1;
   }
 
   saveCurrentEq() {}
