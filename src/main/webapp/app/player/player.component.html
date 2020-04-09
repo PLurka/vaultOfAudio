@@ -20,9 +20,14 @@
         </button>
 
         <label for="playlists">Load playlist:</label>
-        <select id="playlists">
+        <select id="playlists" (change)="loadFromPlaylist($event)">
             <!--<option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>-->
-            <option value="{{playlist.id}}" *ngFor="let playlist of playlists ;trackBy: trackId">{{playlist.listName}}</option>
+            <option value="{{playlist.id}}" *ngFor="let playlist of playlists ;trackBy: trackId" >{{playlist.listName}}</option>
+        </select>
+        <label for="crowdPlaylists">Load group playlist:</label>
+        <select id="crowdPlaylists" (change)="loadFromPlaylist($event)">
+            <!--<option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>-->
+            <option value="{{playlist.id}}" *ngFor="let playlist of crowdPlaylists ;trackBy: trackId">{{playlist.listName}}</option>
         </select>
     </div>
     <label for="shuffle">Shuffle</label>

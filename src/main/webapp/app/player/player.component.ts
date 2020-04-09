@@ -13,6 +13,8 @@ import { IPlaylist } from 'app/shared/model/playlist.model';
 import { SongService } from 'app/entities/song';
 import { ISong, Song } from 'app/shared/model/song.model';
 import { MySongsComponent } from 'app/my-songs';
+import { CrowdService } from 'app/entities/crowd';
+import { ICrowd } from 'app/shared/model/crowd.model';
 
 @Component({
   selector: 'jhi-player',
@@ -33,11 +35,13 @@ export class PlayerComponent implements OnInit {
   audioCtx = this.audioService.audioCtx; //new (window['AudioContext'] || window['webkitAudioContext'])();
   equalizerSettings: IEqualizerSetting[];
   playlists: IPlaylist[];
+  crowdPlaylists: IPlaylist[];
   songs: ISong[] = [];
   currentFileName: string = '13.mp3';
 
   loadPlaylists() {
     let playlistsTemp: IPlaylist[] = [];
+    let crowdPlaylistsTemp: IPlaylist[] = [];
     this.songService
       .getLogin()
       .pipe(
@@ -56,6 +60,30 @@ export class PlayerComponent implements OnInit {
             .subscribe(
               (resp: IPlaylist[]) => {
                 /*this.playlists = resp;*/
+
+                this.crowdService
+                  .query()
+                  .pipe(
+                    filter((respo: HttpResponse<ICrowd[]>) => respo.ok),
+                    map((respo: HttpResponse<ICrowd[]>) => respo.body)
+                  )
+                  .subscribe(
+                    (respo: ICrowd[]) => {
+                      respo.forEach(crowd => {
+                        crowd.users.forEach(user => {
+                          if (user['user']['login'] === res) {
+                            crowd.playlists.forEach(playlist => {
+                              resp.forEach(function(playlst) {
+                                if (playlist.id === playlst.id) crowdPlaylistsTemp.push(playlst);
+                              });
+                            });
+                          }
+                        });
+                      });
+                    },
+                    (res: HttpErrorResponse) => this.onError(res.message)
+                  );
+
                 resp.forEach(function(playlist) {
                   playlist.users.forEach(function(user) {
                     if (user['user']['login'] === res) {
@@ -69,6 +97,7 @@ export class PlayerComponent implements OnInit {
         }
       });
     this.playlists = playlistsTemp;
+    this.crowdPlaylists = crowdPlaylistsTemp;
   }
 
   loadEqSettings() {
@@ -91,6 +120,7 @@ export class PlayerComponent implements OnInit {
   }
 
   constructor(
+    protected crowdService: CrowdService,
     protected playlistService: PlaylistService,
     protected equalizerSettingService: EqualizerSettingService,
     protected jhiAlertService: JhiAlertService,
@@ -168,6 +198,29 @@ export class PlayerComponent implements OnInit {
   loadAll() {
     this.songs.forEach(song => {
       this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata);
+    });
+  }
+
+  loadFromPlaylist(event) {
+    this.cloudService.removeAll();
+    console.error('event.returnValue: ' + event.currentTarget['selectedOptions'][0]['value']);
+
+    this.playlists.forEach(playlist => {
+      let selectedId = +event.currentTarget['selectedOptions'][0]['value'];
+      if (playlist.id === selectedId) {
+        playlist.songs.forEach(song => {
+          this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata);
+        });
+      }
+    });
+    this.crowdPlaylists.forEach(playlist => {
+      let selectedId = +event.currentTarget['selectedOptions'][0]['value'];
+      if (playlist.id === selectedId) {
+        if (playlist.songs != null)
+          playlist.songs.forEach(song => {
+            this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata);
+          });
+      }
     });
   }
 
@@ -381,6 +434,8 @@ export class PlayerComponent implements OnInit {
 
     let playlistChooser = <HTMLSelectElement>document.getElementById('playlists');
 
+    let crowdPlaylistChooser = <HTMLSelectElement>document.getElementById('crowdPlaylists');
+
     // CREATION OF ALL OTHER FILTERS
     let lowpass = this.audioCtx.createBiquadFilter();
     lowpass.type = 'lowpass';
@@ -521,17 +576,36 @@ export class PlayerComponent implements OnInit {
     playlistChooser.addEventListener(
       'input',
       event => {
-        this.cloudService.removeAll();
-        console.error('event.returnValue: ' + event.currentTarget['selectedOptions'][0]['value']);
+        /*this.cloudService.removeAll();
+          console.error('event.returnValue: ' + event.currentTarget['selectedOptions'][0]['value']);
 
-        this.playlists.forEach(playlist => {
-          let selectedId = +event.currentTarget['selectedOptions'][0]['value'];
-          if (playlist.id === selectedId) {
-            playlist.songs.forEach(song => {
-              this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata);
-            });
-          }
-        });
+          this.playlists.forEach(playlist => {
+              let selectedId = +event.currentTarget['selectedOptions'][0]['value'];
+              if (playlist.id === selectedId) {
+                  playlist.songs.forEach(song => {
+                      this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata);
+                  });
+              }
+          });*/
+      },
+      false
+    );
+
+    crowdPlaylistChooser.addEventListener(
+      'input',
+      event => {
+        /*this.cloudService.removeAll();
+              console.error('event.returnValue: ' + event.currentTarget['selectedOptions'][0]['value']);
+
+              this.crowdPlaylists.forEach(playlist => {
+                  let selectedId = +event.currentTarget['selectedOptions'][0]['value'];
+                  if (playlist.id === selectedId) {
+                      if(playlist.songs != null)
+                          playlist.songs.forEach(song => {
+                              this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata);
+                          });
+                  }
+              });*/
       },
       false
     );
