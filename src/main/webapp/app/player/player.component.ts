@@ -5,20 +5,17 @@ import { StreamState } from '../interfaces/stream-state';
 
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { filter, map } from 'rxjs/operators';
-import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { JhiAlertService } from 'ng-jhipster';
 import { EqualizerSetting, IEqualizerSetting } from 'app/shared/model/equalizer-setting.model';
 import { EqualizerSettingService } from 'app/entities/equalizer-setting/equalizer-setting.service';
 import { PlaylistService } from 'app/entities/playlist/playlist.service';
 import { IPlaylist } from 'app/shared/model/playlist.model';
 import { SongService } from 'app/entities/song';
-import { ISong, Song } from 'app/shared/model/song.model';
-import { MySongsComponent } from 'app/my-songs';
+import { ISong } from 'app/shared/model/song.model';
 import { CrowdService } from 'app/entities/crowd';
 import { ICrowd } from 'app/shared/model/crowd.model';
-import { DragDropModule, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { IUser } from 'app/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { IUserExtra } from 'app/shared/model/user-extra.model';
-import { Observable } from 'rxjs';
 
 type EntityResponseType = HttpResponse<IEqualizerSetting>;
 
@@ -60,6 +57,60 @@ export class PlayerComponent implements OnInit {
     [this.currentUser],
     this.currentUser
   );
+
+  constructor(
+    protected crowdService: CrowdService,
+    protected playlistService: PlaylistService,
+    protected equalizerSettingService: EqualizerSettingService,
+    protected jhiAlertService: JhiAlertService,
+    public audioService: AudioService,
+    public cloudService: CloudService,
+    public songService: SongService
+  ) {
+    // get media files
+    cloudService.getFiles().subscribe(files => {
+      this.files = files;
+    });
+
+    // listen to stream state
+    this.audioService.getState().subscribe(state => {
+      this.state = state;
+    });
+
+    this.songService
+      .getLogin()
+      .pipe(
+        filter((res: HttpResponse<string>) => res.ok),
+        map((res: HttpResponse<string>) => res.body)
+      )
+      .subscribe((res: string) => {
+        if (res !== undefined) {
+          console.error('getLogin(): ' + res);
+          this.songService
+            .query()
+            .pipe(
+              filter((resp: HttpResponse<ISong[]>) => resp.ok),
+              map((resp: HttpResponse<ISong[]>) => resp.body)
+            )
+            .subscribe(
+              (resp: ISong[]) => {
+                if (resp !== null) {
+                  resp.forEach(song => {
+                    song.users.forEach(user => {
+                      if (user['user']['login'] === res) {
+                        this.songs.push(song);
+                      }
+                    });
+                  });
+                  this.removeAll();
+                  this.loadAll();
+                }
+              },
+              (res: HttpErrorResponse) => this.onError(res.message)
+            );
+        }
+      });
+  }
 
   loadPlaylists() {
     let playlistsTemp: IPlaylist[] = [];
@@ -137,60 +188,6 @@ export class PlayerComponent implements OnInit {
 
   protected onError(errorMessage: string) {
     this.jhiAlertService.error(errorMessage, null, null);
-  }
-
-  constructor(
-    protected crowdService: CrowdService,
-    protected playlistService: PlaylistService,
-    protected equalizerSettingService: EqualizerSettingService,
-    protected jhiAlertService: JhiAlertService,
-    public audioService: AudioService,
-    public cloudService: CloudService,
-    public songService: SongService
-  ) {
-    // get media files
-    cloudService.getFiles().subscribe(files => {
-      this.files = files;
-    });
-
-    // listen to stream state
-    this.audioService.getState().subscribe(state => {
-      this.state = state;
-    });
-
-    this.songService
-      .getLogin()
-      .pipe(
-        filter((res: HttpResponse<string>) => res.ok),
-        map((res: HttpResponse<string>) => res.body)
-      )
-      .subscribe((res: string) => {
-        if (res !== undefined) {
-          console.error('getLogin(): ' + res);
-          this.songService
-            .query()
-            .pipe(
-              filter((resp: HttpResponse<ISong[]>) => resp.ok),
-              map((resp: HttpResponse<ISong[]>) => resp.body)
-            )
-            .subscribe(
-              (resp: ISong[]) => {
-                if (resp !== null) {
-                  resp.forEach(song => {
-                    song.users.forEach(user => {
-                      if (user['user']['login'] === res) {
-                        this.songs.push(song);
-                      }
-                    });
-                  });
-                  this.removeAll();
-                  this.loadAll();
-                }
-              },
-              (res: HttpErrorResponse) => this.onError(res.message)
-            );
-        }
-      });
   }
 
   handleFileInput(files: FileList) {

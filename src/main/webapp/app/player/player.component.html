@@ -36,12 +36,14 @@
     <input type="checkbox" id="auto" value="AutoPlay" checked="true">
     <label for="repeat">Repeat</label>
     <input type="checkbox" id="repeat" checked="true">
+    <label for="scrol">Scrollable</label>
+    <input type="checkbox" id="scrol" checked="true">
 
     <div class="content">
         <!--<div class="logo">
             <img src="../../content/images/AOV_white.png" class="logoImage"/>
         </div>-->
-        <mat-list cdkDropList color="primary" class="songList" (cdkDropListDropped)="drop($event)" *ngIf="files">
+        <mat-list cdkDropList color="primary" class="songList" id="songList" (cdkDropListDropped)="drop($event)" *ngIf="files" >
             <h3 mat-subheader>Songs ({{files.length}})</h3>
             <mat-list-item *ngFor="let file of files; let i = index" (click)="openFile(file, i)" cdkDrag>
                 <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
@@ -95,15 +97,15 @@
     </div>
     <div class="resetBtnDiv">
         <button mat-button class="showHideEq" id="showHideEq" (click)="showHide()">
-            <mat-icon>assessment</mat-icon>
-            Show / Hide Equalizer
-            <mat-icon>assessment</mat-icon>
+            <!--<mat-icon class="toolsIcon">assessment</mat-icon>-->
+            <h6 class="toolsInfo">Show / Hide Equalizer</h6>
+            <!--<mat-icon class="toolsIcon">assessment</mat-icon>-->
         </button>
 
         <button mat-button class="showHideAdvanced" id="showHideAdvanced" (click)="showHideAdv()">
-            <mat-icon>assessment</mat-icon>
-            Show / Hide Advanced
-            <mat-icon>assessment</mat-icon>
+<!--            <mat-icon class="toolsIcon">assessment</mat-icon>-->
+            <h6 class="toolsInfo">Show / Hide Advanced</h6>
+            <!--<mat-icon class="toolsIcon">assessment</mat-icon>-->
         </button>
     </div>
     <div class="eq" id="eq" style="display: none">
