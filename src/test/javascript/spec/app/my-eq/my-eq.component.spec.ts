@@ -1,0 +1,1 @@
+describe('MyEqComponent Tests', () => {});

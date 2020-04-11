@@ -26,6 +26,7 @@ import { VaultOfAudioAppMySongsModule } from './my-songs/my-songs.module';
 import { VaultOfAudioAppMyPlaylistsModule } from './my-playlists/my-playlists.module';
 import { VaultOfAudioAppMyCrowdsModule } from './my-crowds/my-crowds.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { VaultOfAudioAppMyEqModule } from './my-eq/my-eq.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ActiveMenuDirective, ErrorComponent } from './layouts';
 
@@ -50,6 +51,7 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
     VaultOfAudioAppMySongsModule,
     VaultOfAudioAppMyPlaylistsModule,
     VaultOfAudioAppMyCrowdsModule,
+    VaultOfAudioAppMyEqModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     VaultOfAudioEntityModule,
     VaultOfAudioAppRoutingModule,
