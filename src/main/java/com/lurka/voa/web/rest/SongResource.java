@@ -145,7 +145,7 @@ public class SongResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/songs")
-    public ResponseEntity<Song> updateSong(@RequestParam("file") MultipartFile file, @Valid String song) throws URISyntaxException {
+    public ResponseEntity<Song> updateSong(/*@RequestParam("file")*/ MultipartFile file, @RequestParam("song") @Valid String song) throws URISyntaxException {
         Song songObject;
         try {
             songObject = new ObjectMapper().readValue(song, Song.class);

@@ -16,6 +16,8 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 export class MySongsComponent implements OnInit {
   message: string;
   songs: ISong[];
+  allSongs: ISong[];
+  userSongs: ISong[];
   user: IUser;
   currentAccount: Account;
   eventSubscriber: Subscription;
@@ -48,6 +50,8 @@ export class MySongsComponent implements OnInit {
             )
             .subscribe(
               (resp: ISong[]) => {
+                this.songs = resp;
+                this.allSongs = this.songs;
                 resp.forEach(function(song) {
                   song.users.forEach(function(user) {
                     if (user['user']['login'] === res) {
@@ -60,7 +64,7 @@ export class MySongsComponent implements OnInit {
             );
         }
       });
-    this.songs = songsTemp;
+    this.userSongs = songsTemp;
   }
 
   ngOnInit() {
@@ -69,6 +73,20 @@ export class MySongsComponent implements OnInit {
     });
     this.loadAll();
     this.registerChangeInSongs();
+
+    let showUserSongsOnly = <HTMLInputElement>document.getElementById('userSongsOnly');
+
+    showUserSongsOnly.addEventListener(
+      'input',
+      () => {
+        if (showUserSongsOnly.checked === true) {
+          this.songs = this.userSongs;
+        } else {
+          this.songs = this.allSongs;
+        }
+      },
+      false
+    );
   }
 
   ngOnDestroy() {

@@ -53,7 +53,7 @@ export class MySongsUpdateComponent implements OnInit {
 
   upload() {
     this.progress.percentage = 0;
-    this.currentFileUpload = this.selectedFiles.item(0);
+    if (this.selectedFiles) this.currentFileUpload = this.selectedFiles.item(0);
 
     let song = new Song(
       this.editForm.get(['id']).value,
