@@ -76,14 +76,16 @@
                         <button *ngIf="songHasUser(song)"
                                 type="button"
                                 (click)="removeUserFromSong(song)"
-                                class="btn btn-danger btn-sm">
+                                class="btn btn-danger btn-sm removeButton"
+                                >
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline">Remove</span>
                         </button>
                         <button *ngIf="!songHasUser(song)"
                                 type="button"
                                 (click)="addUserToSong(song)"
-                                class="btn btn-info btn-sm">
+                                class="btn btn-info btn-sm addButton"
+                                >
                             <fa-icon [icon]="'plus'"></fa-icon>
                             <span class="d-none d-md-inline">Add</span>
                         </button>
