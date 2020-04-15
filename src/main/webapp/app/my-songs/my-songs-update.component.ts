@@ -35,7 +35,7 @@ export class MySongsUpdateComponent implements OnInit {
     songName: [null, [Validators.required, Validators.maxLength(200)]],
     lyrics: [null, [Validators.maxLength(2000)]],
     authors: [null, [Validators.maxLength(100)]],
-    songMetadata: [null, [Validators.required, Validators.maxLength(500)]],
+    songMetadata: [null, [Validators.maxLength(500)]],
     year: [],
     songDescription: [null, [Validators.maxLength(2000)]],
     users: [],
@@ -50,16 +50,6 @@ export class MySongsUpdateComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
-
-  downloadFile() {
-    const link = document.createElement('a');
-    link.setAttribute('target', '_blank');
-    link.setAttribute('href', '_File_Saved_Path');
-    link.setAttribute('download', 'file_name.pdf');
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  }
 
   upload() {
     this.progress.percentage = 0;

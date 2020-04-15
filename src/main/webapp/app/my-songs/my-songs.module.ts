@@ -3,15 +3,16 @@ import { RouterModule } from '@angular/router';
 
 import { VaultOfAudioSharedModule } from '../shared/shared.module';
 
-import { MY_SONGS_ROUTE, MySongsComponent } from './';
+import { MY_SONGS_POPUP_ROUTE, MY_SONGS_ROUTE, MySongsComponent } from './';
 import { MySongsUpdateComponent } from 'app/my-songs/my-songs-update.component';
+import { MySongsDeleteDialogComponent, MySongsDeletePopupComponent } from 'app/my-songs/my-songs-delete-dialog.component';
 
-const ENTITY_STATES = [...MY_SONGS_ROUTE];
+const ENTITY_STATES = [...MY_SONGS_ROUTE, ...MY_SONGS_POPUP_ROUTE];
 
 @NgModule({
   imports: [VaultOfAudioSharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [MySongsComponent, MySongsUpdateComponent],
-  entryComponents: [MySongsComponent, MySongsUpdateComponent],
+  declarations: [MySongsComponent, MySongsUpdateComponent, MySongsDeleteDialogComponent, MySongsDeletePopupComponent],
+  entryComponents: [MySongsComponent, MySongsUpdateComponent, MySongsDeleteDialogComponent, MySongsDeletePopupComponent],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

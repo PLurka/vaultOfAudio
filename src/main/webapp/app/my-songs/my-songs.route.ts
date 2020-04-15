@@ -2,8 +2,9 @@ import { Route, Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { MySongsComponent } from './my-songs.component';
-import { SongResolve, SongUpdateComponent } from 'app/entities/song';
+import { SongDeletePopupComponent, SongResolve, SongUpdateComponent } from 'app/entities/song';
 import { MySongsUpdateComponent } from 'app/my-songs/my-songs-update.component';
+import { MySongsDeletePopupComponent } from 'app/my-songs/my-songs-delete-dialog.component';
 
 export const MY_SONGS_ROUTE: Routes = [
   {
@@ -38,5 +39,21 @@ export const MY_SONGS_ROUTE: Routes = [
       pageTitle: 'vaultOfAudioApp.song.home.title'
     },
     canActivate: [UserRouteAccessService]
+  }
+];
+
+export const MY_SONGS_POPUP_ROUTE: Routes = [
+  {
+    path: ':id/delete-song',
+    component: MySongsDeletePopupComponent,
+    resolve: {
+      song: SongResolve
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'vaultOfAudioApp.song.home.title'
+    },
+    canActivate: [UserRouteAccessService],
+    outlet: 'popup'
   }
 ];
