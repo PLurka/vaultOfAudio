@@ -1,4 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { IEqualizerSetting } from 'app/shared/model/equalizer-setting.model';
+import { EqualizerSettingService } from 'app/entities/equalizer-setting';
+import { AccountService } from 'app/core';
+
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 @Component({
   selector: 'jhi-my-eq',
@@ -6,11 +14,53 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['my-eq.component.scss']
 })
 export class MyEqComponent implements OnInit {
-  message: string;
+  equalizerSettings: IEqualizerSetting[];
+  currentAccount: any;
+  eventSubscriber: Subscription;
 
-  constructor() {
-    this.message = 'MyEqComponent message';
+  constructor(
+    protected equalizerSettingService: EqualizerSettingService,
+    protected jhiAlertService: JhiAlertService,
+    protected eventManager: JhiEventManager,
+    protected accountService: AccountService
+  ) {}
+
+  loadAll() {
+    this.equalizerSettingService
+      .query()
+      .pipe(
+        filter((res: HttpResponse<IEqualizerSetting[]>) => res.ok),
+        map((res: HttpResponse<IEqualizerSetting[]>) => res.body)
+      )
+      .subscribe(
+        (res: IEqualizerSetting[]) => {
+          this.equalizerSettings = res;
+        },
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loadAll();
+    this.accountService.identity().then(account => {
+      this.currentAccount = account;
+    });
+    this.registerChangeInEqualizerSettings();
+  }
+
+  ngOnDestroy() {
+    this.eventManager.destroy(this.eventSubscriber);
+  }
+
+  trackId(index: number, item: IEqualizerSetting) {
+    return item.id;
+  }
+
+  registerChangeInEqualizerSettings() {
+    this.eventSubscriber = this.eventManager.subscribe('equalizerSettingListModification', response => this.loadAll());
+  }
+
+  protected onError(errorMessage: string) {
+    this.jhiAlertService.error(errorMessage, null, null);
+  }
 }
