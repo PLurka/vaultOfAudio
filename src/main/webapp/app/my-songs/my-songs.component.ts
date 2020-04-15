@@ -98,6 +98,9 @@ export class MySongsComponent implements OnInit {
     this.songService.update(null, song).subscribe(event => {
       alert('Added user succesfully' + event);
     });
+    this.loadAll();
+    let showUserSongsOnly = <HTMLInputElement>document.getElementById('userSongsOnly');
+    showUserSongsOnly.checked = false;
   }
 
   removeUserFromSong(song: ISong) {
@@ -109,6 +112,9 @@ export class MySongsComponent implements OnInit {
     this.songService.update(null, song).subscribe(event => {
       alert('Removed user succesfully' + event);
     });
+    this.loadAll();
+    let showUserSongsOnly = <HTMLInputElement>document.getElementById('userSongsOnly');
+    showUserSongsOnly.checked = false;
   }
 
   ngOnInit() {
