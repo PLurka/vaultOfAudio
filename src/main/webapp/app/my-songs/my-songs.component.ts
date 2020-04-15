@@ -7,6 +7,8 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { IUserExtra } from 'app/shared/model/user-extra.model';
+import { UserExtraService } from 'app/entities/user-extra';
 
 @Component({
   selector: 'jhi-my-songs',
@@ -18,17 +20,31 @@ export class MySongsComponent implements OnInit {
   songs: ISong[];
   allSongs: ISong[];
   userSongs: ISong[];
-  user: IUser;
+  currentUser: IUserExtra;
   currentAccount: Account;
   eventSubscriber: Subscription;
 
   constructor(
     protected songService: SongService,
+    protected userExtraService: UserExtraService,
     protected jhiAlertService: JhiAlertService,
     protected eventManager: JhiEventManager,
     protected accountService: AccountService
   ) {
     this.message = 'MySongsComponent message';
+    this.userExtraService
+      .query()
+      .pipe(
+        filter((res: HttpResponse<IUserExtra[]>) => res.ok),
+        map((res: HttpResponse<IUserExtra[]>) => res.body)
+      )
+      .subscribe((res: IUserExtra[]) => {
+        if (res != undefined) {
+          res.forEach(userExtra => {
+            if (userExtra.user.login === this.currentAccount.login) this.currentUser = userExtra;
+          });
+        }
+      });
   }
 
   loadAll() {
@@ -65,6 +81,34 @@ export class MySongsComponent implements OnInit {
         }
       });
     this.userSongs = songsTemp;
+  }
+
+  songHasUser(song: ISong): boolean {
+    let songHasUserBool: boolean = false;
+    song.users.forEach(user => {
+      if (user.user.login === this.currentAccount.login) {
+        songHasUserBool = true;
+      }
+    });
+    return songHasUserBool;
+  }
+
+  addUserToSong(song: ISong) {
+    song.users.push(this.currentUser);
+    this.songService.update(null, song).subscribe(event => {
+      alert('Added user succesfully' + event);
+    });
+  }
+
+  removeUserFromSong(song: ISong) {
+    song.users.forEach(userExtra => {
+      if (userExtra.id === this.currentUser.id) {
+        song.users.splice(song.users.indexOf(userExtra), 1);
+      }
+    });
+    this.songService.update(null, song).subscribe(event => {
+      alert('Removed user succesfully' + event);
+    });
   }
 
   ngOnInit() {
