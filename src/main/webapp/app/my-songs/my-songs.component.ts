@@ -96,7 +96,7 @@ export class MySongsComponent implements OnInit {
   addUserToSong(song: ISong) {
     song.users.push(this.currentUser);
     this.songService.update(null, song).subscribe(event => {
-      alert('Added user succesfully' + event);
+      alert('Added user succesfully');
     });
     this.loadAll();
     let showUserSongsOnly = <HTMLInputElement>document.getElementById('userSongsOnly');
@@ -110,7 +110,7 @@ export class MySongsComponent implements OnInit {
       }
     });
     this.songService.update(null, song).subscribe(event => {
-      alert('Removed user succesfully' + event);
+      alert('Removed user succesfully');
     });
     this.loadAll();
     let showUserSongsOnly = <HTMLInputElement>document.getElementById('userSongsOnly');
