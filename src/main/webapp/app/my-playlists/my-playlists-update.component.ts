@@ -23,6 +23,8 @@ export class MyPlaylistsUpdateComponent implements OnInit {
 
   userextras: IUserExtra[];
 
+  playlistUserExtras: IUserExtra[] = [];
+
   songs: ISong[];
 
   crowds: ICrowd[];
@@ -40,6 +42,7 @@ export class MyPlaylistsUpdateComponent implements OnInit {
     protected jhiAlertService: JhiAlertService,
     protected playlistService: PlaylistService,
     protected userExtraService: UserExtraService,
+    protected songService: SongService,
     protected http: HttpClient,
     protected https: HttpClient,
     protected crowdService: CrowdService,
@@ -76,6 +79,7 @@ export class MyPlaylistsUpdateComponent implements OnInit {
   }
 
   updateForm(playlist: IPlaylist) {
+    if (playlist.users) this.playlistUserExtras = playlist.users;
     this.editForm.patchValue({
       id: playlist.id,
       listName: playlist.listName,
@@ -101,14 +105,16 @@ export class MyPlaylistsUpdateComponent implements OnInit {
   }
 
   private createFromForm(): IPlaylist {
+    let userExt: IUserExtra[] = this.playlistUserExtras;
+    userExt.push(this.songService.currentUserExtra);
     return {
       ...new Playlist(),
       id: this.editForm.get(['id']).value,
       listName: this.editForm.get(['listName']).value,
       listDescription: this.editForm.get(['listDescription']).value,
-      users: this.editForm.get(['users']).value,
+      users: userExt,
       songs: this.editForm.get(['songs']).value,
-      createdBy: this.editForm.get(['createdBy']).value
+      createdBy: this.songService.currentUserExtra
     };
   }
 

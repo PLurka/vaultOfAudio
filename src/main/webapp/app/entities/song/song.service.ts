@@ -16,7 +16,7 @@ type EntityArrayResponseType = HttpResponse<ISong[]>;
 export class SongService {
   public resourceUrl = SERVER_API_URL + 'api/songs';
   private jwt: string;
-  private currentUserExtra: IUserExtra;
+  public currentUserExtra: IUserExtra;
 
   constructor(protected http: HttpClient, private https: HttpClient, public userExtraService: UserExtraService) {
     this.getJWT()
