@@ -8,6 +8,8 @@
             </span>
         </button>
     </h2>
+    <label for="userPlaylistsOnly">Show Your Playlists Only</label>
+    <input type="checkbox" class="userPlaylistsOnly" id="userPlaylistsOnly" value="false">
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="playlists?.length === 0">
@@ -54,19 +56,37 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>
-                        <button type="submit"
+                        <button *ngIf="currentAccount.login === playlist.createdBy?.user.login"
+                            type="submit"
                                 [routerLink]="['/', playlist.id, 'edit-playlist']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
+                        <button *ngIf="currentAccount.login === playlist.createdBy?.user.login"
+                            type="submit"
                                 [routerLink]="['/', { outlets: { popup: playlist.id + '/delete-playlist'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                        <button *ngIf="listHasUser(playlist)"
+                                type="button"
+                                (click)="removeUserFromList(playlist)"
+                                class="btn btn-danger btn-sm removeButton"
+                        >
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Remove</span>
+                        </button>
+                        <button *ngIf="!listHasUser(playlist)"
+                                type="button"
+                                (click)="addUserToList(playlist)"
+                                class="btn btn-info btn-sm addButton"
+                        >
+                            <fa-icon [icon]="'plus'"></fa-icon>
+                            <span class="d-none d-md-inline">Add</span>
                         </button>
                     </div>
                 </td>

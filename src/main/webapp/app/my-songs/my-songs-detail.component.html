@@ -49,7 +49,8 @@
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
             </button>
 
-            <button type="button"
+            <button *ngIf="currentAccount.login === song.createdBy?.user.login"
+                type="button"
                     [routerLink]="['/', song.id, 'edit-song']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>

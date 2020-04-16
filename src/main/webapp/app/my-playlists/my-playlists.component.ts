@@ -8,6 +8,9 @@ import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { SongService } from 'app/entities/song';
+import { IUserExtra } from 'app/shared/model/user-extra.model';
+import { UserExtraService } from 'app/entities/user-extra';
+import { ISong } from 'app/shared/model/song.model';
 
 @Component({
   selector: 'jhi-my-playlists',
@@ -16,16 +19,34 @@ import { SongService } from 'app/entities/song';
 })
 export class MyPlaylistsComponent implements OnInit, OnDestroy {
   playlists: IPlaylist[];
+  allPlaylists: IPlaylist[];
+  userPlaylists: IPlaylist[];
   currentAccount: any;
+  currentUser: IUserExtra;
   eventSubscriber: Subscription;
 
   constructor(
     protected playlistService: PlaylistService,
     protected songService: SongService,
+    protected userExtraService: UserExtraService,
     protected jhiAlertService: JhiAlertService,
     protected eventManager: JhiEventManager,
     protected accountService: AccountService
-  ) {}
+  ) {
+    this.userExtraService
+      .query()
+      .pipe(
+        filter((res: HttpResponse<IUserExtra[]>) => res.ok),
+        map((res: HttpResponse<IUserExtra[]>) => res.body)
+      )
+      .subscribe((res: IUserExtra[]) => {
+        if (res != undefined) {
+          res.forEach(userExtra => {
+            if (userExtra.user.login === this.currentAccount.login) this.currentUser = userExtra;
+          });
+        }
+      });
+  }
 
   loadAll() {
     let playlistsTemp: IPlaylist[] = [];
@@ -46,7 +67,8 @@ export class MyPlaylistsComponent implements OnInit, OnDestroy {
             )
             .subscribe(
               (resp: IPlaylist[]) => {
-                /*this.playlists = resp;*/
+                this.playlists = resp;
+                this.allPlaylists = this.playlists;
                 resp.forEach(function(playlist) {
                   playlist.users.forEach(function(user) {
                     if (user['user']['login'] === res) {
@@ -59,7 +81,41 @@ export class MyPlaylistsComponent implements OnInit, OnDestroy {
             );
         }
       });
-    this.playlists = playlistsTemp;
+    this.userPlaylists = playlistsTemp;
+  }
+
+  listHasUser(list: IPlaylist): boolean {
+    let songHasUserBool: boolean = false;
+    list.users.forEach(user => {
+      if (user.user.login === this.currentAccount.login) {
+        songHasUserBool = true;
+      }
+    });
+    return songHasUserBool;
+  }
+
+  addUserToList(list: IPlaylist) {
+    list.users.push(this.currentUser);
+    this.playlistService.update(list).subscribe(event => {
+      alert('Added user succesfully');
+    });
+    this.loadAll();
+    let showUserSongsOnly = <HTMLInputElement>document.getElementById('userSongsOnly');
+    showUserSongsOnly.checked = false;
+  }
+
+  removeUserFromList(list: IPlaylist) {
+    list.users.forEach(userExtra => {
+      if (userExtra.id === this.currentUser.id) {
+        list.users.splice(list.users.indexOf(userExtra), 1);
+      }
+    });
+    this.playlistService.update(list).subscribe(event => {
+      alert('Removed user succesfully');
+    });
+    this.loadAll();
+    let showUserSongsOnly = <HTMLInputElement>document.getElementById('userSongsOnly');
+    showUserSongsOnly.checked = false;
   }
 
   ngOnInit() {
@@ -68,6 +124,20 @@ export class MyPlaylistsComponent implements OnInit, OnDestroy {
       this.currentAccount = account;
     });
     this.registerChangeInPlaylists();
+
+    let showUserPlaylistsOnly = <HTMLInputElement>document.getElementById('userPlaylistsOnly');
+
+    showUserPlaylistsOnly.addEventListener(
+      'input',
+      () => {
+        if (showUserPlaylistsOnly.checked === true) {
+          this.playlists = this.userPlaylists;
+        } else {
+          this.playlists = this.allPlaylists;
+        }
+      },
+      false
+    );
   }
 
   ngOnDestroy() {
