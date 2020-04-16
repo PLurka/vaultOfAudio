@@ -52,8 +52,9 @@
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
             </button>
 
-            <button type="button"
-                    [routerLink]="['/crowd', crowd.id, 'edit']"
+            <button *ngIf="currentAccount.login === crowd.createdBy?.user.login"
+                type="button"
+                    [routerLink]="['/', crowd.id, 'edit-crowd']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
             </button>

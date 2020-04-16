@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { JhiDataUtils } from 'ng-jhipster';
 
 import { ICrowd } from 'app/shared/model/crowd.model';
+import { AccountService } from 'app/core';
 
 @Component({
   selector: 'jhi-my-crowds-detail',
@@ -10,10 +11,14 @@ import { ICrowd } from 'app/shared/model/crowd.model';
 })
 export class MyCrowdsDetailComponent implements OnInit {
   crowd: ICrowd;
+  currentAccount: any;
 
-  constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
+  constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute, protected accountService: AccountService) {}
 
   ngOnInit() {
+    this.accountService.identity().then(account => {
+      this.currentAccount = account;
+    });
     this.activatedRoute.data.subscribe(({ crowd }) => {
       this.crowd = crowd;
     });
