@@ -9,6 +9,7 @@ import { IEqualizerSetting, EqualizerSetting } from 'app/shared/model/equalizer-
 import { EqualizerSettingService } from 'app/entities/equalizer-setting/equalizer-setting.service';
 import { IUserExtra } from 'app/shared/model/user-extra.model';
 import { UserExtraService } from 'app/entities/user-extra';
+import { SongService } from 'app/entities/song';
 
 @Component({
   selector: 'jhi-my-eq-update',
@@ -18,6 +19,7 @@ export class MyEqUpdateComponent implements OnInit {
   isSaving: boolean;
 
   userextras: IUserExtra[];
+  eqUserExtras: IUserExtra[];
 
   editForm = this.fb.group({
     id: [],
@@ -40,6 +42,7 @@ export class MyEqUpdateComponent implements OnInit {
     protected jhiAlertService: JhiAlertService,
     protected equalizerSettingService: EqualizerSettingService,
     protected userExtraService: UserExtraService,
+    protected songService: SongService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -59,6 +62,7 @@ export class MyEqUpdateComponent implements OnInit {
   }
 
   updateForm(equalizerSetting: IEqualizerSetting) {
+    if (equalizerSetting.users) this.eqUserExtras = equalizerSetting.users;
     this.editForm.patchValue({
       id: equalizerSetting.id,
       equalizerName: equalizerSetting.equalizerName,
@@ -92,6 +96,8 @@ export class MyEqUpdateComponent implements OnInit {
   }
 
   private createFromForm(): IEqualizerSetting {
+    let userExt: IUserExtra[] = this.eqUserExtras;
+    userExt.push(this.songService.currentUserExtra);
     return {
       ...new EqualizerSetting(),
       id: this.editForm.get(['id']).value,
@@ -106,8 +112,8 @@ export class MyEqUpdateComponent implements OnInit {
       eight: this.editForm.get(['eight']).value,
       ninth: this.editForm.get(['ninth']).value,
       tenth: this.editForm.get(['tenth']).value,
-      users: this.editForm.get(['users']).value,
-      createdBy: this.editForm.get(['createdBy']).value
+      users: userExt,
+      createdBy: this.songService.currentUserExtra
     };
   }
 
