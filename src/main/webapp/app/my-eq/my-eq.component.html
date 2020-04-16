@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="vaultOfAudioApp.equalizerSetting.home.title">Equalizer Settings</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-equalizer-setting" [routerLink]="['/equalizer-setting/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-equalizer-setting" [routerLink]="['/new-my-eq']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="vaultOfAudioApp.equalizerSetting.home.createLabel">
             Create a new Equalizer Setting
@@ -36,7 +36,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">
-                <td><a [routerLink]="['/equalizer-setting', equalizerSetting.id, 'view' ]">{{equalizerSetting.id}}</a></td>
+                <td><a [routerLink]="['/', equalizerSetting.id, 'view-my-eq' ]">{{equalizerSetting.id}}</a></td>
                 <td>{{equalizerSetting.equalizerName}}</td>
                 <td>{{equalizerSetting.first}}</td>
                 <td>{{equalizerSetting.second}}</td>
@@ -61,19 +61,19 @@
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
-                                [routerLink]="['/equalizer-setting', equalizerSetting.id, 'view' ]"
+                                [routerLink]="['/', equalizerSetting.id, 'view-my-eq' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/equalizer-setting', equalizerSetting.id, 'edit']"
+                                [routerLink]="['/', equalizerSetting.id, 'edit-my-eq']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/equalizer-setting', { outlets: { popup: equalizerSetting.id + '/delete'} }]"
+                                [routerLink]="['/', { outlets: { popup: equalizerSetting.id + '/delete-my-eq'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
