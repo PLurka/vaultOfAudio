@@ -31,10 +31,7 @@ import java.net.URISyntaxException;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * REST controller for managing {@link com.lurka.voa.domain.Song}.
@@ -91,6 +88,9 @@ public class SongResource {
                     Song newSong = new ObjectMapper().readValue(song, Song.class);//new Song();
                     newSong.setSongMetadata(stamp + file.getOriginalFilename());
                     newSong.setCreatedBy(userExt);
+                    HashSet userExtSet = new HashSet<>();
+                    userExtSet.add(userExt);
+                    newSong.setUsers(userExtSet);
                     createSong(newSong);
                 }catch (Exception ex){
                     localFTPClient.deleteFile(path);
