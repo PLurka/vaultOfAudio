@@ -1,7 +1,7 @@
 <div>
     <h2 id="page-heading">
         <span jhiTranslate="vaultOfAudioApp.playlist.home.title">Playlists</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-playlist" [routerLink]="['/playlist/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-playlist" [routerLink]="['/new-playlist']">
             <fa-icon [icon]="'plus'"></fa-icon>
             <span  jhiTranslate="vaultOfAudioApp.playlist.home.createLabel">
             Create a new Playlist
@@ -28,7 +28,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let playlist of playlists ;trackBy: trackId">
-                <td><a [routerLink]="['/playlist', playlist.id, 'view' ]">{{playlist.id}}</a></td>
+                <td><a [routerLink]="['/', playlist.id, 'view-playlist' ]">{{playlist.id}}</a></td>
                 <td>{{playlist.listName}}</td>
                 <td>{{playlist.listDescription}}</td>
                 <td>
@@ -38,7 +38,7 @@
                 </td>
                 <td>
                     <span *ngFor="let song of playlist.songs; let last = last">
-                            <a class="form-control-static" [routerLink]="['/song', song?.id, 'view' ]">{{song.songName}}</a>{{last ? '' : ', '}}
+                            <a class="form-control-static" [routerLink]="['/', song?.id, 'view-song' ]">{{song.songName}}</a>{{last ? '' : ', '}}
                         </span>
                 </td>
                 <td>
@@ -49,19 +49,19 @@
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"
-                                [routerLink]="['/playlist', playlist.id, 'view' ]"
+                                [routerLink]="['/', playlist.id, 'view-playlist' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/playlist', playlist.id, 'edit']"
+                                [routerLink]="['/', playlist.id, 'edit-playlist']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
                         <button type="submit"
-                                [routerLink]="['/playlist', { outlets: { popup: playlist.id + '/delete'} }]"
+                                [routerLink]="['/', { outlets: { popup: playlist.id + '/delete-playlist'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">

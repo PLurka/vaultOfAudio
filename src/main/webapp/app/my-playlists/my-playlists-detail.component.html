@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="playlist">
+            <h2><span jhiTranslate="vaultOfAudioApp.playlist.detail.title">Playlist</span> {{playlist.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="vaultOfAudioApp.playlist.listName">List Name</span></dt>
+                <dd>
+                    <span>{{playlist.listName}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.playlist.listDescription">List Description</span></dt>
+                <dd>
+                    <span>{{playlist.listDescription}}</span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.playlist.user">User</span></dt>
+                <dd>
+                    <span *ngFor="let user of playlist.users; let last = last">
+                        <a [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.playlist.song">Song</span></dt>
+                <dd>
+                    <span *ngFor="let song of playlist.songs; let last = last">
+                        <a [routerLink]="['/', song?.id, 'view-song' ]">{{song.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.playlist.createdBy">Created By</span></dt>
+                <dd>
+                    <div *ngIf="playlist.createdBy">
+                        <a [routerLink]="['/user-extra', playlist.createdBy?.id, 'view']">{{playlist.createdBy?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/', playlist.id, 'edit-playlist']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,8 +1,8 @@
-import { Route, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { MySongsComponent } from './my-songs.component';
-import { SongDeletePopupComponent, SongDetailComponent, SongResolve, SongUpdateComponent } from 'app/entities/song';
+import { SongResolve } from 'app/entities/song';
 import { MySongsUpdateComponent } from 'app/my-songs/my-songs-update.component';
 import { MySongsDeletePopupComponent } from 'app/my-songs/my-songs-delete-dialog.component';
 import { MySongsDetailComponent } from 'app/my-songs/my-songs-detail.component';

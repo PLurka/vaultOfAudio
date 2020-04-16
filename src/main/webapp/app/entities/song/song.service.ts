@@ -8,7 +8,6 @@ import { filter, map } from 'rxjs/operators';
 import { ISong } from 'app/shared/model/song.model';
 import { UserExtraService } from 'app/entities/user-extra';
 import { IUserExtra } from 'app/shared/model/user-extra.model';
-import { IUser } from 'app/core';
 
 type EntityResponseType = HttpResponse<ISong>;
 type EntityArrayResponseType = HttpResponse<ISong[]>;
@@ -68,14 +67,6 @@ export class SongService {
     data.append('file', file);
     data.append('song', JSON.stringify(song));
     return this.http.put<ISong>(this.resourceUrl, data, { observe: 'response' });
-
-    /*const newRequest = new HttpRequest('PUT', this.resourceUrl , data, {
-          reportProgress: true,
-          responseType: 'text'
-      })
-
-
-      return this.https.request(newRequest);*/
   }
 
   find(id: number): Observable<EntityResponseType> {
