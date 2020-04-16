@@ -69,7 +69,8 @@
                 <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
             </button>
 
-            <button type="button"
+            <button *ngIf="currentAccount.login === equalizerSetting.createdBy?.user.login"
+                type="button"
                     [routerLink]="['/', equalizerSetting.id, 'edit-my-eq']"
                     class="btn btn-primary">
                 <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>

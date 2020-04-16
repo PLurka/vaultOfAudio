@@ -85,13 +85,13 @@ export class MyPlaylistsComponent implements OnInit, OnDestroy {
   }
 
   listHasUser(list: IPlaylist): boolean {
-    let songHasUserBool: boolean = false;
+    let listHasUserBool: boolean = false;
     list.users.forEach(user => {
       if (user.user.login === this.currentAccount.login) {
-        songHasUserBool = true;
+        listHasUserBool = true;
       }
     });
-    return songHasUserBool;
+    return listHasUserBool;
   }
 
   addUserToList(list: IPlaylist) {
@@ -100,8 +100,8 @@ export class MyPlaylistsComponent implements OnInit, OnDestroy {
       alert('Added user succesfully');
     });
     this.loadAll();
-    let showUserSongsOnly = <HTMLInputElement>document.getElementById('userSongsOnly');
-    showUserSongsOnly.checked = false;
+    let showUserListsOnly = <HTMLInputElement>document.getElementById('userPlaylistsOnly');
+    showUserListsOnly.checked = false;
   }
 
   removeUserFromList(list: IPlaylist) {
@@ -114,8 +114,8 @@ export class MyPlaylistsComponent implements OnInit, OnDestroy {
       alert('Removed user succesfully');
     });
     this.loadAll();
-    let showUserSongsOnly = <HTMLInputElement>document.getElementById('userSongsOnly');
-    showUserSongsOnly.checked = false;
+    let showUserListsOnly = <HTMLInputElement>document.getElementById('userPlaylistsOnly');
+    showUserListsOnly.checked = false;
   }
 
   ngOnInit() {

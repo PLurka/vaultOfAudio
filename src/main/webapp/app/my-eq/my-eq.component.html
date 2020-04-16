@@ -8,6 +8,8 @@
             </span>
         </button>
     </h2>
+    <label for="userEqOnly">Show Your Equalizer Settings Only</label>
+    <input type="checkbox" class="userEqOnly" id="userEqOnly" value="false">
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="equalizerSettings?.length === 0">
@@ -66,19 +68,37 @@
                             <fa-icon [icon]="'eye'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                         </button>
-                        <button type="submit"
+                        <button *ngIf="currentAccount.login === equalizerSetting.createdBy?.user.login"
+                            type="submit"
                                 [routerLink]="['/', equalizerSetting.id, 'edit-my-eq']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
+                        <button *ngIf="currentAccount.login === equalizerSetting.createdBy?.user.login"
+                                type="submit"
                                 [routerLink]="['/', { outlets: { popup: equalizerSetting.id + '/delete-my-eq'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                        <button *ngIf="eqHasUser(equalizerSetting)"
+                                type="button"
+                                (click)="removeUserFromEq(equalizerSetting)"
+                                class="btn btn-danger btn-sm removeButton"
+                        >
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Remove</span>
+                        </button>
+                        <button *ngIf="!eqHasUser(equalizerSetting)"
+                                type="button"
+                                (click)="addUserToEq(equalizerSetting)"
+                                class="btn btn-info btn-sm addButton"
+                        >
+                            <fa-icon [icon]="'plus'"></fa-icon>
+                            <span class="d-none d-md-inline">Add</span>
                         </button>
                     </div>
                 </td>
