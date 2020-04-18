@@ -141,6 +141,17 @@ export class MyCrowdsComponent implements OnInit, OnDestroy {
     );
   }
 
+  isUserAccepted(crowd: ICrowd, user: IUserExtra): boolean {
+    let isAccepted: boolean = false;
+    crowd.accepteds.forEach(accepted => {
+      if (accepted.id === user.id) {
+        isAccepted = true;
+        return isAccepted;
+      }
+    });
+    return isAccepted;
+  }
+
   ngOnDestroy() {
     this.eventManager.destroy(this.eventSubscriber);
   }

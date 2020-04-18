@@ -24,7 +24,7 @@
                 <th><span jhiTranslate="vaultOfAudioApp.crowd.crowdDescription">Crowd Description</span></th>
                 <th><span jhiTranslate="vaultOfAudioApp.crowd.playlist">Playlist</span></th>
                 <th><span jhiTranslate="vaultOfAudioApp.crowd.user">User</span></th>
-                <th><span jhiTranslate="vaultOfAudioApp.crowd.accepted">Accepted</span></th>
+                <!--<th><span jhiTranslate="vaultOfAudioApp.crowd.accepted">Accepted</span></th>-->
                 <th><span jhiTranslate="vaultOfAudioApp.crowd.createdBy">Created By</span></th>
                 <th></th>
             </tr>
@@ -41,14 +41,14 @@
                 </td>
                 <td>
                     <span *ngFor="let user of crowd.users; let last = last">
-                            {{user.user.login}}{{last ? '' : ', '}}
+                        <div *ngIf="isUserAccepted(crowd, user)">{{user.user.login}}{{last ? '' : ', '}}</div>
                         </span>
                 </td>
-                <td>
+                <!--<td>
                     <span *ngFor="let accepted of crowd.accepteds; let last = last">
                             {{accepted.user.login}}{{last ? '' : ', '}}
                         </span>
-                </td>
+                </td>-->
                 <td>
                     <div *ngIf="crowd.createdBy">
                         {{crowd.createdBy?.user.login}}
