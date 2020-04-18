@@ -12,6 +12,13 @@
             <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" *ngIf="settingsForm.get('login').value" novalidate>
 
                 <div class="form-group">
+                    <label for="imageUrl" jhiTranslate="settings.form.image">Image</label>
+                    <br>
+                    <img *ngIf="settingsForm.get('imageUrl').value" src="{{settingsForm.get('imageUrl').value}}" style="max-width: 400px; max-height: 800px">
+                    <input type="text" class="form-control" id="imageUrl" name="imageUrl" placeholder="{{'settings.form.image.placeholder' | translate}}"
+                           formControlName="imageUrl">
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="firstName" jhiTranslate="settings.form.firstname">First Name</label>
                     <input type="text" class="form-control" id="firstName" name="firstName" placeholder="{{'settings.form.firstname.placeholder' | translate}}"
                            formControlName="firstName">
