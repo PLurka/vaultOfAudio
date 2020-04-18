@@ -25,21 +25,12 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.crowd.crowdDescription" for="field_crowdDescription">Crowd Description</label>
-                    <input type="text" class="form-control" name="crowdDescription" id="field_crowdDescription"
-                           formControlName="crowdDescription"/>
-                    <div *ngIf="editForm.get('crowdDescription').invalid && (editForm.get('crowdDescription').dirty || editForm.get('crowdDescription').touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('crowdDescription').errors.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 2000 }">
-                            This field cannot be longer than 2000 characters.
-                        </small>
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="vaultOfAudioApp.crowd.crowdPhoto" for="field_crowdPhoto">Crowd Photo</label>
                     <div>
                         <div *ngIf="editForm.get('crowdPhoto').value" class="form-text text-danger clearfix">
-                            <a class="pull-left" (click)="openFile(editForm.get('crowdPhotoContentType').value, editForm.get('crowdPhoto').value)" jhiTranslate="entity.action.open">open</a><br>
+                            <img id="crowdPhoto" src="{{this.imageUrl}}" style="max-height: 400px; max-width: 800px">
+                            <br>
+                            <!--<a class="pull-left" (click)="openFile(editForm.get('crowdPhotoContentType').value, editForm.get('crowdPhoto').value)" jhiTranslate="entity.action.open">open</a><br>-->
                             <span class="pull-left">{{editForm.get('crowdPhotoContentType').value}}, {{byteSize(editForm.get('crowdPhoto').value)}}</span>
                             <button type="button" (click)="editForm.patchValue({crowdPhoto: null});editForm.patchValue({crowdPhotoContentType: null});"
                                     class="btn btn-secondary btn-xs pull-right">
@@ -53,13 +44,19 @@
                     <input type="hidden" class="form-control" name="crowdPhotoContentType" id="field_crowdPhotoContentType"
                            formControlName="crowdPhotoContentType" />
                 </div>
-
                 <div class="form-group">
-                    <label jhiTranslate="vaultOfAudioApp.crowd.user" for="field_users">User</label>
-                    <select class="form-control" id="field_users" multiple name="users" formControlName="users">
-                        <option [ngValue]="getSelected(editForm.get('users').value, userExtraOption)" *ngFor="let userExtraOption of userextras; trackBy: trackUserExtraById">{{userExtraOption.user.login}}</option>
-                    </select>
+                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.crowd.crowdDescription" for="field_crowdDescription">Crowd Description</label>
+                    <input type="text" class="form-control" name="crowdDescription" id="field_crowdDescription"
+                           formControlName="crowdDescription"/>
+                    <div *ngIf="editForm.get('crowdDescription').invalid && (editForm.get('crowdDescription').dirty || editForm.get('crowdDescription').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('crowdDescription').errors.maxlength" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: 2000 }">
+                            This field cannot be longer than 2000 characters.
+                        </small>
+                    </div>
                 </div>
+
+
                 <div class="form-group">
                     <label jhiTranslate="vaultOfAudioApp.crowd.accepted" for="field_accepteds">Accepted</label>
                     <select class="form-control" id="field_accepteds" multiple name="accepteds" formControlName="accepteds">
@@ -70,13 +67,6 @@
                     <label jhiTranslate="vaultOfAudioApp.crowd.playlist" for="field_playlists">Playlist</label>
                     <select class="form-control" id="field_playlists" multiple name="playlists" formControlName="playlists">
                         <option [ngValue]="getSelected(editForm.get('playlists').value, playlistOption)" *ngFor="let playlistOption of playlists; trackBy: trackPlaylistById">{{playlistOption.listName}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="vaultOfAudioApp.crowd.createdBy" for="field_createdBy">Created By</label>
-                    <select class="form-control" id="field_createdBy" name="createdBy" formControlName="createdBy">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="userExtraOption.id === editForm.get('createdBy').value?.id ? editForm.get('createdBy').value : userExtraOption" *ngFor="let userExtraOption of userextras; trackBy: trackUserExtraById">{{userExtraOption.user.login}}</option>
                     </select>
                 </div>
             </div>

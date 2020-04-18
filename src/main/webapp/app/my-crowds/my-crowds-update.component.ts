@@ -11,6 +11,7 @@ import { IUserExtra } from 'app/shared/model/user-extra.model';
 import { UserExtraService } from 'app/entities/user-extra';
 import { IPlaylist } from 'app/shared/model/playlist.model';
 import { PlaylistService } from 'app/entities/playlist';
+import { SongService } from 'app/entities/song';
 
 @Component({
   selector: 'jhi-my-crowds-update',
@@ -21,7 +22,11 @@ export class MyCrowdsUpdateComponent implements OnInit {
 
   userextras: IUserExtra[];
 
+  crowdUserExtras: IUserExtra[];
+
   playlists: IPlaylist[];
+
+  imageUrl;
 
   editForm = this.fb.group({
     id: [],
@@ -40,6 +45,7 @@ export class MyCrowdsUpdateComponent implements OnInit {
     protected jhiAlertService: JhiAlertService,
     protected crowdService: CrowdService,
     protected userExtraService: UserExtraService,
+    protected songService: SongService,
     protected playlistService: PlaylistService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -64,9 +70,11 @@ export class MyCrowdsUpdateComponent implements OnInit {
         map((response: HttpResponse<IPlaylist[]>) => response.body)
       )
       .subscribe((res: IPlaylist[]) => (this.playlists = res), (res: HttpErrorResponse) => this.onError(res.message));
+    this.imageUrl = 'data:' + this.editForm.get('crowdPhotoContentType').value + ';base64,' + this.editForm.get('crowdPhoto').value;
   }
 
   updateForm(crowd: ICrowd) {
+    if (crowd.users) this.crowdUserExtras = crowd.users;
     this.editForm.patchValue({
       id: crowd.id,
       crowdName: crowd.crowdName,
@@ -127,6 +135,8 @@ export class MyCrowdsUpdateComponent implements OnInit {
   }
 
   private createFromForm(): ICrowd {
+    let userExt: IUserExtra[] = this.crowdUserExtras;
+    userExt.push(this.songService.currentUserExtra);
     return {
       ...new Crowd(),
       id: this.editForm.get(['id']).value,
@@ -134,10 +144,10 @@ export class MyCrowdsUpdateComponent implements OnInit {
       crowdDescription: this.editForm.get(['crowdDescription']).value,
       crowdPhotoContentType: this.editForm.get(['crowdPhotoContentType']).value,
       crowdPhoto: this.editForm.get(['crowdPhoto']).value,
-      users: this.editForm.get(['users']).value,
+      users: userExt,
       accepteds: this.editForm.get(['accepteds']).value,
       playlists: this.editForm.get(['playlists']).value,
-      createdBy: this.editForm.get(['createdBy']).value
+      createdBy: this.songService.currentUserExtra
     };
   }
 

@@ -2,46 +2,45 @@
     <div class="col-8">
         <div *ngIf="crowd">
             <h2><span jhiTranslate="vaultOfAudioApp.crowd.detail.title">Crowd</span> {{crowd.id}}</h2>
-            <hr>
+            <h4>{{crowd.crowdName}}</h4>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="vaultOfAudioApp.crowd.crowdName">Crowd Name</span></dt>
                 <dd>
-                    <span>{{crowd.crowdName}}</span>
+                    <div *ngIf="crowd.crowdPhoto">
+                        <img id="crowdPhoto" src="{{this.imageUrl}}" style="max-height: 400px; max-width: 800px">
+                        <!--<a (click)="openFile(crowd.crowdPhotoContentType, crowd.crowdPhoto)" jhiTranslate="entity.action.open">open</a>-->
+                        <br>
+                        {{crowd.crowdPhotoContentType}}, {{byteSize(crowd.crowdPhoto)}}
+                    </div>
                 </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.crowd.crowdDescription">Crowd Description</span></dt>
                 <dd>
                     <span>{{crowd.crowdDescription}}</span>
                 </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.crowd.crowdPhoto">Crowd Photo</span></dt>
-                <dd>
-                    <div *ngIf="crowd.crowdPhoto">
-                        <a (click)="openFile(crowd.crowdPhotoContentType, crowd.crowdPhoto)" jhiTranslate="entity.action.open">open</a>
-                        {{crowd.crowdPhotoContentType}}, {{byteSize(crowd.crowdPhoto)}}
-                    </div>
-                </dd>
+
                 <dt><span jhiTranslate="vaultOfAudioApp.crowd.user">User</span></dt>
                 <dd>
                     <span *ngFor="let user of crowd.users; let last = last">
-                        <a [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.id}}</a>{{last ? '' : ', '}}
+                        <a [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.user.login}}</a>{{last ? '' : ', '}}
                     </span>
                 </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.crowd.accepted">Accepted</span></dt>
                 <dd>
                     <span *ngFor="let accepted of crowd.accepteds; let last = last">
-                        <a [routerLink]="['/user-extra', accepted?.id, 'view' ]">{{accepted.id}}</a>{{last ? '' : ', '}}
+                        <a [routerLink]="['/user-extra', accepted?.id, 'view' ]">{{accepted.user.login}}</a>{{last ? '' : ', '}}
                     </span>
                 </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.crowd.playlist">Playlist</span></dt>
                 <dd>
                     <span *ngFor="let playlist of crowd.playlists; let last = last">
-                        <a [routerLink]="['/playlist', playlist?.id, 'view' ]">{{playlist.id}}</a>{{last ? '' : ', '}}
+                        <a [routerLink]="['/playlist', playlist?.id, 'view' ]">{{playlist.listName}}</a>{{last ? '' : ', '}}
                     </span>
                 </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.crowd.createdBy">Created By</span></dt>
                 <dd>
                     <div *ngIf="crowd.createdBy">
-                        <a [routerLink]="['/user-extra', crowd.createdBy?.id, 'view']">{{crowd.createdBy?.id}}</a>
+                        <a [routerLink]="['/user-extra', crowd.createdBy?.id, 'view']">{{crowd.createdBy?.user.login}}</a>
                     </div>
                 </dd>
             </dl>

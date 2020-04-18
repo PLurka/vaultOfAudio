@@ -12,6 +12,7 @@ import { AccountService } from 'app/core';
 export class MyCrowdsDetailComponent implements OnInit {
   crowd: ICrowd;
   currentAccount: any;
+  imageUrl;
 
   constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute, protected accountService: AccountService) {}
 
@@ -22,6 +23,7 @@ export class MyCrowdsDetailComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ crowd }) => {
       this.crowd = crowd;
     });
+    this.imageUrl = 'data:' + this.crowd.crowdPhotoContentType + ';base64,' + this.crowd.crowdPhoto;
   }
 
   byteSize(field) {
