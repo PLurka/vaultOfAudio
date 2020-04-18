@@ -22,7 +22,7 @@
                 <dt><span jhiTranslate="vaultOfAudioApp.crowd.playlist">Playlist</span></dt>
                 <dd>
                     <span *ngFor="let playlist of crowd.playlists; let last = last">
-                        <a [routerLink]="['/playlist', playlist?.id, 'view' ]">{{playlist.listName}}</a>{{last ? '' : ', '}}
+                        <a [routerLink]="['/', playlist?.id, 'view-playlist' ]">{{playlist.listName}}</a>{{last ? '' : ', '}}
                     </span>
                 </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.crowd.user">User</span></dt>
