@@ -22,8 +22,8 @@
                 <th><span jhiTranslate="global.field.id">ID</span></th>
                 <th><span jhiTranslate="vaultOfAudioApp.playlist.listName">List Name</span></th>
                 <th><span jhiTranslate="vaultOfAudioApp.playlist.listDescription">List Description</span></th>
-                <th><span jhiTranslate="vaultOfAudioApp.playlist.user">User</span></th>
                 <th><span jhiTranslate="vaultOfAudioApp.playlist.song">Song</span></th>
+                <th><span jhiTranslate="vaultOfAudioApp.playlist.user">User</span></th>
                 <th><span jhiTranslate="vaultOfAudioApp.playlist.createdBy">Created By</span></th>
                 <th></th>
             </tr>
@@ -34,21 +34,21 @@
                 <td>{{playlist.listName}}</td>
                 <td>{{playlist.listDescription}}</td>
                 <td>
-                    <span *ngFor="let user of playlist.users; let last = last">
-                            <a class="form-control-static" [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.user.login}}</a>{{last ? '' : ', '}}
-                        </span>
-                </td>
-                <td>
                     <span *ngFor="let song of playlist.songs; let last = last">
                             <a class="form-control-static" [routerLink]="['/', song?.id, 'view-song' ]">{{song.songName}}</a>{{last ? '' : ', '}}
                         </span>
                 </td>
                 <td>
+                    <span *ngFor="let user of playlist.users; let last = last">
+                            {{user.user.login}}{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
                     <div *ngIf="playlist.createdBy">
-                        <a [routerLink]="['/user-extra', playlist.createdBy?.id, 'view' ]" >{{playlist.createdBy?.user.login}}</a>
+                        {{playlist.createdBy?.user.login}}
                     </div>
                 </td>
-                <td class="text-right">
+                <td class="text-center">
                     <div class="btn-group">
                         <button type="submit"
                                 [routerLink]="['/', playlist.id, 'view-playlist' ]"

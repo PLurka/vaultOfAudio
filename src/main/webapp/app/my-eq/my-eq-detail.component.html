@@ -2,13 +2,9 @@
     <div class="col-8">
         <div *ngIf="equalizerSetting">
             <h2><span jhiTranslate="vaultOfAudioApp.equalizerSetting.detail.title">Equalizer Setting</span> {{equalizerSetting.id}}</h2>
-            <hr>
+            <h4>{{equalizerSetting.equalizerName}}</h4>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.equalizerName">Equalizer Name</span></dt>
-                <dd>
-                    <span>{{equalizerSetting.equalizerName}}</span>
-                </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.first">First</span></dt>
                 <dd>
                     <span>{{equalizerSetting.first}}</span>
@@ -52,13 +48,13 @@
                 <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.user">User</span></dt>
                 <dd>
                     <span *ngFor="let user of equalizerSetting.users; let last = last">
-                        <a [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.id}}</a>{{last ? '' : ', '}}
+                        {{user.user.login}}{{last ? '' : ', '}}
                     </span>
                 </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.equalizerSetting.createdBy">Created By</span></dt>
                 <dd>
                     <div *ngIf="equalizerSetting.createdBy">
-                        <a [routerLink]="['/user-extra', equalizerSetting.createdBy?.id, 'view']">{{equalizerSetting.createdBy?.id}}</a>
+                        {{equalizerSetting.createdBy?.user.login}}
                     </div>
                 </dd>
             </dl>

@@ -1,23 +1,13 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="playlist">
-            <h2> {{playlist.listName}}</h2>
-            <hr>
+            <h2><span jhiTranslate="vaultOfAudioApp.playlist.detail.title">Playlist</span> {{playlist.id}}</h2>
+            <h4> {{playlist.listName}}</h4>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="vaultOfAudioApp.playlist.listName">List Name</span></dt>
-                <dd>
-                    <span>{{playlist.listName}}</span>
-                </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.playlist.listDescription">List Description</span></dt>
                 <dd>
                     <span>{{playlist.listDescription}}</span>
-                </dd>
-                <dt><span jhiTranslate="vaultOfAudioApp.playlist.user">User</span></dt>
-                <dd>
-                    <span *ngFor="let user of playlist.users; let last = last">
-                        <a [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.user.login}}</a>{{last ? '' : ', '}}
-                    </span>
                 </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.playlist.song">Song</span></dt>
                 <dd>
@@ -25,10 +15,16 @@
                         <a [routerLink]="['/', song?.id, 'view-song' ]">{{song.songName}}</a>{{last ? '' : ', '}}
                     </span>
                 </dd>
+                <dt><span jhiTranslate="vaultOfAudioApp.playlist.user">User</span></dt>
+                <dd>
+                    <span *ngFor="let user of playlist.users; let last = last">
+                        {{user.user.login}}{{last ? '' : ', '}}
+                    </span>
+                </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.playlist.createdBy">Created By</span></dt>
                 <dd>
                     <div *ngIf="playlist.createdBy">
-                        <a [routerLink]="['/user-extra', playlist.createdBy?.id, 'view']">{{playlist.createdBy?.user.login}}</a>
+                        {{playlist.createdBy?.user.login}}
                     </div>
                 </dd>
             </dl>

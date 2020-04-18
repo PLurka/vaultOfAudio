@@ -22,10 +22,9 @@
                 <th><span jhiTranslate="global.field.id">ID</span></th>
                 <th><span jhiTranslate="vaultOfAudioApp.crowd.crowdName">Crowd Name</span></th>
                 <th><span jhiTranslate="vaultOfAudioApp.crowd.crowdDescription">Crowd Description</span></th>
-                <th><span jhiTranslate="vaultOfAudioApp.crowd.crowdPhoto">Crowd Photo</span></th>
+                <th><span jhiTranslate="vaultOfAudioApp.crowd.playlist">Playlist</span></th>
                 <th><span jhiTranslate="vaultOfAudioApp.crowd.user">User</span></th>
                 <th><span jhiTranslate="vaultOfAudioApp.crowd.accepted">Accepted</span></th>
-                <th><span jhiTranslate="vaultOfAudioApp.crowd.playlist">Playlist</span></th>
                 <th><span jhiTranslate="vaultOfAudioApp.crowd.createdBy">Created By</span></th>
                 <th></th>
             </tr>
@@ -36,30 +35,26 @@
                 <td>{{crowd.crowdName}}</td>
                 <td>{{crowd.crowdDescription}}</td>
                 <td>
-                    <a *ngIf="crowd.crowdPhoto" (click)="openFile(crowd.crowdPhotoContentType, crowd.crowdPhoto)" jhiTranslate="entity.action.open">open</a>
-                    <span *ngIf="crowd.crowdPhoto">{{crowd.crowdPhotoContentType}}, {{byteSize(crowd.crowdPhoto)}}</span>
-                </td>
-                <td>
-                    <span *ngFor="let user of crowd.users; let last = last">
-                            <a class="form-control-static" [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.user.login}}</a>{{last ? '' : ', '}}
-                        </span>
-                </td>
-                <td>
-                    <span *ngFor="let accepted of crowd.accepteds; let last = last">
-                            <a class="form-control-static" [routerLink]="['/user-extra', accepted?.id, 'view' ]">{{accepted.user.login}}</a>{{last ? '' : ', '}}
-                        </span>
-                </td>
-                <td>
                     <span *ngFor="let playlist of crowd.playlists; let last = last">
                             <a class="form-control-static" [routerLink]="['/', playlist?.id, 'view-playlist' ]">{{playlist.listName}}</a>{{last ? '' : ', '}}
                         </span>
                 </td>
                 <td>
+                    <span *ngFor="let user of crowd.users; let last = last">
+                            {{user.user.login}}{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
+                    <span *ngFor="let accepted of crowd.accepteds; let last = last">
+                            {{accepted.user.login}}{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
                     <div *ngIf="crowd.createdBy">
-                        <a [routerLink]="['/user-extra', crowd.createdBy?.id, 'view' ]" >{{crowd.createdBy?.user.login}}</a>
+                        {{crowd.createdBy?.user.login}}
                     </div>
                 </td>
-                <td class="text-right">
+                <td class="text-center">
                     <div class="btn-group">
                         <button type="submit"
                                 [routerLink]="['/', crowd.id, 'view-crowd' ]"

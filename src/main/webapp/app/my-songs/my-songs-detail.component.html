@@ -2,13 +2,9 @@
     <div class="col-8">
         <div *ngIf="song">
             <h2><span jhiTranslate="vaultOfAudioApp.song.detail.title">Song</span> {{song.id}}</h2>
-            <hr>
+            <h4>{{song.songName}}</h4>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="vaultOfAudioApp.song.songName">Song Name</span></dt>
-                <dd>
-                    <span>{{song.songName}}</span>
-                </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.song.lyrics">Lyrics</span></dt>
                 <dd>
                     <span>{{song.lyrics}}</span>
@@ -16,10 +12,6 @@
                 <dt><span jhiTranslate="vaultOfAudioApp.song.authors">Authors</span></dt>
                 <dd>
                     <span>{{song.authors}}</span>
-                </dd>
-                <dt><span jhiTranslate="vaultOfAudioApp.song.songMetadata">Song Metadata</span></dt>
-                <dd>
-                    <span>{{song.songMetadata}}</span>
                 </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.song.year">Year</span></dt>
                 <dd>
@@ -32,13 +24,13 @@
                 <dt><span jhiTranslate="vaultOfAudioApp.song.user">User</span></dt>
                 <dd>
                     <span *ngFor="let user of song.users; let last = last">
-                        <a [routerLink]="['/user-extra', user?.id, 'view' ]">{{user.user.login}}</a>{{last ? '' : ', '}}
+                        {{user.user.login}}{{last ? '' : ', '}}
                     </span>
                 </dd>
                 <dt><span jhiTranslate="vaultOfAudioApp.song.createdBy">Created By</span></dt>
                 <dd>
                     <div *ngIf="song.createdBy">
-                        <a [routerLink]="['/user-extra', song.createdBy?.id, 'view']">{{song.createdBy?.user.login}}</a>
+                        {{song.createdBy?.user.login}}
                     </div>
                 </dd>
             </dl>
