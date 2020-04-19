@@ -22,7 +22,7 @@ export class MyCrowdsUpdateComponent implements OnInit {
 
   userextras: IUserExtra[];
 
-  crowdUserExtras: IUserExtra[];
+  crowdUserExtras: IUserExtra[] = [];
 
   playlists: IPlaylist[];
 

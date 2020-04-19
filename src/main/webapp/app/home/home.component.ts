@@ -8,6 +8,7 @@ import { LoginModalService, AccountService, Account, UserService, User } from 'a
 import { CrowdService } from 'app/entities/crowd';
 import { Crowd, ICrowd } from 'app/shared/model/crowd.model';
 import { IUserExtra } from 'app/shared/model/user-extra.model';
+import { UserExtraService } from 'app/entities/user-extra';
 
 @Component({
   selector: 'jhi-home',
@@ -20,15 +21,30 @@ export class HomeComponent implements OnInit {
   crowds: ICrowd[];
   usersDivide: ICrowd[];
   acceptedsDivide: ICrowd[];
+  currentUser: IUserExtra;
 
   constructor(
     private accountService: AccountService,
+    protected userExtraService: UserExtraService,
     private loginModalService: LoginModalService,
     private eventManager: JhiEventManager,
     protected jhiAlertService: JhiAlertService,
     private crowdService: CrowdService
   ) {
     this.loadAllCrowds();
+    this.userExtraService
+      .query()
+      .pipe(
+        filter((res: HttpResponse<IUserExtra[]>) => res.ok),
+        map((res: HttpResponse<IUserExtra[]>) => res.body)
+      )
+      .subscribe((res: IUserExtra[]) => {
+        if (res != undefined) {
+          res.forEach(userExtra => {
+            if (userExtra.user.login === this.account.login) this.currentUser = userExtra;
+          });
+        }
+      });
   }
 
   loadAllCrowds() {

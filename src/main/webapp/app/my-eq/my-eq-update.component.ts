@@ -19,7 +19,7 @@ export class MyEqUpdateComponent implements OnInit {
   isSaving: boolean;
 
   userextras: IUserExtra[];
-  eqUserExtras: IUserExtra[];
+  eqUserExtras: IUserExtra[] = [];
 
   editForm = this.fb.group({
     id: [],
