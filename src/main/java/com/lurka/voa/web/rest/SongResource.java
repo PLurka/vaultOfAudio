@@ -43,6 +43,11 @@ public class SongResource {
     List<String> files = new ArrayList<String>();
     private LocalFtpClient localFTPClient;
 
+    private String server = "localhost";
+    private int port = 21;
+    private String user = "PLurka";
+    private String password = "E57paegk";
+
     private final Logger log = LoggerFactory.getLogger(SongResource.class);
 
     private static final String ENTITY_NAME = "song";
@@ -74,7 +79,7 @@ public class SongResource {
                 Long time = new Timestamp(System.currentTimeMillis()).getTime();
                 String stamp = time.toString();
 
-                localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
+                localFTPClient = new LocalFtpClient(server, port, user, password);
                 localFTPClient.open();
                 File ftpFile = new File(System.getProperty("java.io.tmpdir") + "/" + file.getOriginalFilename());
                 FileOutputStream fos = new FileOutputStream( ftpFile );
@@ -162,7 +167,7 @@ public class SongResource {
                     Long time = new Timestamp(System.currentTimeMillis()).getTime();
                     String stamp = time.toString();
 
-                    localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
+                    localFTPClient = new LocalFtpClient(server, port, user, password);
                     localFTPClient.open();
                     localFTPClient.deleteFile("/"+songObject.getSongMetadata());
                     File ftpFile = new File(System.getProperty("java.io.tmpdir") + "/" + file.getOriginalFilename());
@@ -218,7 +223,7 @@ public class SongResource {
             songFile.deleteOnExit();
             FileOutputStream out = new FileOutputStream(songFile);
             try {
-                localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
+                localFTPClient = new LocalFtpClient(server, port, user, password);
                 localFTPClient.open();
                 InputStream inputStream = localFTPClient.streamFile("/"+path);
                 IOUtils.copy(inputStream, out);
@@ -270,7 +275,7 @@ public class SongResource {
         File songFile = new File("processedFile.mp3");
         try {
             try {
-                localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
+                localFTPClient = new LocalFtpClient(server, port, user, password);
                 localFTPClient.open();
                 localFTPClient.downloadToFile(path, songFile);
             } catch (Exception e) {
@@ -317,7 +322,7 @@ public class SongResource {
         log.debug("REST request to delete Song : {}", id);
         String path = "";
         try {
-            localFTPClient = new LocalFtpClient("localhost", 21, "PLurka", "E57paegk");
+            localFTPClient = new LocalFtpClient(server, port, user, password);
             localFTPClient.open();
             path = "/" + songRepository.findOneWithEagerRelationships(id).get().getSongMetadata();
             localFTPClient.deleteFile(path);

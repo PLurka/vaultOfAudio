@@ -46,11 +46,12 @@ export class CloudService {
     }
   }
 
-  addFTPFile(name: string, artist: string, metaData: string) {
+  addFTPFile(name: string, artist: string, metaData: string, lyrics: string) {
     this.files.push({
       name: name,
       artist: artist,
-      metaData: metaData
+      metaData: metaData,
+      lyrics: lyrics
     });
   }
 

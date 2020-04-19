@@ -18,25 +18,53 @@
   }
 
   .content {
-    .logo {
-      margin: 2.5rem;
+    flex: auto;
+    @media only screen and (min-width: 600px) {
+      flex-direction: row-reverse;
+    }
+    @media only screen and (max-width: 600px) {
+      flex-direction: column;
+    }
+
+    display: flex;
+    max-height: 560px;
+    .lyrics {
+      display: flex;
+      flex-grow: 1;
+      width: 50%;
       text-align: center;
-      font-size: 24px;
-      color: #3f51b5;
-      .logoImage {
-        //width: 150px;
+      justify-content: center;
+      //margin: 2.5rem;
+      //text-align: center;
+      //font-size: 24px;
+      //color: #3f51b5;
+      .lyricsContent {
+        width: 100%;
+        max-height: 100%;
+        white-space: pre-wrap;
+        overflow: auto;
+        overflow-x: hidden;
         //height: 150px;
-      }
-      .mat-icon {
-        height: 160px !important;
-        width: 160px !important;
-        font-size: 160px !important;
       }
     }
     .songList {
+      min-width: 50%;
+      flex-grow: 1;
+      display: flex;
+      flex: auto;
+      flex-direction: column;
       overflow: auto;
       min-height: 240px;
-      max-height: 560px;
+      max-height: 100%;
+      .song.mat-list-item-content {
+        display: flex;
+        flex: auto;
+        flex-direction: row;
+        justify-content: space-evenly;
+        .songEl {
+          display: flex;
+        }
+      }
     }
     .songList::-webkit-scrollbar {
       //display: none;
@@ -50,6 +78,25 @@
     }
 
     .songList::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+      background-image: -webkit-gradient(linear, left bottom, left top, from(#a18cd1), to(#fbc2eb));
+      background-image: -webkit-linear-gradient(bottom, #a18cd1 0%, #fbc2eb 100%);
+      background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
+    }
+
+    .lyricsContent::-webkit-scrollbar {
+      //display: none;
+      width: 12px;
+      background-color: #323232;
+    }
+    .lyricsContent::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+      background-color: #323232;
+      border-radius: 10px;
+    }
+
+    .lyricsContent::-webkit-scrollbar-thumb {
       border-radius: 10px;
       -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
       background-image: -webkit-gradient(linear, left bottom, left top, from(#a18cd1), to(#fbc2eb));

@@ -36,26 +36,26 @@
     <input type="checkbox" id="auto" value="AutoPlay" checked="true">
     <label for="repeat">Repeat</label>
     <input type="checkbox" id="repeat" checked="true">
-    <label for="scrol">Scrollable</label>
-    <input type="checkbox" id="scrol" checked="true">
+    <label for="lyr">Show Lyrics</label>
+    <input type="checkbox" id="lyr" value="false" checked="false">
 
     <div class="content">
-        <!--<div class="logo">
-            <img src="../../content/images/AOV_white.png" class="logoImage"/>
-        </div>-->
+        <div class="lyrics" id="lyrics">
+            <div class="lyricsContent">{{currentLyrics}}</div>
+        </div>
         <mat-list cdkDropList color="primary" class="songList" id="songList" (cdkDropListDropped)="drop($event)" *ngIf="files" >
             <h3 mat-subheader>Songs ({{files.length}})</h3>
-            <mat-list-item *ngFor="let file of files; let i = index" (click)="openFile(file, i)" cdkDrag>
-                <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
-                <h4 mat-line>{{i+1}}. {{ file.name }}</h4>
-                <h5 mat-line>by {{ file.artist }}</h5>
+            <mat-list-item *ngFor="let file of files; let i = index" (click)="openFile(file, i)" cdkDrag class="song">
+                <mat-icon color="primary" mat-list-icon class="songEl">music_note</mat-icon>
+                <h4 mat-line class="songEl">{{i+1}}. {{ file.name }}</h4>
+                <h5 mat-line class="songEl">by {{ file.artist }}</h5>
 
-                <mat-icon color="primary" *ngIf="currentFile.index === i && !state?.error">volume_up</mat-icon>
-                <button mat-button (click)="removeFile(i)">
+                <mat-icon color="primary" *ngIf="currentFile.index === i && !state?.error" class="songEl">volume_up</mat-icon>
+                <button mat-button (click)="removeFile(i)" class="songEl">
                     <mat-icon>remove</mat-icon>
                 </button>
-                <h6 *ngIf="currentFile.index === i && state?.error">ERROR</h6>
-                <mat-divider></mat-divider>
+                <h6 *ngIf="currentFile.index === i && state?.error" class="songEl">ERROR</h6>
+                <mat-divider class="songEl"></mat-divider>
             </mat-list-item>
         </mat-list>
     </div>

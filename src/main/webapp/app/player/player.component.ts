@@ -35,6 +35,7 @@ export class PlayerComponent implements OnInit {
   auto: boolean = true;
   repeat: boolean = true;
   currentUser: IUserExtra;
+  currentLyrics: string = 'No song is playing at the moment...';
 
   audioCtx = this.audioService.audioCtx; //new (window['AudioContext'] || window['webkitAudioContext'])();
   equalizerSettings: IEqualizerSetting[];
@@ -220,7 +221,7 @@ export class PlayerComponent implements OnInit {
 
   loadAll() {
     this.songs.forEach(song => {
-      this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata);
+      this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata, song.lyrics);
     });
   }
 
@@ -234,7 +235,7 @@ export class PlayerComponent implements OnInit {
       let selectedId = +event.currentTarget['selectedOptions'][0]['value'];
       if (playlist.id === selectedId) {
         playlist.songs.forEach(song => {
-          this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata);
+          this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata, song.lyrics);
         });
       }
     });
@@ -243,7 +244,7 @@ export class PlayerComponent implements OnInit {
       if (playlist.id === selectedId) {
         if (playlist.songs != null)
           playlist.songs.forEach(song => {
-            this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata);
+            this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata, song.lyrics);
           });
       }
     });
@@ -368,8 +369,10 @@ export class PlayerComponent implements OnInit {
   openFile(file, index) {
     this.currentFile = { index, file };
     this.audioService.stop();
-    if (file.metaData) this.playStreamFromStream(file.metaData);
-    else if (file.url) this.playStream(file.url);
+    if (file.metaData) {
+      this.playStreamFromStream(file.metaData);
+      this.currentLyrics = file.lyrics;
+    } else if (file.url) this.playStream(file.url);
     else this.playStream(URL.createObjectURL(file));
   }
 
@@ -459,6 +462,14 @@ export class PlayerComponent implements OnInit {
     const resetButton = document.getElementById('resetButton');
 
     const resetFiltersButton = document.getElementById('resetFiltersButton');
+
+    const lyrics = document.getElementById('lyrics');
+
+    lyrics.hidden = true;
+
+    const lyr = <HTMLInputElement>document.getElementById('lyr');
+
+    lyr.checked = false;
 
     let shuffle = <HTMLInputElement>document.getElementById('shuffle');
     shuffle.checked = false;
@@ -678,6 +689,14 @@ export class PlayerComponent implements OnInit {
       'click',
       () => {
         this.repeat = repeat.checked.valueOf();
+      },
+      null
+    );
+
+    lyr.addEventListener(
+      'click',
+      () => {
+        lyrics.hidden = !lyrics.hidden;
       },
       null
     );
