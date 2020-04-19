@@ -69,11 +69,17 @@
                 {{ state?.readableDuration }}
             </mat-toolbar-row>
             <mat-toolbar-row class="media-action-bar">
-                <div class="panner">
-                    <h6 class="lTxt">L</h6>
-                    <input type="range" class="pannerBar" id="panner" min="-1" max="1" value="0" step="0.01">
-                    <h6 class="rTxt">R</h6>
-                </div>
+
+
+                    <div class="panner">
+                        <h6 class="balanceText">Balance:</h6>
+                        <div class="pannerText">
+                            <h6 class="lTxt">L</h6>
+                            <input type="range" class="pannerBar" id="panner" min="-1" max="1" value="0" step="0.01">
+                            <h6 class="rTxt">R</h6>
+                        </div>
+                    </div>
+
                 <div class="playerButtons">
                 <button mat-button [disabled]="isFirstPlaying() && !this.shuffle.valueOf()" (click)="previous()" class="previous">
                     <mat-icon mat-list-icon>skip_previous</mat-icon>
