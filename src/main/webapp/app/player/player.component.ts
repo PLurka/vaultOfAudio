@@ -145,6 +145,21 @@ export class PlayerComponent implements OnInit {
                         crowd.users.forEach(user => {
                           if (user['user']['login'] === res) {
                             this.currentUser = user;
+                            this.equalizerSettings.slice(0).forEach(eqSet => {
+                              if (!eqSet.users && eqSet.createdBy.user.login !== 'system') {
+                                this.equalizerSettings.splice(this.equalizerSettings.indexOf(eqSet), 1);
+                              } else {
+                                let currentUserisUser = false;
+                                eqSet.users.forEach(eqUser => {
+                                  if (eqUser.user.login === this.currentUser.user.login) {
+                                    currentUserisUser = true;
+                                  }
+                                });
+                                if (!currentUserisUser && eqSet.createdBy.user.login !== 'system') {
+                                  this.equalizerSettings.splice(this.equalizerSettings.indexOf(eqSet), 1);
+                                }
+                              }
+                            });
                             crowd.playlists.forEach(playlist => {
                               resp.forEach(function(playlst) {
                                 if (playlist.id === playlst.id) crowdPlaylistsTemp.push(playlst);
@@ -262,64 +277,41 @@ export class PlayerComponent implements OnInit {
   saveCurrentEq() /*: Observable<EntityResponseType> */ {
     //let newEq;
     let alreadyExists = false;
+    let createdByCurrentUser = false;
     this.equalizerSettings.forEach(equalizerSetting => {
       if (equalizerSetting.equalizerName === this.newEqualizerSettings.equalizerName) {
-        this.newEqualizerSettings.id = equalizerSetting.id;
-        this.equalizerSettingService
-          .update(this.newEqualizerSettings)
-          .pipe(
-            filter((res: HttpResponse<IEqualizerSetting>) => res.ok),
-            map((res: HttpResponse<IEqualizerSetting>) => res.body)
-          )
-          .subscribe((res: IEqualizerSetting) => {
-            console
-              .error
-              /*'newEqualizerSettings.first = ' +
-                res.first +
-                '\nthisTemp.newEqualizerSettings.second = ' +
-                res.second +
-                '\nthisTemp.newEqualizerSettings.third = ' +
-                res.third +
-                '\nthisTemp.newEqualizerSettings.fourth = ' +
-                res.fourth +
-                '\nthisTemp.newEqualizerSettings.fifth = ' +
-                res.fifth +
-                '\nthisTemp.newEqualizerSettings.sixth = ' +
-                res.sixth +
-                '\nthisTemp.newEqualizerSettings.seventh = ' +
-                res.seventh +
-                '\nthisTemp.newEqualizerSettings.eight = ' +
-                res.eight +
-                '\nthisTemp.newEqualizerSettings.ninth = ' +
-                res.ninth +
-                '\nthisTemp.newEqualizerSettings.tenth = ' +
-                res.tenth +
-                '\nthisTemp.newEqualizerSettings.equalizerName = ' +
-                res.equalizerName +
-                '\nthisTemp.newEqualizerSettings.createdBy = ' +
-                res.createdBy +
-                '\nthisTemp.newEqualizerSettings.users = ' +
-                res.users +
-                '\nthisTemp.newEqualizerSettings.id = ' +
-                res.id*/
-              ();
-            //newEq = res;
-          });
-        alreadyExists = true;
-        let settingFound = false;
-        let existingIndex: number = this.equalizerSettings.length;
-        for (let setting of this.equalizerSettings) {
-          if (setting.equalizerName === this.newEqualizerSettings.equalizerName) {
-            existingIndex = this.equalizerSettings.indexOf(setting);
-            setting = this.newEqualizerSettings;
-            settingFound = true;
+        if (equalizerSetting.createdBy.user.login === this.currentUser.user.login) {
+          this.newEqualizerSettings.id = equalizerSetting.id;
+          this.equalizerSettingService
+            .update(this.newEqualizerSettings)
+            .pipe(
+              filter((res: HttpResponse<IEqualizerSetting>) => res.ok),
+              map((res: HttpResponse<IEqualizerSetting>) => res.body)
+            )
+            .subscribe((res: IEqualizerSetting) => {});
+          alreadyExists = true;
+          createdByCurrentUser = true;
+          let settingFound = false;
+          let existingIndex: number = this.equalizerSettings.length;
+          for (let setting of this.equalizerSettings) {
+            if (setting.equalizerName === this.newEqualizerSettings.equalizerName) {
+              existingIndex = this.equalizerSettings.indexOf(setting);
+              setting = this.newEqualizerSettings;
+              settingFound = true;
+            }
+            if (settingFound) break;
           }
-          if (settingFound) break;
+          this.loadEqSettings();
         }
-        this.loadEqSettings();
+      } else {
+        alreadyExists = true;
       }
     });
-    if (!alreadyExists) {
+
+    if (!alreadyExists || (alreadyExists && !createdByCurrentUser)) {
+      if (alreadyExists) {
+        this.newEqualizerSettings.equalizerName += '-by-' + this.currentUser.user.login;
+      }
       this.equalizerSettingService
         .create(this.newEqualizerSettings)
         .pipe(
@@ -329,6 +321,8 @@ export class PlayerComponent implements OnInit {
         .subscribe((res: IEqualizerSetting) => {});
       this.equalizerSettings.push(this.newEqualizerSettings);
     }
+
+    this.loadEqSettings();
   }
 
   playStream(url) {
