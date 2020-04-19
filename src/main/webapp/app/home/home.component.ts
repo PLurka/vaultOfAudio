@@ -112,10 +112,11 @@ export class HomeComponent implements OnInit {
     this.crowds.forEach(currentCrowd => {
       if (currentCrowd.id === crowd.id) {
         currentCrowd.accepteds.forEach(accepted => {
-          if (accepted.id === user.id) {
-            isAccepted = true;
-            return true;
-          }
+          if (user.id)
+            if (accepted.id === user.id) {
+              isAccepted = true;
+              return true;
+            }
         });
       }
     });
@@ -138,6 +139,17 @@ export class HomeComponent implements OnInit {
       }
     });
     return isAccepted && !isInUsers;
+  }
+
+  getFullCrowd(cutCrowd: ICrowd): ICrowd {
+    let fullCrowd: ICrowd = null;
+    this.crowds.forEach(crowd => {
+      if (crowd.id === cutCrowd.id) {
+        fullCrowd = crowd;
+        return crowd;
+      }
+    });
+    return fullCrowd;
   }
 
   addUserToCrowd(crowd: ICrowd, user: IUserExtra) {

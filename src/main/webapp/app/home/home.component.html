@@ -59,13 +59,13 @@
                         <td class="text-left" *ngIf="!isRequestAccepted(crowd.users[0], crowd)">
                             <div class="btn-group">
                                 <button type="button"
-                                        (click)="addCrowdToUser(crowd, crowd.users[0])"
+                                        (click)="addCrowdToUser(getFullCrowd(crowd), crowd.users[0])"
                                         class="btn btn-info btn-sm addButton">
                                     <fa-icon [icon]="'plus'"></fa-icon>
                                     <span class="d-none d-md-inline">Accept</span>
                                 </button>
                                 <button type="button"
-                                        (click)="removeUserFromCrowd(crowd, crowd.users[0])"
+                                        (click)="removeUserFromCrowd(getFullCrowd(crowd), crowd.users[0])"
                                         class="btn btn-danger btn-sm removeButton">
                                     <fa-icon [icon]="'times'"></fa-icon>
                                     <span class="d-none d-md-inline">Decline</span>
@@ -103,13 +103,13 @@
                     <td class="text-left" *ngIf="isUserAccepted(currentUser, crowd)">
                         <div class="btn-group">
                             <button type="button"
-                                    (click)="addUserToCrowd(crowd, currentUser)"
+                                    (click)="addUserToCrowd(getFullCrowd(crowd), currentUser)"
                                     class="btn btn-info btn-sm addButton">
                                 <fa-icon [icon]="'plus'"></fa-icon>
                                 <span class="d-none d-md-inline">Accept</span>
                             </button>
                             <button type="button"
-                                    (click)="removeCrowdFromUser(crowd, currentUser)"
+                                    (click)="removeCrowdFromUser(getFullCrowd(crowd), currentUser)"
                                     class="btn btn-danger btn-sm removeButton">
                                 <fa-icon [icon]="'times'"></fa-icon>
                                 <span class="d-none d-md-inline">Decline</span>
