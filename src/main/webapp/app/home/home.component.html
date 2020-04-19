@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-md-3">
-        <div [ngSwitch]="isAuthenticated()" class="text-center">
+        <div [ngSwitch]="isAuthenticated()" class="text-center array" >
             <span class="hipster img-fluid rounded" *ngSwitchCase="false"></span>
-            <img class="hipster img-fluid rounded" *ngSwitchCase="true" src="{{account.imageUrl}}" style="max-height: 400px; max-width: 400px"/>
+            <img class="hipster img-fluid rounded" *ngSwitchCase="true" src="{{account.imageUrl}}" style="max-height: 400px; max-width: 400px; min-height: 180px; min-width: 180px"/>
         </div>
     </div>
 
@@ -87,7 +87,6 @@
                     <th><span jhiTranslate="global.field.id">ID</span></th>
                     <th><span jhiTranslate="vaultOfAudioApp.crowd.crowdName">Crowd Name</span></th>
                     <th><span jhiTranslate="vaultOfAudioApp.crowd.playlist">Playlist</span></th>
-                    <th><span jhiTranslate="vaultOfAudioApp.crowd.user">User</span></th>
                     <th><span jhiTranslate="vaultOfAudioApp.crowd.accept">Accept</span></th>
                     <th></th>
                 </tr>
@@ -100,11 +99,6 @@
                         <span *ngFor="let playlist of crowd.playlists; let last = last">
                             <a class="form-control-static" [routerLink]="['/', playlist?.id, 'view-playlist' ]">{{playlist.listName}}</a>{{last ? '' : ', '}}
                         </span>
-                    </td>
-                    <td *ngIf="isUserAccepted(currentUser, crowd)">
-                            <span *ngFor="let user of crowd.users; let last = last">
-                                {{user.user.login}}{{last ? '' : ', '}}
-                            </span>
                     </td>
                     <td class="text-left" *ngIf="isUserAccepted(currentUser, crowd)">
                         <div class="btn-group">

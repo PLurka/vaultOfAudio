@@ -112,8 +112,10 @@ export class HomeComponent implements OnInit {
     this.crowds.forEach(currentCrowd => {
       if (currentCrowd.id === crowd.id) {
         currentCrowd.accepteds.forEach(accepted => {
-          if (accepted.id === user.id) isAccepted = true;
-          return true;
+          if (accepted.id === user.id) {
+            isAccepted = true;
+            return true;
+          }
         });
       }
     });
@@ -122,15 +124,20 @@ export class HomeComponent implements OnInit {
 
   isUserAccepted(user: IUserExtra, crowd: ICrowd) {
     let isAccepted: boolean = false;
+    let isInUsers: boolean = false;
+
+    isAccepted = this.isRequestAccepted(user, crowd);
     this.crowds.forEach(currentCrowd => {
       if (currentCrowd.id === crowd.id) {
         currentCrowd.users.forEach(usr => {
-          if (usr.id === user.id) isAccepted = true;
-          return true;
+          if (usr.id === user.id) {
+            isInUsers = true;
+            return isAccepted && !isInUsers;
+          }
         });
       }
     });
-    return isAccepted;
+    return isAccepted && !isInUsers;
   }
 
   addUserToCrowd(crowd: ICrowd, user: IUserExtra) {

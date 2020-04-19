@@ -31,3 +31,16 @@ Main page styles
   background-color: #006e00;
   border-color: #006e00;
 }
+
+/*.array{
+    @media only screen and (min-width: 600px) {
+        max-height: 400px !important;
+        max-width: 400px !important;
+        // font-size: 48px !important;
+    }
+    @media only screen and (max-width: 600px) {
+        max-height: 36px !important;
+        max-width: 36px !important;
+        // font-size: 36px !important;
+    }
+}*/
