@@ -443,12 +443,16 @@ export class PlayerComponent implements OnInit {
 
     const gainNode = this.audioCtx.createGain();
 
-    const volumeControl = document.querySelector('#volume');
+    const volumeControl = <HTMLInputElement>document.querySelector('#volume');
+
+    const volumeText = document.querySelector('#volumeText');
 
     const pannerOptions = { pan: 0 };
     const panner = new StereoPannerNode(this.audioCtx, pannerOptions);
 
-    const pannerControl = document.querySelector('#panner');
+    const pannerControl = <HTMLInputElement>document.querySelector('#panner');
+
+    const balanceText = document.querySelector('#balanceText');
 
     const audioFile = document.getElementById('file');
 
@@ -677,6 +681,18 @@ export class PlayerComponent implements OnInit {
       },
       null
     );
+
+    volumeText.addEventListener('click', () => {
+      gainNode.gain.value = this.audioCtx.createGain().gain.value;
+      volumeControl.value = '1';
+      volumeControl.valueAsNumber = 1;
+    });
+
+    balanceText.addEventListener('click', () => {
+      panner.pan.value = 0;
+      pannerControl.value = '0';
+      pannerControl.valueAsNumber = 0;
+    });
 
     let thisTemp = this;
     function setNewEq() {
@@ -1272,7 +1288,7 @@ export class PlayerComponent implements OnInit {
     pannerControl.addEventListener(
       'input',
       function() {
-        panner.pan.value = this.value;
+        panner.pan.value = this.valueAsNumber;
       },
       false
     );
@@ -1280,7 +1296,7 @@ export class PlayerComponent implements OnInit {
     volumeControl.addEventListener(
       'input',
       function() {
-        gainNode.gain.value = this.value;
+        gainNode.gain.value = this.valueAsNumber;
       },
       false
     );
