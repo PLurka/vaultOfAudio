@@ -31,7 +31,14 @@
     .lyrics {
       display: flex;
       flex-grow: 1;
-      width: 50%;
+      @media only screen and (min-width: 600px) {
+        width: 50%;
+      }
+      @media only screen and (max-width: 600px) {
+        width: 100%;
+        height: 50%;
+      }
+      // width: 50%;
       text-align: center;
       justify-content: center;
       //margin: 2.5rem;
@@ -40,7 +47,12 @@
       //color: #3f51b5;
       .lyricsContent {
         width: 100%;
-        max-height: 100%;
+        @media only screen and (min-width: 600px) {
+          max-height: 100%;
+        }
+        @media only screen and (max-width: 600px) {
+          max-height: 280px;
+        }
         white-space: pre-wrap;
         overflow: auto;
         overflow-x: hidden;
