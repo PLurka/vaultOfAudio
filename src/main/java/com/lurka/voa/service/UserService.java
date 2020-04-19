@@ -115,14 +115,21 @@ public class UserService {
         newUser.setEmail(userDTO.getEmail().toLowerCase());
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setLangKey(userDTO.getLangKey());
-        // new user is not active
-        newUser.setActivated(false);
+        // new user is not active (changed to active)
+        newUser.setActivated(true);
         // new user gets registration key
-        newUser.setActivationKey(RandomUtil.generateActivationKey());
+        newUser.setActivationKey(/*RandomUtil.generateActivationKey()*/null);
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
+
+        // Create and save the UserExtra entity
+        UserExtra newUserExtra = new UserExtra();
+        newUserExtra.setUser(newUser);
+        userExtraRepository.save(newUserExtra);
+        log.debug("Created Information for UserExtra: {}", newUserExtra);
+
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -164,14 +171,15 @@ public class UserService {
             user.setAuthorities(authorities);
         }
         userRepository.save(user);
-        this.clearUserCaches(user);
-        log.debug("Created Information for User: {}", user);
 
         // Create and save the UserExtra entity
         UserExtra newUserExtra = new UserExtra();
         newUserExtra.setUser(user);
         userExtraRepository.save(newUserExtra);
         log.debug("Created Information for UserExtra: {}", newUserExtra);
+
+        this.clearUserCaches(user);
+        log.debug("Created Information for User: {}", user);
 
         return user;
     }
