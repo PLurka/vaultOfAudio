@@ -21,7 +21,7 @@
             <tr>
                 <th><span jhiTranslate="global.field.id">ID</span></th>
                 <th><span jhiTranslate="vaultOfAudioApp.song.songName">Song Name</span></th>
-                <th><span jhiTranslate="vaultOfAudioApp.song.lyrics">Lyrics</span></th>
+                <!--<th><span jhiTranslate="vaultOfAudioApp.song.lyrics">Lyrics</span></th>-->
                 <th><span jhiTranslate="vaultOfAudioApp.song.authors">Authors</span></th>
                 <th><span jhiTranslate="vaultOfAudioApp.song.year">Year</span></th>
                 <th><span jhiTranslate="vaultOfAudioApp.song.songDescription">Song Description</span></th>
@@ -34,7 +34,7 @@
             <tr *ngFor="let song of songs ;trackBy: trackId">
                 <td><a [routerLink]="['/song', song.id, 'view' ]">{{song.id}}</a></td>
                 <td>{{song.songName}}</td>
-                <td style="white-space: pre-wrap">{{song.lyrics}}</td>
+                <!--<td style="white-space: pre-wrap">{{song.lyrics}}</td>-->
                 <td>{{song.authors}}</td>
                 <td>{{song.year}}</td>
                 <td>{{song.songDescription}}</td>
