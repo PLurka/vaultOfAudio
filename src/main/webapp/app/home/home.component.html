@@ -26,6 +26,105 @@
             </div>
         </div>
 
+        <div>
+            <h2>
+                <!--jhiTranslate="vaultOfAudioApp.crowd.home.title"-->
+                <span>Crowd requests</span>
+            </h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th><span jhiTranslate="global.field.id">ID</span></th>
+                        <th><span jhiTranslate="vaultOfAudioApp.crowd.crowdName">Crowd Name</span></th>
+                        <th><span jhiTranslate="vaultOfAudioApp.crowd.playlist">Playlist</span></th>
+                        <th><span jhiTranslate="vaultOfAudioApp.crowd.user">User</span></th>
+                        <th><span jhiTranslate="vaultOfAudioApp.crowd.accept">Accept</span></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let crowd of usersDivide ;trackBy: trackId">
+                        <td *ngIf="!isRequestAccepted(crowd.users[0], crowd)"><a [routerLink]="['/crowd', crowd.id, 'view' ]">{{crowd.id}}</a></td>
+                        <td *ngIf="!isRequestAccepted(crowd.users[0], crowd)">{{crowd.crowdName}}</td>
+                        <td *ngIf="!isRequestAccepted(crowd.users[0], crowd)">
+                        <span *ngFor="let playlist of crowd.playlists; let last = last">
+                            <a class="form-control-static" [routerLink]="['/', playlist?.id, 'view-playlist' ]">{{playlist.listName}}</a>{{last ? '' : ', '}}
+                        </span>
+                        </td>
+                        <td *ngIf="!isRequestAccepted(crowd.users[0], crowd)">
+                            <span *ngFor="let user of crowd.users; let last = last">
+                                {{user.user.login}}{{last ? '' : ', '}}
+                            </span>
+                        </td>
+                        <td class="text-left" *ngIf="!isRequestAccepted(crowd.users[0], crowd)">
+                            <div class="btn-group">
+                                <button type="button"
+                                        (click)="addCrowdToUser(crowd, crowd.users[0])"
+                                        class="btn btn-info btn-sm addButton">
+                                    <fa-icon [icon]="'plus'"></fa-icon>
+                                    <span class="d-none d-md-inline">Accept</span>
+                                </button>
+                                <button type="button"
+                                        (click)="removeUserFromCrowd(crowd, crowd.users[0])"
+                                        class="btn btn-danger btn-sm removeButton">
+                                    <fa-icon [icon]="'times'"></fa-icon>
+                                    <span class="d-none d-md-inline">Decline</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
 
+        <div>
+            <h2>
+                <span>Invitations</span>
+            </h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th><span jhiTranslate="global.field.id">ID</span></th>
+                    <th><span jhiTranslate="vaultOfAudioApp.crowd.crowdName">Crowd Name</span></th>
+                    <th><span jhiTranslate="vaultOfAudioApp.crowd.playlist">Playlist</span></th>
+                    <th><span jhiTranslate="vaultOfAudioApp.crowd.user">User</span></th>
+                    <th><span jhiTranslate="vaultOfAudioApp.crowd.accept">Accept</span></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let crowd of acceptedsDivide ;trackBy: trackId">
+                    <td *ngIf="!isUserAccepted(crowd.users[0], crowd)"><a [routerLink]="['/crowd', crowd.id, 'view' ]">{{crowd.id}}</a></td>
+                    <td *ngIf="!isUserAccepted(crowd.users[0], crowd)">{{crowd.crowdName}}</td>
+                    <td *ngIf="!isUserAccepted(crowd.users[0], crowd)">
+                        <span *ngFor="let playlist of crowd.playlists; let last = last">
+                            <a class="form-control-static" [routerLink]="['/', playlist?.id, 'view-playlist' ]">{{playlist.listName}}</a>{{last ? '' : ', '}}
+                        </span>
+                    </td>
+                    <td *ngIf="!isUserAccepted(crowd.users[0], crowd)">
+                            <span *ngFor="let user of crowd.users; let last = last">
+                                {{user.user.login}}{{last ? '' : ', '}}
+                            </span>
+                    </td>
+                    <td class="text-left" *ngIf="!isUserAccepted(crowd.users[0], crowd)">
+                        <div class="btn-group">
+                            <button type="button"
+                                    (click)="addUserToCrowd(crowd, crowd.users[0])"
+                                    class="btn btn-info btn-sm addButton">
+                                <fa-icon [icon]="'plus'"></fa-icon>
+                                <span class="d-none d-md-inline">Accept</span>
+                            </button>
+                            <button type="button"
+                                    (click)="removeCrowdFromUser(crowd, crowd.users[0])"
+                                    class="btn btn-danger btn-sm removeButton">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                                <span class="d-none d-md-inline">Decline</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

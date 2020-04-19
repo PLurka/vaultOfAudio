@@ -22,7 +22,8 @@
       "user": "User",
       "accepted": "Accepted",
       "playlist": "Playlist",
-      "createdBy": "Created By"
+      "createdBy": "Created By",
+      "accept": "Zaakceptuj"
     }
   }
 }

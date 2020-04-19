@@ -21,3 +21,13 @@ Main page styles
     background-size: contain;
   }
 }
+
+.addButton {
+  background-color: darkgreen;
+  border-color: darkgreen;
+}
+
+.addButton:hover {
+  background-color: #006e00;
+  border-color: #006e00;
+}
