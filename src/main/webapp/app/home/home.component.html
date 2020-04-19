@@ -44,19 +44,19 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let crowd of usersDivide ;trackBy: trackId">
-                        <td *ngIf="!isRequestAccepted(crowd.users[0], crowd)"><a [routerLink]="['/crowd', crowd.id, 'view' ]">{{crowd.id}}</a></td>
-                        <td *ngIf="!isRequestAccepted(crowd.users[0], crowd)">{{crowd.crowdName}}</td>
-                        <td *ngIf="!isRequestAccepted(crowd.users[0], crowd)">
+                        <td *ngIf="!isRequestAccepted(crowd.users[0], crowd) && crowd.createdBy.user.login == account.login"><a [routerLink]="['/crowd', crowd.id, 'view' ]">{{crowd.id}}</a></td>
+                        <td *ngIf="!isRequestAccepted(crowd.users[0], crowd) && crowd.createdBy.user.login == account.login">{{crowd.crowdName}}</td>
+                        <td *ngIf="!isRequestAccepted(crowd.users[0], crowd) && crowd.createdBy.user.login == account.login">
                         <span *ngFor="let playlist of crowd.playlists; let last = last">
                             <a class="form-control-static" [routerLink]="['/', playlist?.id, 'view-playlist' ]">{{playlist.listName}}</a>{{last ? '' : ', '}}
                         </span>
                         </td>
-                        <td *ngIf="!isRequestAccepted(crowd.users[0], crowd)">
+                        <td *ngIf="!isRequestAccepted(crowd.users[0], crowd) && crowd.createdBy.user.login == account.login">
                             <span *ngFor="let user of crowd.users; let last = last">
                                 {{user.user.login}}{{last ? '' : ', '}}
                             </span>
                         </td>
-                        <td class="text-left" *ngIf="!isRequestAccepted(crowd.users[0], crowd)">
+                        <td class="text-left" *ngIf="!isRequestAccepted(crowd.users[0], crowd) && crowd.createdBy.user.login == account.login">
                             <div class="btn-group">
                                 <button type="button"
                                         (click)="addCrowdToUser(getFullCrowd(crowd), crowd.users[0])"
