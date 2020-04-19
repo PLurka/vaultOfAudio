@@ -33,7 +33,7 @@ export class MySongsUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     songName: [null, [Validators.required, Validators.maxLength(200)]],
-    lyrics: [null, [Validators.maxLength(2000)]],
+    lyrics: [null, [Validators.maxLength(5000)]],
     authors: [null, [Validators.maxLength(100)]],
     songMetadata: [null, [Validators.maxLength(500)]],
     year: [],

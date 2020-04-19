@@ -30,8 +30,8 @@ public class Song implements Serializable {
     @Column(name = "song_name", length = 200, nullable = false)
     private String songName;
 
-    @Size(max = 2000)
-    @Column(name = "lyrics", length = 2000)
+    @Size(max = 5000)
+    @Column(name = "lyrics", length = 5000)
     private String lyrics;
 
     @Size(max = 100)
