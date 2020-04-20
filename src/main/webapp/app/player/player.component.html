@@ -1,6 +1,6 @@
 <!-- src/app/player/player.component.html -->
 <div class="container">
-    <mat-toolbar color="primary" class="main-toolbar">
+    <mat-toolbar color="primary" class="main-toolbar" style="background-color: #5c3e94">
         <span>{{currentFile.file && (currentState === "playing" || currentState === "pause" || currentState === "timeupdate") ? currentFile.file.name: "Vault of Audio Player"}}</span>
     </mat-toolbar>
         <div class="fileManagement">
@@ -37,6 +37,7 @@
                     <option value="auto">AutoPlay (Play all songs)</option>
                     <option value="autoRepeat">AutoPlay Repeat (Play all songs on repeat)</option>
                     <option value="shuffle">Shuffle (Shuffle all songs endlessly)</option>
+                    <option value="single">Single (Play a single song)</option>
                 </select>
             </div>
         </div>
@@ -55,11 +56,11 @@
         <mat-list cdkDropList color="primary" class="songList" id="songList" (cdkDropListDropped)="drop($event)" *ngIf="files" >
             <h3 mat-subheader>Songs ({{files.length}})</h3>
             <mat-list-item *ngFor="let file of files; let i = index" (click)="openFile(file, i)" cdkDrag class="song">
-                <mat-icon color="primary" mat-list-icon class="songEl">music_note</mat-icon>
+                <mat-icon color="primary" mat-list-icon class="songEl" style="color: #5c3e94">music_note</mat-icon>
                 <h4 mat-line class="songEl">{{i+1}}. {{ file.name }}</h4>
                 <h5 mat-line class="songEl">by {{ file.artist }}</h5>
 
-                <mat-icon color="primary" *ngIf="currentFile.index === i && !state?.error" class="songEl">volume_up</mat-icon>
+                <mat-icon color="primary" *ngIf="currentFile.index === i && !state?.error" class="songEl" style="color: #5c3e94">volume_up</mat-icon>
                 <button mat-button (click)="removeFile(i)" class="songEl">
                     <mat-icon>remove</mat-icon>
                 </button>
@@ -71,7 +72,7 @@
     <canvas id="canvas2" class="canvas2"></canvas>
     <canvas *ngIf="this.visualization !== true" id="canvas" class="canvas2"></canvas>
     <div class="media-footer">
-        <mat-toolbar color="primary">
+        <mat-toolbar color="primary" style="background-color: #5c3e94">
             <mat-toolbar-row>
                 {{ state?.readableCurrentTime }}
                 <mat-slider class="time-slider" id="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime" (change)="autoPlay($event)" (input)="onSliderChangeEnd($event)" [disabled]="state?.error || currentFile.index === undefined"></mat-slider>

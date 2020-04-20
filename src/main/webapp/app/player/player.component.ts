@@ -288,6 +288,11 @@ export class PlayerComponent implements OnInit {
       this.repeat = false;
       this.shuffle = true;
     }
+    if (selectedValue === 'single') {
+      this.auto = false;
+      this.repeat = false;
+      this.shuffle = false;
+    }
   }
 
   drop(event: CdkDragDrop<string[]>) {
