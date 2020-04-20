@@ -4,10 +4,10 @@
         <span>Audio Player</span>
     </mat-toolbar>
 
-    <div class="form-group">
+    <!--<div class="form-group">-->
         <div class="fileManagement">
             <button mat-button (click)="loadAll()" class="fileMgtBtn">
-                Load All User Songs
+                Load All
                 <mat-icon>get_app</mat-icon>
             </button>
             <input type="file"
@@ -17,32 +17,48 @@
                    (change)="handleFileInput($event.target.files)"
                    multiple>
             <button mat-button (click)="removeAll()" class="fileMgtBtn">
-                Remove all files
+                Remove All
                 <mat-icon>clear</mat-icon>
             </button>
         </div>
 
-        <label for="playlists">Load playlist:</label>
-        <select id="playlists" (change)="loadFromPlaylist($event)">
-            <!--<option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>-->
-            <option value="{{playlist.id}}" *ngFor="let playlist of playlists ;trackBy: trackId" >{{playlist.listName}}</option>
-        </select>
-        <label for="crowdPlaylists">Load group playlist:</label>
-        <select id="crowdPlaylists" (change)="loadFromPlaylist($event)">
-            <!--<option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>-->
-            <option value="{{playlist.id}}" *ngFor="let playlist of crowdPlaylists ;trackBy: trackId">{{playlist.listName}}</option>
-        </select>
+        <div class="fileManagement">
+            <div class="playlistLoader">
+                <label for="playlists">Load playlist:</label>
+                <select id="playlists" (change)="loadFromPlaylist($event)">
+                    <!--<option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>-->
+                    <option value="{{playlist.id}}" *ngFor="let playlist of playlists ;trackBy: trackId" >{{playlist.listName}}</option>
+                </select>
+            </div>
+            <div class="playlistLoader">
+                <label for="crowdPlaylists">Load group playlist:</label>
+                <select id="crowdPlaylists" (change)="loadFromPlaylist($event)">
+                    <!--<option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>-->
+                    <option value="{{playlist.id}}" *ngFor="let playlist of crowdPlaylists ;trackBy: trackId">{{playlist.listName}}</option>
+                </select>
+            </div>
+        </div>
 
+    <!--</div>-->
+
+    <div class="fileManagement">
+        <div class="pick">
+            <label for="shuffle">Shuffle</label>
+            <input type="checkbox" id="shuffle" value="Shuffle" checked="false">
+        </div>
+        <div class="pick">
+            <label for="auto">AutoPlay</label>
+            <input type="checkbox" id="auto" value="AutoPlay" checked="true">
+        </div>
+        <div class="pick">
+            <label for="repeat">Repeat</label>
+            <input type="checkbox" id="repeat" checked="true">
+        </div>
+        <div class="pick">
+            <label for="lyr">Show Lyrics</label>
+            <input type="checkbox" id="lyr" value="false" checked="false">
+        </div>
     </div>
-
-    <label for="shuffle">Shuffle</label>
-    <input type="checkbox" id="shuffle" value="Shuffle" checked="false">
-    <label for="auto">AutoPlay</label>
-    <input type="checkbox" id="auto" value="AutoPlay" checked="true">
-    <label for="repeat">Repeat</label>
-    <input type="checkbox" id="repeat" checked="true">
-    <label for="lyr">Show Lyrics</label>
-    <input type="checkbox" id="lyr" value="false" checked="false">
 
     <div class="content">
         <div class="lyrics" id="lyrics">

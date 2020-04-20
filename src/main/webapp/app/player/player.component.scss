@@ -26,15 +26,34 @@
       flex: auto;
       display: flex;
       flex-grow: 1;
-      width: 33%;
+      max-width: 33%;
+      min-width: 15%;
     }
     .fileMgtBtn {
       flex: auto;
       display: flex;
       flex-grow: 1;
       justify-content: center;
-      width: 33%;
+      max-width: 33%;
+      min-width: 15%;
     }
+    .playlistLoader {
+      flex: auto;
+      display: flex;
+      flex-grow: 1;
+      justify-content: center;
+      max-width: 50%;
+      // min-width: 15%;
+    }
+
+    /*.pick{
+          flex: auto;
+          display: flex;
+          flex-grow: 1;
+          justify-content: center;
+          max-width: 25%;
+          // min-width: 15%;
+      }*/
 
     .customFileInput::-webkit-file-upload-button {
       visibility: hidden;
@@ -45,7 +64,7 @@
     .customFileInput::before {
       /*width: 100%;*/
       height: 100%;
-      content: 'Add local files';
+      content: 'Local files';
       text-align: center;
       color: white;
       display: inline-block;
