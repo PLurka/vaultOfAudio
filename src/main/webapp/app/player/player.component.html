@@ -5,19 +5,22 @@
     </mat-toolbar>
 
     <div class="form-group">
-        <label for="file">Add files to playlist</label>
-        <input type="file"
-               id="file"
-               (change)="handleFileInput($event.target.files)"
-        multiple>
-        <button mat-button (click)="removeAll()">
-            Remove all files
-            <mat-icon>clear</mat-icon>
-        </button>
-        <button mat-button (click)="loadAll()">
-            Load All User Songs
-            <mat-icon>get_app</mat-icon>
-        </button>
+        <div class="fileManagement">
+            <button mat-button (click)="loadAll()" class="fileMgtBtn">
+                Load All User Songs
+                <mat-icon>get_app</mat-icon>
+            </button>
+            <input type="file"
+                   id="file"
+                   class="customFileInput"
+                   accept="audio/mp3"
+                   (change)="handleFileInput($event.target.files)"
+                   multiple>
+            <button mat-button (click)="removeAll()" class="fileMgtBtn">
+                Remove all files
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
 
         <label for="playlists">Load playlist:</label>
         <select id="playlists" (change)="loadFromPlaylist($event)">
@@ -29,6 +32,7 @@
             <!--<option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>-->
             <option value="{{playlist.id}}" *ngFor="let playlist of crowdPlaylists ;trackBy: trackId">{{playlist.listName}}</option>
         </select>
+
     </div>
 
     <label for="shuffle">Shuffle</label>

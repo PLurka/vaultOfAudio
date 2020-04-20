@@ -5,10 +5,73 @@
     .spacer {
       flex: 1 1 auto;
     }
+
     .toolbar-btn {
       font-size: 16px;
       margin-right: 5px;
       cursor: pointer;
+    }
+  }
+  .fileManagement {
+    max-height: 32px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex: auto;
+    justify-content: space-evenly;
+    width: 100%;
+    .customFileInput {
+      color: transparent;
+      // max-width: content-box;
+      flex: auto;
+      display: flex;
+      flex-grow: 1;
+      width: 33%;
+    }
+    .fileMgtBtn {
+      flex: auto;
+      display: flex;
+      flex-grow: 1;
+      justify-content: center;
+      width: 33%;
+    }
+
+    .customFileInput::-webkit-file-upload-button {
+      visibility: hidden;
+      /*height: 0px;
+        width: 0px;*/
+    }
+
+    .customFileInput::before {
+      /*width: 100%;*/
+      height: 100%;
+      content: 'Add local files';
+      text-align: center;
+      color: white;
+      display: inline-block;
+      background: -webkit-linear-gradient(top, #303030, #303030);
+      /*border: 1px solid #999;
+        border-radius: 3px;*/
+      padding: 2px 8px;
+      outline: none;
+      white-space: nowrap;
+      -webkit-user-select: none;
+      cursor: pointer;
+      text-shadow: 1px 1px #323232;
+      font-weight: 700;
+      font-size: 12pt;
+    }
+
+    .customFileInput:hover::before {
+      border-color: black;
+    }
+
+    .customFileInput:active {
+      outline: 0;
+    }
+
+    .customFileInput:active::before {
+      background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
     }
   }
 
