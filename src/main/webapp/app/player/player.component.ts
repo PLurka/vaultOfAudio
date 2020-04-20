@@ -36,6 +36,7 @@ export class PlayerComponent implements OnInit {
   repeat: boolean = true;
   currentUser: IUserExtra;
   currentLyrics: string = 'No song is playing at the moment...';
+  currentState: string;
 
   audioCtx = this.audioService.audioCtx; //new (window['AudioContext'] || window['webkitAudioContext'])();
   equalizerSettings: IEqualizerSetting[];
@@ -327,6 +328,7 @@ export class PlayerComponent implements OnInit {
 
   playStream(url) {
     this.audioService.playStream(url).subscribe(events => {
+      this.currentState = events['type'];
       if (events['type'] === 'ended' && this.shuffle.valueOf()) {
         this.next();
       }
@@ -345,6 +347,7 @@ export class PlayerComponent implements OnInit {
     this.songService.streamFile(url).subscribe(res => {
       const blobUrl = URL.createObjectURL(res);
       this.audioService.playStream(blobUrl).subscribe(events => {
+        this.currentState = events['type'];
         if (events['type'] === 'ended' && this.shuffle.valueOf()) {
           this.next();
         }

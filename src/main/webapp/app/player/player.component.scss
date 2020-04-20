@@ -13,7 +13,7 @@
     }
   }
   .fileManagement {
-    max-height: 32px;
+    height: 35px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -105,7 +105,7 @@
       flex-direction: row-reverse;
     }
     @media only screen and (max-width: 600px) {
-      flex-direction: column;
+      flex-direction: column-reverse;
     }
 
     display: flex;
@@ -113,6 +113,7 @@
     .lyrics {
       display: flex;
       flex-grow: 1;
+      font-size: 12pt;
       @media only screen and (min-width: 600px) {
         width: 50%;
       }

@@ -1,7 +1,7 @@
 <!-- src/app/player/player.component.html -->
 <div class="container">
     <mat-toolbar color="primary" class="main-toolbar">
-        <span>Audio Player</span>
+        <span>{{currentFile.file && (currentState === "playing" || currentState === "pause" || currentState === "timeupdate") ? currentFile.file.name: "Vault of Audio Player"}}</span>
     </mat-toolbar>
 
     <!--<div class="form-group">-->
