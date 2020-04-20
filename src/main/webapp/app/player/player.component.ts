@@ -676,7 +676,8 @@ export class PlayerComponent implements OnInit {
       for (let i = 0; i < bufferLength; i++) {
         barHeight = dataArray[i];
 
-        canvas2Ctx.fillStyle = 'rgb(' + (barHeight / 2 + 80) + ',50,' + (barHeight / 2 + 80) + ')';
+        // #5c3e94
+        canvas2Ctx.fillStyle = 'rgb(' + (barHeight / 8 + 92) + ',' + (barHeight / 8 + 62) + ',' + (barHeight / 8 + 148) + ')';
         canvas2Ctx.fillRect(x, canvas2.height - barHeight / 2, barWidth, barHeight);
 
         x += barWidth + 1;
