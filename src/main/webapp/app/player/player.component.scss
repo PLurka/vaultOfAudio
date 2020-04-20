@@ -364,6 +364,24 @@
       }
     }
   }
+  .eq select {
+    background: #363636;
+    color: white;
+    border: 0px;
+    width: 100%;
+    align-content: center;
+    text-align: center;
+  }
+
+  .adv select {
+    background: #363636;
+    color: white;
+    border: 0px;
+    width: 100%;
+    align-content: center;
+    text-align: center;
+  }
+
   .equalizer {
     min-height: 150px;
     display: flex;

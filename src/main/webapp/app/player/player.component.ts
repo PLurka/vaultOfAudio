@@ -736,28 +736,30 @@ export class PlayerComponent implements OnInit, OnDestroy {
     eqChooser.addEventListener(
       'input',
       () => {
-        firstEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].first.toString();
-        secondEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].second.toString();
-        thirdEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].third.toString();
-        fourthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].fourth.toString();
-        fifthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].fifth.toString();
-        sixthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].sixth.toString();
-        seventhEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].seventh.toString();
-        eightEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].eight.toString();
-        ninthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].ninth.toString();
-        tenthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex].tenth.toString();
-        firstEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].first.toString();
-        secondEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].second.toString();
-        thirdEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].third.toString();
-        fourthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].fourth.toString();
-        fifthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].fifth.toString();
-        sixthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].sixth.toString();
-        seventhEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].seventh.toString();
-        eightEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].eight.toString();
-        ninthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].ninth.toString();
-        tenthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex].tenth.toString();
-        newEqName.value = self.equalizerSettings[eqChooser.selectedIndex].equalizerName.toString();
-        setNewEq();
+        if (eqChooser.selectedIndex > 1) {
+          firstEqControl.value = self.equalizerSettings[eqChooser.selectedIndex - 2].first.toString();
+          secondEqControl.value = self.equalizerSettings[eqChooser.selectedIndex - 2].second.toString();
+          thirdEqControl.value = self.equalizerSettings[eqChooser.selectedIndex - 2].third.toString();
+          fourthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex - 2].fourth.toString();
+          fifthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex - 2].fifth.toString();
+          sixthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex - 2].sixth.toString();
+          seventhEqControl.value = self.equalizerSettings[eqChooser.selectedIndex - 2].seventh.toString();
+          eightEqControl.value = self.equalizerSettings[eqChooser.selectedIndex - 2].eight.toString();
+          ninthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex - 2].ninth.toString();
+          tenthEqControl.value = self.equalizerSettings[eqChooser.selectedIndex - 2].tenth.toString();
+          firstEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex - 2].first.toString();
+          secondEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex - 2].second.toString();
+          thirdEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex - 2].third.toString();
+          fourthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex - 2].fourth.toString();
+          fifthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex - 2].fifth.toString();
+          sixthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex - 2].sixth.toString();
+          seventhEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex - 2].seventh.toString();
+          eightEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex - 2].eight.toString();
+          ninthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex - 2].ninth.toString();
+          tenthEq.gain.value = self.equalizerSettings[eqChooser.selectedIndex - 2].tenth.toString();
+          newEqName.value = self.equalizerSettings[eqChooser.selectedIndex - 2].equalizerName.toString();
+          setNewEq();
+        }
       },
       false
     );

@@ -129,9 +129,9 @@
             <h2>EQUALIZER</h2>
         </div>
 
-        <label for="equalizers">Choose preset:</label>
-
         <select id="equalizers">
+            <option value="choose">Choose Equalizer: </option>
+            <option value="separator">--------------------</option>
             <option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>
         </select>
 
@@ -139,7 +139,7 @@
             <mat-icon>backup</mat-icon>
             Save current Equalizer as
         </button>
-        <input type="text" id="newEqName" value="newEq">
+        <input type="text" id="newEqName" value="newEq" style="background: #363636; color: white; border: 0px">
 
         <div class="equalizer">
             <div class="wholeBar">
@@ -194,8 +194,6 @@
         <div class="resetBtnDiv">
             <!--<h2>ADVANCED</h2>-->
         </div>
-
-        <label for="filters">Choose a filter:</label>
 
         <select id="filters">
             <option value="lpf" selected="selected">Low Pass Filter</option>
