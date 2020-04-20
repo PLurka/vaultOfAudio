@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AudioService } from '../services/audio/audio.service';
 import { CloudService } from '../services/cloud.service';
 import { StreamState } from '../interfaces/stream-state';
@@ -24,7 +24,7 @@ type EntityResponseType = HttpResponse<IEqualizerSetting>;
   templateUrl: './player.component.html',
   styleUrls: ['player.component.scss']
 })
-export class PlayerComponent implements OnInit {
+export class PlayerComponent implements OnInit, OnDestroy {
   message: string;
   files: Array<any> = [];
   state: StreamState;
@@ -722,20 +722,6 @@ export class PlayerComponent implements OnInit {
       thisTemp.newEqualizerSettings.equalizerName = newEqName.value;
       thisTemp.newEqualizerSettings.createdBy = thisTemp.currentUser;
       thisTemp.newEqualizerSettings.users = [thisTemp.currentUser['user']];
-
-      /*console.error('newEqualizerSettings.first = ' + thisTemp.newEqualizerSettings.first + '\nthisTemp.newEqualizerSettings.second = ' +
-        thisTemp.newEqualizerSettings.second + '\nthisTemp.newEqualizerSettings.third = ' +
-        thisTemp.newEqualizerSettings.third + '\nthisTemp.newEqualizerSettings.fourth = ' +
-        thisTemp.newEqualizerSettings.fourth + '\nthisTemp.newEqualizerSettings.fifth = ' +
-        thisTemp.newEqualizerSettings.fifth + '\nthisTemp.newEqualizerSettings.sixth = ' +
-        thisTemp.newEqualizerSettings.sixth + '\nthisTemp.newEqualizerSettings.seventh = ' +
-        thisTemp.newEqualizerSettings.seventh + '\nthisTemp.newEqualizerSettings.eight = ' +
-        thisTemp.newEqualizerSettings.eight + '\nthisTemp.newEqualizerSettings.ninth = ' +
-        thisTemp.newEqualizerSettings.ninth + '\nthisTemp.newEqualizerSettings.tenth = ' +
-        thisTemp.newEqualizerSettings.tenth + '\nthisTemp.newEqualizerSettings.equalizerName = ' +
-        thisTemp.newEqualizerSettings.equalizerName + '\nthisTemp.newEqualizerSettings.createdBy = ' +
-        thisTemp.newEqualizerSettings.createdBy + '\nthisTemp.newEqualizerSettings.users = ' +
-        thisTemp.newEqualizerSettings.users);*/
     }
 
     newEqName.addEventListener(
@@ -1362,6 +1348,7 @@ export class PlayerComponent implements OnInit {
       eightEq.disconnect();
       ninthEq.disconnect();
       tenthEq.disconnect();
+      analyser2.disconnect();
       lowpass.disconnect();
       highpass.disconnect();
       bandpass.disconnect();
@@ -1485,6 +1472,11 @@ export class PlayerComponent implements OnInit {
     );
 
     draw2();
+  }
+
+  ngOnDestroy() {
+    this.stop();
+    this.audioCtx.childNodes.forEach(node => {});
   }
 
   isFirstPlaying() {
