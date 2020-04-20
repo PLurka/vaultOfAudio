@@ -3,8 +3,6 @@
     <mat-toolbar color="primary" class="main-toolbar">
         <span>{{currentFile.file && (currentState === "playing" || currentState === "pause" || currentState === "timeupdate") ? currentFile.file.name: "Vault of Audio Player"}}</span>
     </mat-toolbar>
-
-    <!--<div class="form-group">-->
         <div class="fileManagement">
             <button mat-button (click)="loadAll()" class="fileMgtBtn">
                 Load All
@@ -24,40 +22,30 @@
 
         <div class="fileManagement">
             <div class="playlistLoader">
-                <label for="playlists">Load playlist:</label>
                 <select id="playlists" (change)="loadFromPlaylist($event)">
-                    <!--<option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>-->
+                    <option value="Chooser">{{playlists.length > 0 || crowdPlaylists.length > 0 ? 'Choose your playlist: ' : 'No playlists available'}}</option>
+                    <option value="Separator">--------------------</option>
                     <option value="{{playlist.id}}" *ngFor="let playlist of playlists ;trackBy: trackId" >{{playlist.listName}}</option>
-                </select>
-            </div>
-            <div class="playlistLoader">
-                <label for="crowdPlaylists">Load group playlist:</label>
-                <select id="crowdPlaylists" (change)="loadFromPlaylist($event)">
-                    <!--<option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>-->
+                    <option value="Separator">--------------------</option>
+                    <option value="crowd">{{playlists.length > 0 || crowdPlaylists.length > 0 ? 'Your crowds playlists: ' : 'No crowd playlists available'}}</option>
+                    <option value="Separator">--------------------</option>
                     <option value="{{playlist.id}}" *ngFor="let playlist of crowdPlaylists ;trackBy: trackId">{{playlist.listName}}</option>
                 </select>
             </div>
+            <div class="playlistLoader">
+                <select id="playTypes" (change)="setPlayType($event)">
+                    <option value="auto">AutoPlay (Play all songs)</option>
+                    <option value="autoRepeat">AutoPlay Repeat (Play all songs on repeat)</option>
+                    <option value="shuffle">Shuffle (Shuffle all songs endlessly)</option>
+                </select>
+            </div>
         </div>
-
-    <!--</div>-->
-
     <div class="fileManagement">
-        <div class="pick">
-            <label for="shuffle">Shuffle</label>
-            <input type="checkbox" id="shuffle" value="Shuffle" checked="false">
-        </div>
-        <div class="pick">
-            <label for="auto">AutoPlay</label>
-            <input type="checkbox" id="auto" value="AutoPlay" checked="true">
-        </div>
-        <div class="pick">
-            <label for="repeat">Repeat</label>
-            <input type="checkbox" id="repeat" checked="true">
-        </div>
-        <div class="pick">
-            <label for="lyr">Show Lyrics</label>
-            <input type="checkbox" id="lyr" value="false" checked="false">
-        </div>
+        <button mat-button id="lyr" class="showLyr">
+            <mat-icon>list</mat-icon>
+            Show Lyrics
+            <mat-icon>list</mat-icon>
+        </button>
     </div>
 
     <div class="content">

@@ -58,7 +58,7 @@
 
 
                 <div class="form-group">
-                    <label jhiTranslate="vaultOfAudioApp.crowd.accepted" for="field_accepteds">Accepted</label>
+                    <label jhiTranslate="vaultOfAudioApp.crowd.accepted" for="field_accepteds">Invited</label>
                     <select class="form-control" id="field_accepteds" multiple name="accepteds" formControlName="accepteds">
                         <option [ngValue]="getSelected(editForm.get('accepteds').value, userExtraOption)" *ngFor="let userExtraOption of userextras; trackBy: trackUserExtraById">{{userExtraOption.user.login}}</option>
                     </select>

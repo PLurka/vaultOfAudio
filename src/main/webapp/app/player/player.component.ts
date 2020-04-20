@@ -33,7 +33,7 @@ export class PlayerComponent implements OnInit {
   visualization: boolean;
   shuffle: boolean = false;
   auto: boolean = true;
-  repeat: boolean = true;
+  repeat: boolean = false;
   currentUser: IUserExtra;
   currentLyrics: string = 'No song is playing at the moment...';
   currentState: string;
@@ -247,23 +247,47 @@ export class PlayerComponent implements OnInit {
     this.cloudService.removeAll();
     console.error('event.returnValue: ' + event.currentTarget['selectedOptions'][0]['value']);
 
+    let alreadyLoaded = false;
     this.playlists.forEach(playlist => {
       let selectedId = +event.currentTarget['selectedOptions'][0]['value'];
       if (playlist.id === selectedId) {
         playlist.songs.forEach(song => {
           this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata, song.lyrics);
         });
+        alreadyLoaded = true;
       }
     });
-    this.crowdPlaylists.forEach(playlist => {
-      let selectedId = +event.currentTarget['selectedOptions'][0]['value'];
-      if (playlist.id === selectedId) {
-        if (playlist.songs != null)
-          playlist.songs.forEach(song => {
-            this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata, song.lyrics);
-          });
-      }
-    });
+    if (alreadyLoaded === false) {
+      this.crowdPlaylists.forEach(playlist => {
+        let selectedId = +event.currentTarget['selectedOptions'][0]['value'];
+        if (playlist.id === selectedId) {
+          if (playlist.songs != null)
+            playlist.songs.forEach(song => {
+              this.cloudService.addFTPFile(song.songName, song.authors, song.songMetadata, song.lyrics);
+            });
+        }
+      });
+    }
+  }
+
+  setPlayType(event) {
+    let selectedValue = event.currentTarget['selectedOptions'][0]['value'];
+
+    if (selectedValue === 'auto') {
+      this.auto = true;
+      this.repeat = false;
+      this.shuffle = false;
+    }
+    if (selectedValue === 'autoRepeat') {
+      this.auto = true;
+      this.repeat = true;
+      this.shuffle = false;
+    }
+    if (selectedValue === 'shuffle') {
+      this.auto = false;
+      this.repeat = false;
+      this.shuffle = true;
+    }
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -464,16 +488,7 @@ export class PlayerComponent implements OnInit {
 
     lyrics.hidden = true;
 
-    const lyr = <HTMLInputElement>document.getElementById('lyr');
-
-    lyr.checked = false;
-
-    let shuffle = <HTMLInputElement>document.getElementById('shuffle');
-    shuffle.checked = false;
-    let auto = <HTMLInputElement>document.getElementById('auto');
-    auto.checked = true;
-    let repeat = <HTMLInputElement>document.getElementById('repeat');
-    repeat.checked = true;
+    const lyr = document.getElementById('lyr');
 
     //CREATION OF EQUALIZER FILTERS
     let firstEq = this.audioCtx.createBiquadFilter();
@@ -665,30 +680,6 @@ export class PlayerComponent implements OnInit {
     const self = this;
     this.loadEqSettings();
     this.loadPlaylists();
-
-    shuffle.addEventListener(
-      'click',
-      () => {
-        this.shuffle = shuffle.checked.valueOf();
-      },
-      null
-    );
-
-    auto.addEventListener(
-      'click',
-      () => {
-        this.auto = auto.checked.valueOf();
-      },
-      null
-    );
-
-    repeat.addEventListener(
-      'click',
-      () => {
-        this.repeat = repeat.checked.valueOf();
-      },
-      null
-    );
 
     lyr.addEventListener(
       'click',

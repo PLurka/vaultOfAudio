@@ -42,18 +42,33 @@
       display: flex;
       flex-grow: 1;
       justify-content: center;
-      max-width: 50%;
-      // min-width: 15%;
+      max-width: 100%;
     }
 
-    /*.pick{
-          flex: auto;
-          display: flex;
-          flex-grow: 1;
-          justify-content: center;
-          max-width: 25%;
-          // min-width: 15%;
-      }*/
+    .playlistLoader select {
+      background: #363636;
+      color: white;
+      border: 0px;
+      width: 100%;
+      align-content: center;
+      text-align: center;
+    }
+
+    .showLyr {
+      flex: auto;
+      display: flex;
+      flex-grow: 1;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .showLyr button {
+      width: 100%;
+    }
+
+    .showLyr button span {
+      width: 100%;
+    }
 
     .customFileInput::-webkit-file-upload-button {
       visibility: hidden;
@@ -82,7 +97,8 @@
     }
 
     .customFileInput:hover::before {
-      border-color: black;
+      // border-color: black;
+      background: -webkit-linear-gradient(top, #2e2e2e, #2e2e2e);
     }
 
     .customFileInput:active {

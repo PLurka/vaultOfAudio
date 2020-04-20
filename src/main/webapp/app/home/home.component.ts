@@ -112,7 +112,7 @@ export class HomeComponent implements OnInit {
     this.crowds.forEach(currentCrowd => {
       if (currentCrowd.id === crowd.id) {
         currentCrowd.accepteds.forEach(accepted => {
-          if (user.id) {
+          if (user) {
             if (accepted.id === user.id) {
               isAccepted = true;
               return true;
@@ -132,9 +132,11 @@ export class HomeComponent implements OnInit {
     this.crowds.forEach(currentCrowd => {
       if (currentCrowd.id === crowd.id) {
         currentCrowd.users.forEach(usr => {
-          if (usr.id === user.id) {
-            isInUsers = true;
-            return isAccepted && !isInUsers;
+          if (user) {
+            if (usr.id === user.id) {
+              isInUsers = true;
+              return isAccepted && !isInUsers;
+            }
           }
         });
       }
