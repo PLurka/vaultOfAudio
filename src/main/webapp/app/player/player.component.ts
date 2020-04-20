@@ -1476,7 +1476,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.stop();
-    this.audioCtx.childNodes.forEach(node => {});
   }
 
   isFirstPlaying() {
