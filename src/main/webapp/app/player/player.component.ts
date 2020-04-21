@@ -34,6 +34,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   shuffle: boolean = false;
   auto: boolean = true;
   repeat: boolean = false;
+  single: boolean = false;
   currentUser: IUserExtra;
   currentLyrics: string = 'No song is playing at the moment...';
   currentState: string;
@@ -277,21 +278,31 @@ export class PlayerComponent implements OnInit, OnDestroy {
       this.auto = true;
       this.repeat = false;
       this.shuffle = false;
+      this.single = false;
     }
     if (selectedValue === 'autoRepeat') {
       this.auto = true;
       this.repeat = true;
       this.shuffle = false;
+      this.single = false;
     }
     if (selectedValue === 'shuffle') {
       this.auto = false;
       this.repeat = false;
       this.shuffle = true;
+      this.single = false;
     }
     if (selectedValue === 'single') {
       this.auto = false;
       this.repeat = false;
       this.shuffle = false;
+      this.single = false;
+    }
+    if (selectedValue === 'singleRepeat') {
+      this.auto = false;
+      this.repeat = false;
+      this.shuffle = false;
+      this.single = true;
     }
   }
 
@@ -366,8 +377,10 @@ export class PlayerComponent implements OnInit, OnDestroy {
         if (events['type'] === 'ended') {
           this.next();
         }
-      } else {
-        if (events['type'] === 'ended' && this.repeat.valueOf()) this.openFile(this.files[0], 0);
+      } else if (events['type'] === 'ended' && this.repeat.valueOf()) {
+        this.openFile(this.files[0], 0);
+      } else if (events['type'] === 'ended' && this.single.valueOf()) {
+        this.openFile(this.files[this.currentFile.index], this.currentFile.index);
       }
     });
   }
@@ -385,8 +398,10 @@ export class PlayerComponent implements OnInit, OnDestroy {
           if (events['type'] === 'ended') {
             this.next();
           }
-        } else {
-          if (events['type'] === 'ended' && this.repeat.valueOf()) this.openFile(this.files[0], 0);
+        } else if (events['type'] === 'ended' && this.repeat.valueOf()) {
+          this.openFile(this.files[0], 0);
+        } else if (events['type'] === 'ended' && this.single.valueOf()) {
+          this.openFile(this.files[this.currentFile.index], this.currentFile.index);
         }
       });
     });

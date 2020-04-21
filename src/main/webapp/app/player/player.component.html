@@ -34,10 +34,11 @@
             </div>
             <div class="playlistLoader">
                 <select id="playTypes" (change)="setPlayType($event)">
-                    <option value="auto">AutoPlay (Play all songs)</option>
+                    <option value="single">Single (Play a single song)</option>
+                    <option value="singleRepeat">Single Repeat (Play a single song endlessly)</option>
+                    <option value="auto" selected="selected">AutoPlay (Play all songs)</option>
                     <option value="autoRepeat">AutoPlay Repeat (Play all songs on repeat)</option>
                     <option value="shuffle">Shuffle (Shuffle all songs endlessly)</option>
-                    <option value="single">Single (Play a single song)</option>
                 </select>
             </div>
         </div>
