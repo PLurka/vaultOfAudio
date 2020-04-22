@@ -707,9 +707,9 @@ export class PlayerComponent implements OnInit, OnDestroy {
     );
 
     volumeText.addEventListener('click', () => {
-      gainNode.gain.value = this.audioCtx.createGain().gain.value;
-      volumeControl.value = '1';
-      volumeControl.valueAsNumber = 1;
+      gainNode.gain.value = 0.5;
+      volumeControl.value = '0.5';
+      volumeControl.valueAsNumber = 0.5;
     });
 
     balanceText.addEventListener('click', () => {
