@@ -11,9 +11,9 @@
             <div class="alert alert-success" *ngSwitchCase="true" style="background-color: #5c3e94">
                 <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message"
                     [translateValues]="{username: account.login}"> You are logged in as user "{{account.login}}". </span>
-                <tr>Imie: {{account.firstName}}</tr>
-                <tr>Nazwisko: {{account.lastName}}</tr>
-                <tr>E-mail: {{account.email}}</tr>
+                <tr><span jhiTranslate="userManagement.firstName"></span>: {{account.firstName}}</tr>
+                <tr><span jhiTranslate="userManagement.lastName"></span>: {{account.lastName}}</tr>
+                <tr><span jhiTranslate="userManagement.email"></span>: {{account.email}}</tr>
             </div>
 
             <div class="alert alert-warning" *ngSwitchCase="false">
@@ -29,7 +29,7 @@
         <div>
             <h2>
                 <!--jhiTranslate="vaultOfAudioApp.crowd.home.title"-->
-                <span>Crowd requests</span>
+                <span jhiTranslate="home.crowdRequests">Crowd requests</span>
             </h2>
                 <table class="table table-striped">
                     <thead>
@@ -79,7 +79,7 @@
 
         <div>
             <h2>
-                <span>Invitations</span>
+                <span jhiTranslate="home.crowdInvitations">Crowd Invitations</span>
             </h2>
             <table class="table table-striped">
                 <thead>

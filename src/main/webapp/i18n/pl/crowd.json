@@ -2,27 +2,27 @@
   "vaultOfAudioApp": {
     "crowd": {
       "home": {
-        "title": "Crowd",
-        "createLabel": "Dodaj Crowd",
-        "createOrEditLabel": "Dodaj lub edytuj: Crowd",
-        "notFound": "No Crowds found"
+        "title": "Tłum",
+        "createLabel": "Dodaj Tłum",
+        "createOrEditLabel": "Dodaj lub edytuj: Tłum",
+        "notFound": "No znaleziono Tłumów"
       },
-      "created": "Utworzono nowy obiekt typu Crowd z identyfikatorem {{ param }}",
-      "updated": "Uaktualniono obiekt typu Crowd z identyfikatorem {{ param }}",
-      "deleted": "Usunięto obiekt typu Crowd z identyfikatorem {{ param }}",
+      "created": "Utworzono nowy obiekt typu Tłum z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu Tłum z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu tłum z identyfikatorem {{ param }}",
       "delete": {
-        "question": "Czy na pewno chcesz usunąć Crowd {{ id }}?"
+        "question": "Czy na pewno chcesz usunąć Tłum {{ id }}?"
       },
       "detail": {
-        "title": "Crowd"
+        "title": "Tłum"
       },
-      "crowdName": "Crowd Name",
-      "crowdDescription": "Crowd Description",
-      "crowdPhoto": "Crowd Photo",
-      "user": "User",
+      "crowdName": "Nazwa Tłumu",
+      "crowdDescription": "Opis Tłumu",
+      "crowdPhoto": "Zdjęcie Tłumu",
+      "user": "Użytkownicy",
       "accepted": "Zaproszeni",
-      "playlist": "Playlist",
-      "createdBy": "Created By",
+      "playlist": "Playlista",
+      "createdBy": "Stworzony przez",
       "accept": "Zaakceptuj"
     }
   }

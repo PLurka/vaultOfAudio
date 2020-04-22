@@ -583,10 +583,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
     let eqChooser = <HTMLSelectElement>document.getElementById('equalizers');
 
-    let playlistChooser = <HTMLSelectElement>document.getElementById('playlists');
-
-    let crowdPlaylistChooser = <HTMLSelectElement>document.getElementById('crowdPlaylists');
-
     let newEqName = <HTMLInputElement>document.getElementById('newEqName');
 
     // CREATION OF ALL OTHER FILTERS
@@ -1340,16 +1336,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
       .connect(ninthEq)
       .connect(tenthEq)
       .connect(analyser2) // COMMENTED OUT AS NOT TO CONNECT ALL FILTERS AT START
-      /*.connect(lowpass)
-      .connect(highpass)
-      .connect(bandpass)
-      .connect(lowshelf)
-      .connect(highshelf)
-      .connect(peaking)
-      .connect(notch)
-      .connect(allpass)*/ .connect(
-        destination
-      );
+      .connect(destination);
 
     function reconnectFilters() {
       track.disconnect();

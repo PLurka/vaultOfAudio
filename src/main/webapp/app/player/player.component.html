@@ -1,11 +1,12 @@
 <!-- src/app/player/player.component.html -->
 <div class="container">
     <mat-toolbar color="primary" class="main-toolbar" style="background-color: #5c3e94">
-        <span>{{currentFile.file && (currentState === "playing" || currentState === "pause" || currentState === "timeupdate") ? currentFile.file.name: "Vault of Audio Player"}}</span>
+        <span *ngIf="currentFile.file && (currentState === 'playing' || currentState === 'pause' || currentState === 'timeupdate')">{{currentFile.file.name}}<span jhiTranslate="player.by"></span>{{currentFile.file.artist}}</span>
+        <span *ngIf="!(currentFile.file && (currentState === 'playing' || currentState === 'pause' || currentState === 'timeupdate'))" jhiTranslate="player.playerName"></span>
     </mat-toolbar>
         <div class="fileManagement">
             <button mat-button (click)="loadAll()" class="fileMgtBtn">
-                Load All
+                <span jhiTranslate="player.loadAll"></span>
                 <mat-icon>get_app</mat-icon>
             </button>
             <input type="file"
@@ -15,7 +16,7 @@
                    (change)="handleFileInput($event.target.files)"
                    multiple>
             <button mat-button (click)="removeAll()" class="fileMgtBtn">
-                Remove All
+                <span jhiTranslate="player.removeAll"></span>
                 <mat-icon>clear</mat-icon>
             </button>
         </div>
@@ -23,43 +24,44 @@
         <div class="fileManagement">
             <div class="playlistLoader">
                 <select id="playlists" (change)="loadFromPlaylist($event)">
-                    <option value="Chooser">{{playlists.length > 0 || crowdPlaylists.length > 0 ? 'Choose your playlist: ' : 'No playlists available'}}</option>
+                    <option value="Chooser" jhiTranslate="player.choosePlaylist"></option>
                     <option value="Separator">--------------------</option>
                     <option value="{{playlist.id}}" *ngFor="let playlist of playlists ;trackBy: trackId" >{{playlist.listName}}</option>
                     <option value="Separator">--------------------</option>
-                    <option value="crowd">{{playlists.length > 0 || crowdPlaylists.length > 0 ? 'Your crowds playlists: ' : 'No crowd playlists available'}}</option>
+                    <option value="crowd" jhiTranslate="player.crowdPlaylist"></option>
                     <option value="Separator">--------------------</option>
                     <option value="{{playlist.id}}" *ngFor="let playlist of crowdPlaylists ;trackBy: trackId">{{playlist.listName}}</option>
                 </select>
             </div>
             <div class="playlistLoader">
                 <select id="playTypes" (change)="setPlayType($event)">
-                    <option value="single">Single (Play a single song)</option>
-                    <option value="singleRepeat">Single Repeat (Play a single song endlessly)</option>
-                    <option value="auto" selected="selected">AutoPlay (Play all songs)</option>
-                    <option value="autoRepeat">AutoPlay Repeat (Play all songs on repeat)</option>
-                    <option value="shuffle">Shuffle (Shuffle all songs endlessly)</option>
+                    <option value="single" jhiTranslate="player.single">Single (Play a single song)</option>
+                    <option value="singleRepeat" jhiTranslate="player.singleRepeat">Single Repeat (Play a single song endlessly)</option>
+                    <option value="auto" selected="selected" jhiTranslate="player.auto">AutoPlay (Play all songs)</option>
+                    <option value="autoRepeat" jhiTranslate="player.autoRepeat">AutoPlay Repeat (Play all songs on repeat)</option>
+                    <option value="shuffle" jhiTranslate="player.shuffle">Shuffle (Shuffle all songs endlessly)</option>
                 </select>
             </div>
         </div>
     <div class="fileManagement">
         <button mat-button id="lyr" class="showLyr">
             <mat-icon>list</mat-icon>
-            Show Lyrics
+            <span jhiTranslate="player.showLyrics"></span>
             <mat-icon>list</mat-icon>
         </button>
     </div>
 
     <div class="content">
         <div class="lyrics" id="lyrics">
-            <div class="lyricsContent">{{currentLyrics}}</div>
+            <div *ngIf="currentLyrics !== 'No song is playing at the moment...'" class="lyricsContent">{{currentLyrics}}</div>
+            <div *ngIf="currentLyrics === 'No song is playing at the moment...'" class="lyricsContent"><span jhiTranslate="player.noSong"></span></div>
         </div>
         <mat-list cdkDropList color="primary" class="songList" id="songList" (cdkDropListDropped)="drop($event)" *ngIf="files" >
-            <h3 mat-subheader>Songs ({{files.length}})</h3>
+            <h3 mat-subheader><span jhiTranslate="player.songs"></span> ({{files.length}})</h3>
             <mat-list-item *ngFor="let file of files; let i = index" (click)="openFile(file, i)" cdkDrag class="song">
                 <mat-icon color="primary" mat-list-icon class="songEl" style="color: #5c3e94">music_note</mat-icon>
                 <h4 mat-line class="songEl">{{i+1}}. {{ file.name }}</h4>
-                <h5 mat-line class="songEl">by {{ file.artist }}</h5>
+                <h5 mat-line class="songEl"><span jhiTranslate="player.by"></span> {{ file.artist }}</h5>
 
                 <mat-icon color="primary" *ngIf="currentFile.index === i && !state?.error" class="songEl" style="color: #5c3e94">volume_up</mat-icon>
                 <button mat-button (click)="removeFile(i)" class="songEl">
@@ -83,7 +85,7 @@
 
 
                     <div class="panner">
-                        <h6 class="balanceText" id="balanceText">Balance:</h6>
+                        <h6 class="balanceText" id="balanceText" jhiTranslate="player.balance">Balance:</h6>
                         <div class="pannerText">
                             <h6 class="lTxt">L</h6>
                             <input type="range" class="pannerBar" id="panner" min="-1" max="1" value="0" step="0.01">
@@ -106,7 +108,7 @@
                 </button>
                 </div>
                 <div class="volume">
-                    <h6 class="volumeText" id="volumeText">Volume:</h6>
+                    <h6 class="volumeText" id="volumeText" jhiTranslate="player.volume">Volume:</h6>
                     <input type="range" class="volumeBar" id="volume" min="0" max="2" value="1" step="0.01">
                 </div>
             </mat-toolbar-row>
@@ -115,30 +117,30 @@
     <div class="resetBtnDiv">
         <button mat-button class="showHideEq" id="showHideEq" (click)="showHide()">
             <!--<mat-icon class="toolsIcon">assessment</mat-icon>-->
-            <h6 class="toolsInfo">Show / Hide Equalizer</h6>
+            <h6 class="toolsInfo" jhiTranslate="player.showEq">Show / Hide Equalizer</h6>
             <!--<mat-icon class="toolsIcon">assessment</mat-icon>-->
         </button>
 
         <button mat-button class="showHideAdvanced" id="showHideAdvanced" (click)="showHideAdv()">
 <!--            <mat-icon class="toolsIcon">assessment</mat-icon>-->
-            <h6 class="toolsInfo">Show / Hide Advanced</h6>
+            <h6 class="toolsInfo" jhiTranslate="player.showAdv">Show / Hide Advanced</h6>
             <!--<mat-icon class="toolsIcon">assessment</mat-icon>-->
         </button>
     </div>
     <div class="eq" id="eq" style="display: none">
         <div class="resetBtnDiv">
-            <h2>EQUALIZER</h2>
+            <h2 jhiTranslate="player.equalizer">EQUALIZER</h2>
         </div>
 
         <select id="equalizers">
-            <option value="choose">Choose Equalizer: </option>
+            <option value="choose" jhiTranslate="player.chooseEqualizer">Choose Equalizer: </option>
             <option value="separator">--------------------</option>
             <option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>
         </select>
 
         <button mat-button (click)="saveCurrentEq()">
             <mat-icon>backup</mat-icon>
-            Save current Equalizer as
+            <span jhiTranslate="player.saveEq"> Save current Equalizer as </span>
         </button>
         <input type="text" id="newEqName" value="newEq" style="background: #363636; color: white; border: 0px">
 
@@ -186,7 +188,7 @@
         </div>
         <div class="resetBtnDiv">
             <button mat-button class="resetButton" id="resetButton">
-                Reset equalizer
+                <span jhiTranslate="player.resetEq"> Reset equalizer </span>
                 <mat-icon>restore</mat-icon>
             </button>
         </div>
@@ -197,163 +199,163 @@
         </div>
 
         <select id="filters">
-            <option value="lpf" selected="selected">Low Pass Filter</option>
-            <option value="hpf">High Pass Filter</option>
-            <option value="bpf">Band Pass Filter</option>
-            <option value="lsf">Low Shelf Filter</option>
-            <option value="hsf">High Shelf Filter</option>
-            <option value="pf">Peaking Filter</option>
-            <option value="nf">Notch Filter</option>
-            <option value="apf">All Pass Filter</option>
+            <option value="lpf" selected="selected" jhiTranslate="player.lowPass">Low Pass Filter</option>
+            <option value="hpf" jhiTranslate="player.highPass">High Pass Filter</option>
+            <option value="bpf" jhiTranslate="player.bandPass">Band Pass Filter</option>
+            <option value="lsf" jhiTranslate="player.lowShelf">Low Shelf Filter</option>
+            <option value="hsf" jhiTranslate="player.highShelf">High Shelf Filter</option>
+            <option value="pf" jhiTranslate="player.peaking">Peaking Filter</option>
+            <option value="nf" jhiTranslate="player.notch">Notch Filter</option>
+            <option value="apf" jhiTranslate="player.allPass">All Pass Filter</option>
         </select>
 
         <div class="advanced">
 
             <div class="filter" id="lpf" style="display: block">
                 <div class="resetBtnDiv">
-                    <h3>LOWPASS FILTER  <input type="checkbox" id="lpfcheck" name="lpfcheck" class="checkbox"></h3>
+                    <h3 jhiTranslate="player.lowPass">LOWPASS FILTER  <input type="checkbox" id="lpfcheck" name="lpfcheck" class="checkbox"></h3>
                 </div>
                 <div class="filtersettings">
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="lpffreq" min="0" max="20000" value="20000" step="1">
                         <input type="number" class="filterinp" id="lpffreqi" min="0" max="20000" value="20000" step="1">
-                        Frequency
+                        <span jhiTranslate="player.frequency">Frequency</span>
                     </div>
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="lpfpeak" min="0" max="20" value="0" step="0.5">
                         <input type="number" class="filterinp" id="lpfpeaki" min="0" max="20" value="0" step="0.5">
-                        Peak
+                        <span jhiTranslate="player.peak">Peak</span>
                     </div>
                 </div>
             </div>
 
             <div class="filter" id="hpf" style="display: none">
                 <div class="resetBtnDiv">
-                    <h3>HIGHPASS FILTER  <input type="checkbox" id="hpfcheck" name="hpfcheck" class="checkbox"></h3>
+                    <h3 jhiTranslate="player.highPass">HIGHPASS FILTER  <input type="checkbox" id="hpfcheck" name="hpfcheck" class="checkbox"></h3>
                 </div>
                 <div class="filtersettings">
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="hpffreq" min="0" max="20000" value="0" step="1">
                         <input type="number" class="filterinp" id="hpffreqi" min="0" max="20000" value="0" step="1">
-                        Frequency
+                        <span jhiTranslate="player.frequency">Frequency</span>
                     </div>
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="hpfpeak" min="0" max="20" value="0" step="0.5">
                         <input type="number" class="filterinp" id="hpfpeaki" min="0" max="20" value="0" step="0.5">
-                        Peak
+                        <span jhiTranslate="player.peak">Peak</span>
                     </div>
                 </div>
             </div>
 
             <div class="filter" id="bpf" style="display: none">
                 <div class="resetBtnDiv">
-                    <h3>BANDPASS FILTER  <input type="checkbox" id="bpfcheck" name="bpfcheck" class="checkbox"></h3>
+                    <h3 jhiTranslate="player.bandPass">BANDPASS FILTER  <input type="checkbox" id="bpfcheck" name="bpfcheck" class="checkbox"></h3>
                 </div>
                 <div class="filtersettings">
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="bpffreq" min="0" max="20000" value="0" step="1">
                         <input type="number" class="filterinp" id="bpffreqi" min="0" max="20000" value="0" step="1">
-                        Frequency
+                        <span jhiTranslate="player.frequency">Frequency</span>
                     </div>
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="bpfbandsize" min="0" max="20" value="0" step="0.5">
                         <input type="number" class="filterinp" id="bpfbandsizei" min="0" max="20" value="0" step="0.5">
-                        Frequency band size
+                        <span jhiTranslate="player.bandSize">Frequency band size</span>
                     </div>
                 </div>
             </div>
 
             <div class="filter" id="lsf" style="display: none">
                 <div class="resetBtnDiv">
-                    <h3>LOWSHELF FILTER  <input type="checkbox" id="lsfcheck" name="lsfcheck" class="checkbox"></h3>
+                    <h3 jhiTranslate="player.lowShelf">LOWSHELF FILTER  <input type="checkbox" id="lsfcheck" name="lsfcheck" class="checkbox"></h3>
                 </div>
                 <div class="filtersettings">
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="lsffreq" min="0" max="20000" value="0" step="1">
                         <input type="number" class="filterinp" id="lsffreqi" min="0" max="20000" value="0" step="1">
-                        Frequency
+                        <span jhiTranslate="player.frequency">Frequency</span>
                     </div>
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="lsfgain" min="0" max="20" value="0" step="0.5">
                         <input type="number" class="filterinp" id="lsfgaini" min="0" max="20" value="0" step="0.5">
-                        Gain
+                        <span jhiTranslate="player.gain">Gain</span>
                     </div>
                 </div>
             </div>
 
             <div class="filter" id="hsf" style="display: none">
                 <div class="resetBtnDiv">
-                    <h3>HIGHSHELF FILTER  <input type="checkbox" id="hsfcheck" name="hsfcheck" class="checkbox"></h3>
+                    <h3 jhiTranslate="player.highShelf">HIGHSHELF FILTER  <input type="checkbox" id="hsfcheck" name="hsfcheck" class="checkbox"></h3>
                 </div>
                 <div class="filtersettings">
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="hsffreq" min="0" max="20000" value="0" step="1">
                         <input type="number" class="filterinp" id="hsffreqi" min="0" max="20000" value="0" step="1">
-                        Frequency
+                        <span jhiTranslate="player.frequency">Frequency</span>
                     </div>
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="hsfgain" min="0" max="20" value="0" step="0.5">
                         <input type="number" class="filterinp" id="hsfgaini" min="0" max="20" value="0" step="0.5">
-                        Gain
+                        <span jhiTranslate="player.gain">Gain</span>
                     </div>
                 </div>
             </div>
 
             <div class="filter" id="pf" style="display: none">
                 <div class="resetBtnDiv">
-                    <h3>PEAKING FILTER  <input type="checkbox" id="pfcheck" name="pfcheck" class="checkbox"></h3>
+                    <h3  jhiTranslate="player.peaking">PEAKING FILTER  <input type="checkbox" id="pfcheck" name="pfcheck" class="checkbox"></h3>
                 </div>
                 <div class="filtersettings">
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="pffreq" min="0" max="20000" value="0" step="1">
                         <input type="number" class="filterinp" id="pffreqi" min="0" max="20000" value="0" step="1">
-                        Frequency
+                        <span jhiTranslate="player.frequency">Frequency</span>
                     </div>
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="pfgain" min="0" max="20" value="0" step="0.5">
                         <input type="number" class="filterinp" id="pfgaini" min="0" max="20" value="0" step="0.5">
-                        Gain
+                        <span jhiTranslate="player.gain">Gain</span>
                     </div>
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="pfbandsize" min="0" max="20" value="0" step="0.5">
                         <input type="number" class="filterinp" id="pfbandsizei" min="0" max="20" value="0" step="0.5">
-                        Frequency band size
+                        <span jhiTranslate="player.bandSize">Frequency band size</span>
                     </div>
                 </div>
             </div>
 
             <div class="filter" id="nf" style="display: none">
                 <div class="resetBtnDiv">
-                    <h3>NOTCH FILTER  <input type="checkbox" id="nfcheck" name="nfcheck" class="checkbox"></h3>
+                    <h3 jhiTranslate="player.notch">NOTCH FILTER  <input type="checkbox" id="nfcheck" name="nfcheck" class="checkbox"></h3>
                 </div>
                 <div class="filtersettings">
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="nffreq" min="0" max="20000" value="0" step="1">
                         <input type="number" class="filterinp" id="nffreqi" min="0" max="20000" value="0" step="1">
-                        Frequency
+                        <span jhiTranslate="player.frequency">Frequency</span>
                     </div>
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="nfbandsize" min="0" max="20" value="0" step="0.5">
                         <input type="number" class="filterinp" id="nfbandsizei" min="0" max="20" value="0" step="0.5">
-                        Frequency band size
+                        <span jhiTranslate="player.bandSize">Frequency band size</span>
                     </div>
                 </div>
             </div>
 
             <div class="filter" id="apf" style="display: none">
                 <div class="resetBtnDiv">
-                    <h3>ALLPASS FILTER  <input type="checkbox" id="apfcheck" name="apfcheck" class="checkbox"></h3>
+                    <h3 jhiTranslate="player.allPass">ALLPASS FILTER  <input type="checkbox" id="apfcheck" name="apfcheck" class="checkbox"></h3>
                 </div>
                 <div class="filtersettings">
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="apffreq" min="0" max="20000" value="0" step="1">
                         <input type="number" class="filterinp" id="apffreqi" min="0" max="20000" value="0" step="1">
-                        Frequency
+                        <span jhiTranslate="player.frequency">Frequency</span>
                     </div>
                     <div class="filtersetting">
                         <input type="range" class="filterbar" id="apfsharpness" min="0" max="20" value="0" step="0.5">
                         <input type="number" class="filterinp" id="apfsharpnessi" min="0" max="20" value="0" step="0.5">
-                        Transition sharpness
+                        <span jhiTranslate="player.sharpness">Transition sharpness</span>
                     </div>
                 </div>
             </div>
@@ -361,7 +363,7 @@
         </div>
         <div class="resetBtnDiv">
             <button mat-button class="resetFiltersButton" id="resetFiltersButton">
-                Reset filters
+                <span jhiTranslate="player.resetFilter">Reset filters</span>
                 <mat-icon>restore</mat-icon>
             </button>
         </div>

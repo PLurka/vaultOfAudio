@@ -2,33 +2,33 @@
   "vaultOfAudioApp": {
     "equalizerSetting": {
       "home": {
-        "title": "Equalizer Setting",
-        "createLabel": "Dodaj Equalizer Setting",
-        "createOrEditLabel": "Dodaj lub edytuj: Equalizer Setting",
-        "notFound": "No Equalizer Settings found"
+        "title": "Ustawienia Korektora",
+        "createLabel": "Dodaj Ustawienia Korektora",
+        "createOrEditLabel": "Dodaj lub edytuj: Ustawienia Korektora",
+        "notFound": "Nie znaleziono Ustawień Korektora"
       },
-      "created": "Utworzono nowy obiekt typu Equalizer Setting z identyfikatorem {{ param }}",
-      "updated": "Uaktualniono obiekt typu Equalizer Setting z identyfikatorem {{ param }}",
-      "deleted": "Usunięto obiekt typu Equalizer Setting z identyfikatorem {{ param }}",
+      "created": "Utworzono nowy obiekt typu Ustawienia Korektora z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono obiekt typu Ustawienia Korektora z identyfikatorem {{ param }}",
+      "deleted": "Usunięto obiekt typu Ustawienia Korektora z identyfikatorem {{ param }}",
       "delete": {
-        "question": "Czy na pewno chcesz usunąć Equalizer Setting {{ id }}?"
+        "question": "Czy na pewno chcesz usunąć Ustawienia Korektora {{ id }}?"
       },
       "detail": {
-        "title": "Equalizer Setting"
+        "title": "Ustawienia Korektora"
       },
-      "equalizerName": "Equalizer Name",
-      "first": "First",
-      "second": "Second",
-      "third": "Third",
-      "fourth": "Fourth",
-      "fifth": "Fifth",
-      "sixth": "Sixth",
-      "seventh": "Seventh",
-      "eight": "Eight",
-      "ninth": "Ninth",
-      "tenth": "Tenth",
-      "user": "User",
-      "createdBy": "Created By"
+      "equalizerName": "Nazwa korektora",
+      "first": "Pierwszy",
+      "second": "Drugi",
+      "third": "Trzeci",
+      "fourth": "Czwarty",
+      "fifth": "Piąty",
+      "sixth": "Szósty",
+      "seventh": "Siódmy",
+      "eight": "Ósmy",
+      "ninth": "Dziewiąty",
+      "tenth": "Dziesiąty",
+      "user": "Użytkownicy",
+      "createdBy": "Stworzony przez"
     }
   }
 }

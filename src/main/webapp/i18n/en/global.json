@@ -5,10 +5,10 @@
     "menu": {
       "home": "Home",
       "player": "Player",
-      "my-songs": "My Songs",
-      "my-playlists": "My Playlists",
-      "my-crowds": "My Crowds",
-      "my-eq": "My Eq",
+      "my-songs": "Songs",
+      "my-playlists": "Playlists",
+      "my-crowds": "Crowds",
+      "my-eq": "Equalizer Settings",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
