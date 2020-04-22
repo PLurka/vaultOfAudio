@@ -342,7 +342,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
             }
             if (settingFound) break;
           }
-          this.loadEqSettings();
+          //this.loadEqSettings();
         }
       } else {
         alreadyExists = true;
@@ -353,6 +353,8 @@ export class PlayerComponent implements OnInit, OnDestroy {
       if (alreadyExists) {
         this.newEqualizerSettings.equalizerName += '-by-' + this.currentUser.user.login;
       }
+      this.newEqualizerSettings.createdBy = this.currentUser;
+      this.newEqualizerSettings.users.push(this.currentUser);
       this.equalizerSettingService
         .create(this.newEqualizerSettings)
         .pipe(
@@ -363,7 +365,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
       this.equalizerSettings.push(this.newEqualizerSettings);
     }
 
-    this.loadEqSettings();
+    //this.loadEqSettings();
   }
 
   playStream(url) {
