@@ -115,7 +115,9 @@
       "edit": "Edytuj",
       "open": "Otwórz",
       "save": "Zapisz",
-      "view": "Widok"
+      "view": "Widok",
+      "add": "Dodaj",
+      "remove": "Odrzuć"
     },
     "detail": {
       "field": "Pole",
