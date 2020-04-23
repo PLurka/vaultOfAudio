@@ -3,6 +3,7 @@
     "equalizerSetting": {
       "home": {
         "title": "Ustawienia Korektora",
+        "yours": "Pokaż tylko Twoje Ustawienia Korektora",
         "createLabel": "Dodaj Ustawienia Korektora",
         "createOrEditLabel": "Dodaj lub edytuj: Ustawienia Korektora",
         "notFound": "Nie znaleziono Ustawień Korektora"

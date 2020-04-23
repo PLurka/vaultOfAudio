@@ -2,29 +2,30 @@
   "vaultOfAudioApp": {
     "song": {
       "home": {
-        "title": "Song",
-        "createLabel": "Dodaj Song",
-        "createOrEditLabel": "Dodaj lub edytuj: Song",
-        "notFound": "No Songs found"
+        "title": "Piosenki",
+        "yours": "Pokaż tylko Twoje Piosenki",
+        "createLabel": "Dodaj Piosenkę",
+        "createOrEditLabel": "Dodaj lub edytuj: Piosenka",
+        "notFound": "Nie znaleziono piosenek"
       },
       "created": "Utworzono nowy obiekt typu Song z identyfikatorem {{ param }}",
       "updated": "Uaktualniono obiekt typu Song z identyfikatorem {{ param }}",
       "deleted": "Usunięto obiekt typu Song z identyfikatorem {{ param }}",
       "delete": {
-        "question": "Czy na pewno chcesz usunąć Song {{ id }}?"
+        "question": "Czy na pewno chcesz usunąć Piosenkę {{ id }}?"
       },
       "detail": {
-        "title": "Song"
+        "title": "Piosenki"
       },
-      "songName": "Song Name",
-      "lyrics": "Lyrics",
-      "authors": "Authors",
-      "songMetadata": "Song Metadata",
-      "year": "Year",
-      "songDescription": "Song Description",
-      "user": "User",
-      "createdBy": "Created By",
-      "playlist": "Playlist"
+      "songName": "Nazwa Piosenki",
+      "lyrics": "Tekst",
+      "authors": "Autorzy",
+      "songMetadata": "Dane Piosenki",
+      "year": "Rok",
+      "songDescription": "Opis Piosenki",
+      "user": "Użytkownicy",
+      "createdBy": "Zamieszczona Przez",
+      "playlist": "Playlista"
     }
   }
 }

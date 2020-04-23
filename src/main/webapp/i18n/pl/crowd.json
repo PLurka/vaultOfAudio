@@ -3,6 +3,7 @@
     "crowd": {
       "home": {
         "title": "Tłum",
+        "yours": "Pokaż tylko Twoje Tłumy",
         "createLabel": "Dodaj Tłum",
         "createOrEditLabel": "Dodaj lub edytuj: Tłum",
         "notFound": "No znaleziono Tłumów"
