@@ -3,6 +3,7 @@
     "playlist": {
       "home": {
         "title": "Playlists",
+        "yours": "Show your playlists only",
         "createLabel": "Create a new Playlist",
         "createOrEditLabel": "Create or edit a Playlist",
         "notFound": "No Playlists found"

@@ -84,6 +84,10 @@ spring:
     locator:
       discovery:
         enabled: true
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
 
 # ===================================================================
 # To enable TLS in production, generate a certificate using:

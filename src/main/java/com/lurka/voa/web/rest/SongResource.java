@@ -114,7 +114,7 @@ public class SongResource {
             try {
                 localFTPClient.close();
             } catch (Exception ex){
-                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message + " exception is: " + ex.getMessage());
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message + "client closed exception is: " + ex.getMessage());
             }
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message + " exception is: " + e.getMessage());
         }

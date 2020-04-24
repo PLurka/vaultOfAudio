@@ -3,6 +3,7 @@
     "crowd": {
       "home": {
         "title": "Crowds",
+        "yours": "Show your crowds only",
         "createLabel": "Create a new Crowd",
         "createOrEditLabel": "Create or edit a Crowd",
         "notFound": "No Crowds found"

@@ -3,6 +3,7 @@
     "song": {
       "home": {
         "title": "Songs",
+        "yours": "Show your songs only",
         "createLabel": "Create a new Song",
         "createOrEditLabel": "Create or edit a Song",
         "notFound": "No Songs found"

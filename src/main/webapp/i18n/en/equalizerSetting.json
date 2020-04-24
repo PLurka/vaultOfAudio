@@ -3,6 +3,7 @@
     "equalizerSetting": {
       "home": {
         "title": "Equalizer Settings",
+        "yours": "Show your equalizer settings only",
         "createLabel": "Create a new Equalizer Setting",
         "createOrEditLabel": "Create or edit a Equalizer Setting",
         "notFound": "No Equalizer Settings found"
