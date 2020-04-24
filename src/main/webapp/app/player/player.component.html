@@ -26,11 +26,11 @@
                 <select id="playlists" (change)="loadFromPlaylist($event)">
                     <option value="Chooser" jhiTranslate="player.choosePlaylist"></option>
                     <option value="Separator">--------------------</option>
-                    <option value="{{playlist.id}}" *ngFor="let playlist of playlists ;trackBy: trackId" >{{playlist.listName}}</option>
+                    <option value="{{playlist.id}}" *ngFor="let playlist of playlists" >{{playlist.listName}}</option>
                     <option value="Separator">--------------------</option>
                     <option value="crowd" jhiTranslate="player.crowdPlaylist"></option>
                     <option value="Separator">--------------------</option>
-                    <option value="{{playlist.id}}" *ngFor="let playlist of crowdPlaylists ;trackBy: trackId">{{playlist.listName}}</option>
+                    <option value="{{playlist.id}}" *ngFor="let playlist of crowdPlaylists">{{playlist.listName}}</option>
                 </select>
             </div>
             <div class="playlistLoader">
@@ -78,7 +78,7 @@
         <mat-toolbar color="primary" style="background-color: #5c3e94">
             <mat-toolbar-row>
                 {{ state?.readableCurrentTime }}
-                <mat-slider class="time-slider" id="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime" (change)="autoPlay($event)" (input)="onSliderChangeEnd($event)" [disabled]="state?.error || currentFile.index === undefined"></mat-slider>
+                <mat-slider class="time-slider" id="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime" (input)="onSliderChangeEnd($event)" [disabled]="state?.error || currentFile.index === undefined"></mat-slider>
                 {{ state?.readableDuration }}
             </mat-toolbar-row>
             <mat-toolbar-row class="media-action-bar">
@@ -135,7 +135,7 @@
         <select id="equalizers">
             <option value="choose" jhiTranslate="player.chooseEqualizer">Choose Equalizer: </option>
             <option value="separator">--------------------</option>
-            <option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings ;trackBy: trackId">{{equalizerSetting.equalizerName}}</option>
+            <option value="{{equalizerSetting.id}}" *ngFor="let equalizerSetting of equalizerSettings">{{equalizerSetting.equalizerName}}</option>
         </select>
 
         <button mat-button (click)="saveCurrentEq()">

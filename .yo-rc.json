@@ -19,7 +19,7 @@
     "prodDatabaseType": "mysql",
     "searchEngine": false,
     "messageBroker": false,
-    "serviceDiscoveryType": "eureka",
+    "serviceDiscoveryType": false,
     "buildTool": "gradle",
     "enableSwaggerCodegen": false,
     "jwtSecretKey": "NGVlMDhmNzdlOGUzMjFkZjRhYTE2YjFiMjQwMzJiOTliNTU3MmEzNGIzYzUyY2I2YzJiNDJmNWI5OGY2NmViZjI0NzZlNjVhM2EyODJiZjkyOWRlOWFkYjhjOTg1YWFkZTQ5YTkwNWI5MzdiN2IyNWJkOTczYjdmOWIxY2ExY2Q=",

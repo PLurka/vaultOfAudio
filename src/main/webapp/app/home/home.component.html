@@ -43,7 +43,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let crowd of usersDivide ;trackBy: trackId">
+                    <tr *ngFor="let crowd of usersDivide">
                         <td *ngIf="!isRequestAccepted(crowd.users[0], crowd) && crowd.createdBy.user.login == account.login"><a [routerLink]="['/', crowd.id, 'view-crowd' ]">{{crowd.id}}</a></td>
                         <td *ngIf="!isRequestAccepted(crowd.users[0], crowd) && crowd.createdBy.user.login == account.login">{{crowd.crowdName}}</td>
                         <td *ngIf="!isRequestAccepted(crowd.users[0], crowd) && crowd.createdBy.user.login == account.login">
@@ -92,7 +92,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let crowd of crowds ;trackBy: trackId">
+                <tr *ngFor="let crowd of crowds">
                     <td *ngIf="isUserAccepted(currentUser, crowd)"><a [routerLink]="['/', crowd.id, 'view-crowd' ]">{{crowd.id}}</a></td>
                     <td *ngIf="isUserAccepted(currentUser, crowd)">{{crowd.crowdName}}</td>
                     <td *ngIf="isUserAccepted(currentUser, crowd)">
