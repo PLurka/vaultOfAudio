@@ -43,7 +43,7 @@ public class SongResource {
     List<String> files = new ArrayList<String>();
     private LocalFtpClient localFTPClient;
 
-    private String server = "localhost";
+    private String server = "ftpd_server";
     private int port = 21;
     private String user = "PLurka";
     private String password = "E57paegk";
@@ -98,11 +98,12 @@ public class SongResource {
                     newSong.setUsers(userExtSet);
                     createSong(newSong);
                 }catch (Exception ex){
+                    message += " PROBLEM IS CREATING SONG OR USER!: ";
                     localFTPClient.deleteFile(path);
                     throw new RuntimeException(ex.getMessage());
                 }
             } catch (Exception ex) {
-                throw new RuntimeException("FAIL!" + " EXCEPTION IS: " + ex.getMessage());
+                throw new RuntimeException("FAIL FTP SONG OR USER!" + " EXCEPTION IS: " + ex.getMessage());
             }
             files.add(file.getOriginalFilename());
 
