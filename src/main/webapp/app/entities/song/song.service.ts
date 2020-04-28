@@ -26,7 +26,6 @@ export class SongService {
       )
       .subscribe((res: string) => {
         if (res !== undefined) {
-          console.error('getJWT(): ' + res);
           this.jwt = res;
         }
       });
@@ -48,7 +47,6 @@ export class SongService {
               if (resp !== undefined) {
                 resp.forEach(userExtra => {
                   if (userExtra.user['login'] === res) {
-                    console.error('current login: ' + userExtra.user['login']);
                     this.currentUserExtra = userExtra;
                   }
                 });

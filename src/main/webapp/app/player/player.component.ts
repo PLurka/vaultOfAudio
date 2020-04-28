@@ -16,6 +16,7 @@ import { CrowdService } from 'app/entities/crowd';
 import { ICrowd } from 'app/shared/model/crowd.model';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { IUserExtra } from 'app/shared/model/user-extra.model';
+import { UserExtraService } from 'app/entities/user-extra';
 
 type EntityResponseType = HttpResponse<IEqualizerSetting>;
 
@@ -68,7 +69,8 @@ export class PlayerComponent implements OnInit, OnDestroy {
     protected jhiAlertService: JhiAlertService,
     public audioService: AudioService,
     public cloudService: CloudService,
-    public songService: SongService
+    public songService: SongService,
+    protected userExtraService: UserExtraService
   ) {
     // get media files
     cloudService.getFiles().subscribe(files => {
@@ -88,7 +90,21 @@ export class PlayerComponent implements OnInit, OnDestroy {
       )
       .subscribe((res: string) => {
         if (res !== undefined) {
-          console.error('getLogin(): ' + res);
+          this.userExtraService
+            .query()
+            .pipe(
+              filter((resp: HttpResponse<IUserExtra[]>) => resp.ok),
+              map((resp: HttpResponse<IUserExtra[]>) => resp.body)
+            )
+            .subscribe((resp: IUserExtra[]) => {
+              if (resp !== null) {
+                resp.forEach(userExtra => {
+                  if (userExtra['user']['login'] === res) {
+                    this.currentUser = userExtra;
+                  }
+                });
+              }
+            });
           this.songService
             .query()
             .pipe(
@@ -126,7 +142,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
       )
       .subscribe((res: string) => {
         if (res != undefined) {
-          console.error('getLogin(): ' + res);
           this.playlistService
             .query()
             .pipe(
@@ -246,7 +261,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
     this.stop();
     this.currentFile.index = null;
     this.cloudService.removeAll();
-    console.error('event.returnValue: ' + event.currentTarget['selectedOptions'][0]['value']);
 
     let alreadyLoaded = false;
     this.playlists.forEach(playlist => {
@@ -781,7 +795,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
     filterChooser.addEventListener(
       'input',
       function() {
-        console.error(filterChooser.options[filterChooser.selectedIndex].value.toString());
         let f1 = document.getElementById('lpf');
         let f2 = document.getElementById('hpf');
         let f3 = document.getElementById('bpf');
@@ -800,7 +813,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
         f8.style.display = 'none';
         let selected = document.getElementById(filterChooser.options[filterChooser.selectedIndex].value.toString());
         selected.style.display = 'block';
-        console.error(self.playlists);
       },
       false
     );
@@ -1315,14 +1327,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
       false
     );
 
-    audioFile.addEventListener(
-      'change',
-      function() {
-        //console.error('wrzucony plik: ' + audioFile.dir);
-        //console.error(audioFile.attributes);
-      },
-      false
-    );
+    audioFile.addEventListener('change', function() {}, false);
 
     let destination = this.audioCtx.destination;
 
@@ -1401,14 +1406,12 @@ export class PlayerComponent implements OnInit, OnDestroy {
       }
       tr = tr.connect(analyser2);
       tr.connect(destination);
-      console.error(tr.context);
     }
 
     // FILTERS CHECKBOXES
     lpfcheck.addEventListener(
       'change',
       function() {
-        console.error(lpfcheck.checked);
         reconnectFilters();
       },
       false
@@ -1417,7 +1420,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
     hpfcheck.addEventListener(
       'change',
       function() {
-        console.error(hpfcheck.checked);
         reconnectFilters();
       },
       false
@@ -1426,7 +1428,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
     bpfcheck.addEventListener(
       'change',
       function() {
-        console.error(bpfcheck.checked);
         reconnectFilters();
       },
       false
@@ -1435,7 +1436,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
     lsfcheck.addEventListener(
       'change',
       function() {
-        console.error(lsfcheck.checked);
         reconnectFilters();
       },
       false
@@ -1444,7 +1444,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
     hsfcheck.addEventListener(
       'change',
       function() {
-        console.error(hsfcheck.checked);
         reconnectFilters();
       },
       false
@@ -1453,7 +1452,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
     pfcheck.addEventListener(
       'change',
       function() {
-        console.error(pfcheck.checked);
         reconnectFilters();
       },
       false
@@ -1462,7 +1460,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
     nfcheck.addEventListener(
       'change',
       function() {
-        console.error(nfcheck.checked);
         reconnectFilters();
       },
       false
@@ -1471,7 +1468,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
     apfcheck.addEventListener(
       'change',
       function() {
-        console.error(apfcheck.checked);
         reconnectFilters();
       },
       false

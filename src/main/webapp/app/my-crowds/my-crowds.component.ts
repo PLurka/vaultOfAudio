@@ -59,7 +59,6 @@ export class MyCrowdsComponent implements OnInit, OnDestroy {
       )
       .subscribe((res: string) => {
         if (res != undefined) {
-          console.error('getLogin(): ' + res);
           this.crowdService
             .query()
             .pipe(

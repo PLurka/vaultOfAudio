@@ -59,7 +59,6 @@ export class MyEqComponent implements OnInit {
       )
       .subscribe((res: string) => {
         if (res != undefined) {
-          console.error('getLogin(): ' + res);
           this.equalizerSettingService
             .query()
             .pipe(

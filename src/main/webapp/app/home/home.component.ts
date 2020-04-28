@@ -76,7 +76,6 @@ export class HomeComponent implements OnInit {
                 userCrowd.users = [];
                 userCrowd.users.push(user);
                 usersTemp.push(userCrowd);
-                console.error('userCrowdUser: ' + userCrowd.users[0]['login']);
               });
               crowd.accepteds.forEach(accepted => {
                 let userCrowd = new Crowd(
@@ -196,7 +195,6 @@ export class HomeComponent implements OnInit {
       this.account = account;
     });
     this.registerAuthenticationSuccess();
-    console.error(this.accountService);
   }
 
   registerAuthenticationSuccess() {

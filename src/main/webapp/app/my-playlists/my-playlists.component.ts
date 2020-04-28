@@ -58,7 +58,6 @@ export class MyPlaylistsComponent implements OnInit, OnDestroy {
       )
       .subscribe((res: string) => {
         if (res != undefined) {
-          console.error('getLogin(): ' + res);
           this.playlistService
             .query()
             .pipe(

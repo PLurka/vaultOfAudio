@@ -57,7 +57,6 @@ export class MySongsComponent implements OnInit {
       )
       .subscribe((res: string) => {
         if (res != undefined) {
-          console.error('getLogin(): ' + res);
           this.songService
             .query()
             .pipe(
