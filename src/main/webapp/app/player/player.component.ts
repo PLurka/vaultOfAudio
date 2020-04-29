@@ -230,6 +230,9 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   removeFile(index: number) {
     this.cloudService.removeFile(index);
+    if (index > this.currentFile.index) {
+      this.currentFile.index -= 1;
+    }
     if (index === this.currentFile.index) {
       this.currentFile.index = null;
       this.stop();
@@ -1342,7 +1345,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
       .connect(eightEq)
       .connect(ninthEq)
       .connect(tenthEq)
-      .connect(analyser2) // COMMENTED OUT AS NOT TO CONNECT ALL FILTERS AT START
+      .connect(analyser2)
       .connect(destination);
 
     function reconnectFilters() {
