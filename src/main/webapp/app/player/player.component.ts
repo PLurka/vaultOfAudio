@@ -230,10 +230,9 @@ export class PlayerComponent implements OnInit, OnDestroy {
 
   removeFile(index: number) {
     this.cloudService.removeFile(index);
-    if (index > this.currentFile.index) {
+    if (index < this.currentFile.index) {
       this.currentFile.index -= 1;
-    }
-    if (index === this.currentFile.index) {
+    } else if (index === this.currentFile.index) {
       this.currentFile.index = null;
       this.stop();
     }
@@ -332,8 +331,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
       this.currentFile.index = event.currentIndex + 1;
   }
 
-  saveCurrentEq() /*: Observable<EntityResponseType> */ {
-    //let newEq;
+  saveCurrentEq() {
     let alreadyExists = false;
     let createdByCurrentUser = false;
     this.equalizerSettings.forEach(equalizerSetting => {
@@ -359,13 +357,11 @@ export class PlayerComponent implements OnInit, OnDestroy {
             }
             if (settingFound) break;
           }
-          //this.loadEqSettings();
         }
       } else {
         alreadyExists = true;
       }
     });
-
     if (!alreadyExists || (alreadyExists && !createdByCurrentUser)) {
       if (alreadyExists) {
         this.newEqualizerSettings.equalizerName += '-by-' + this.currentUser.user.login;
@@ -381,8 +377,6 @@ export class PlayerComponent implements OnInit, OnDestroy {
         .subscribe((res: IEqualizerSetting) => {});
       this.equalizerSettings.push(this.newEqualizerSettings);
     }
-
-    //this.loadEqSettings();
   }
 
   playStream(url) {
@@ -411,9 +405,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
         this.currentState = events['type'];
         if (events['type'] === 'ended' && this.shuffle.valueOf()) {
           this.next();
-        }
-        // listening for fun here
-        else if (!this.isLastPlaying() && this.auto.valueOf()) {
+        } else if (!this.isLastPlaying() && this.auto.valueOf()) {
           if (events['type'] === 'ended') {
             this.next();
           }
@@ -1480,6 +1472,8 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.audioService.getTrack().disconnect();
+    this.audioCtx.destination.disconnect();
     this.stop();
   }
 

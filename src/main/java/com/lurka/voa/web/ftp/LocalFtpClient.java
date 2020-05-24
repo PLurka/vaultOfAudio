@@ -18,7 +18,6 @@ public class LocalFtpClient {
     private String password;
     private FTPClient ftp;
 
-    // constructor
     public LocalFtpClient(String server, int port, String user, String password){
         this.server = server;
         this.port = port;

@@ -46,31 +46,29 @@ public class LocalFtpClientIT {
     }
 
     @Test
-    public void givenRemoteFile_whenListingRemoteFiles_thenItIsContainedInList() throws IOException {
+    public void givenFileIsInRemoteList() throws IOException {
         Collection<String> files = localFtpClient.listFiles("");
         assert(files).contains("foobar.txt");
     }
 
     @Test
-    public void givenRemoteFile_whenDownloading_thenItIsOnTheLocalFilesystem() throws IOException {
+    public void downloadedFileIsOnFilesystem() throws IOException {
         localFtpClient.downloadFile("/buz.txt", "downloaded_buz.txt");
         File downloaded = new File("downloaded_buz.txt");
         assert(downloaded).exists();
-        downloaded.delete(); // cleanup
-        //Files.deleteIfExists(downloaded.toPath());
+        downloaded.delete();
     }
 
     @Test
-    public void givenRemoteFile_whenDownloading_thenItIsInTheFileVariable() throws IOException {
+    public void downloadedFileIsInFileVariable() throws IOException {
         File downloaded = new File("downloaded_buz.txt");
         localFtpClient.downloadToFile("/buz.txt", downloaded);
         assert(downloaded).exists();
-        downloaded.delete(); // cleanup
-        //Files.deleteIfExists(downloaded.toPath());
+        downloaded.delete();
     }
 
     @Test
-    public void givenLocalFile_whenUploadingIt_thenItExistsOnRemoteLocation()
+    public void uploadedFileExistsOnRemote()
         throws URISyntaxException, IOException {
         File file = new File("E:/ftp_upload.txt");
         localFtpClient.putFileToPath(file, "/buz.txt");
@@ -78,14 +76,14 @@ public class LocalFtpClientIT {
     }
 
     @Test
-    public void givenRemoteFile_whenRenamingIt_thenItExistsOnRemoteLocation() throws IOException{
+    public void renamedFileExistsOnRemote() throws IOException{
         localFtpClient.renameFile("foobar.txt","baz.txt");
         assert(fakeFtpServer.getFileSystem().exists("/data/baz.txt")) == true;
         localFtpClient.renameFile("baz.txt","foobar.txt");
     }
 
     @Test
-    public void givenRemoteFile_whenDeletingIt_thenItDoesntExistOnRemoteLocation() throws IOException{
+    public void deletedFileNotOnRemote() throws IOException{
         //assert(fakeFtpServer.getFileSystem().exists("/data/foobar.txt")) == false;
         localFtpClient.deleteFile("/data/foobar.txt");
         assert(fakeFtpServer.getFileSystem().exists("/data/foobar.txt")) == false;
